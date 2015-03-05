@@ -23,6 +23,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           reject: function(obj) {
             return Promise.reject(obj);
           },
+          catchError: function(promise, onError) {
+            return promise.catch(onError);
+          },
           all: function(promises) {
             if (promises.length == 0)
               return Promise.resolve([]);
@@ -40,7 +43,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
             });
             return {
               promise: p,
-              complete: resolve,
+              resolve: resolve,
               reject: reject
             };
           },
@@ -52,6 +55,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           }
         });
       }()));
+      Object.defineProperty(PromiseWrapper.catchError, "parameters", {get: function() {
+          return [[Promise], [Function]];
+        }});
       Object.defineProperty(PromiseWrapper.all, "parameters", {get: function() {
           return [[List]];
         }});

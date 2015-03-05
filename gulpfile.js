@@ -17,6 +17,9 @@ var deps = [
 // Angular2 AtScript to ES5
 gulp.task('build:ng2', shell.task(['sh ng2build.sh']));
 
+// strip off the sourceMaps.
+gulp.task('build:strip_maps', shell.task(["sh strip_maps.sh"]));
+
 // Concat all static dependencies for Angular2
 gulp.task('build:shim', function() {
   return gulp.src(deps)
@@ -40,6 +43,7 @@ gulp.task('clean', function(cb) {
 gulp.task('default', function(cb) {
   runSequence('clean',
       'build:ng2',
-      'concat',
+      'build:shim',
+      'build:strip_maps',
       cb);
 });

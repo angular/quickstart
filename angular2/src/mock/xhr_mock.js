@@ -76,7 +76,7 @@ System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/facade/coll
             var url = request.url;
             if (this._expectations.length > 0) {
               var expectation = this._expectations[0];
-              if (expectation.url === url) {
+              if (expectation.url == url) {
                 ListWrapper.remove(this._expectations, expectation);
                 request.complete(expectation.response);
                 return ;
@@ -113,7 +113,7 @@ System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/facade/coll
             if (isBlank(response)) {
               this.completer.reject(("Failed to load " + this.url));
             } else {
-              this.completer.complete(response);
+              this.completer.resolve(response);
             }
           },
           getPromise: function() {

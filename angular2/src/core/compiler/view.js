@@ -1,10 +1,7 @@
-System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "angular2/change_detection", "./element_injector", "./binding_propagation_config", "./element_binder", "./directive_metadata", "angular2/src/reflection/types", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/dom/element", "./view_container", "./shadow_dom_emulation/light_dom", "./shadow_dom_strategy", "./view_pool", "angular2/src/core/events/event_manager"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/change_detection", "./element_injector", "./binding_propagation_config", "./element_binder", "./directive_metadata", "angular2/src/reflection/types", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/dom/element", "./view_container", "./shadow_dom_emulation/light_dom", "./shadow_dom_strategy", "./view_pool", "angular2/src/core/events/event_manager"], function($__export) {
   "use strict";
   var DOM,
-      Element,
-      Node,
-      Text,
-      DocumentFragment,
+      Promise,
       ListWrapper,
       MapWrapper,
       StringMapWrapper,
@@ -50,10 +47,8 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
   return {
     setters: [function($__m) {
       DOM = $__m.DOM;
-      Element = $__m.Element;
-      Node = $__m.Node;
-      Text = $__m.Text;
-      DocumentFragment = $__m.DocumentFragment;
+    }, function($__m) {
+      Promise = $__m.Promise;
     }, function($__m) {
       ListWrapper = $__m.ListWrapper;
       MapWrapper = $__m.MapWrapper;
@@ -266,7 +261,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
           return [new IMPLEMENTS(ChangeDispatcher)];
         }});
       Object.defineProperty(View, "parameters", {get: function() {
-          return [[ProtoView], [assert.genericType(List, Node)], [ProtoChangeDetector], [Map]];
+          return [[ProtoView], [List], [ProtoChangeDetector], [Map]];
         }});
       Object.defineProperty(View.prototype.init, "parameters", {get: function() {
           return [[List], [List], [List], [List], [List], [List], [List]];
@@ -306,6 +301,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
           this.isTemplateElement = DOM.isTemplateElement(this.element);
           this.shadowDomStrategy = shadowDomStrategy;
           this._viewPool = new ViewPool(VIEW_POOL_CAPACITY);
+          this.stylePromises = [];
         };
         return ($traceurRuntime.createClass)(ProtoView, {
           instantiate: function(hostElementInjector, eventManager) {
@@ -484,14 +480,13 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
             var binder = rootProtoView.bindElement(new ProtoElementInjector(null, 0, [cmpType], true));
             binder.componentDirective = rootComponentAnnotatedType;
             binder.nestedProtoView = protoView;
-            var shimComponent = shadowDomStrategy.getShimComponent(cmpType);
-            shimComponent.shimHostElement(insertionElement);
+            shadowDomStrategy.shimHostElement(cmpType, insertionElement);
             return rootProtoView;
           }
         });
       }()));
       Object.defineProperty(ProtoView, "parameters", {get: function() {
-          return [[Element], [ProtoChangeDetector], [ShadowDomStrategy]];
+          return [[], [ProtoChangeDetector], [ShadowDomStrategy]];
         }});
       Object.defineProperty(ProtoView.prototype.instantiate, "parameters", {get: function() {
           return [[ElementInjector], [EventManager]];
@@ -547,7 +542,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
           return [[int], [assert.type.string], [SetterFn]];
         }});
       Object.defineProperty(ElementBindingMemento.prototype.invoke, "parameters", {get: function() {
-          return [[ChangeRecord], [assert.genericType(List, Element)]];
+          return [[ChangeRecord], [List]];
         }});
       DirectiveBindingMemento = $__export("DirectiveBindingMemento", (function() {
         var DirectiveBindingMemento = function DirectiveBindingMemento(elementInjectorIndex, directiveIndex, setterName, setter) {

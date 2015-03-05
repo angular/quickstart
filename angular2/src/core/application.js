@@ -1,4 +1,4 @@
-System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade/dom", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/browser_adapter", "angular2/src/dom/dom_adapter", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding", "angular2/src/core/compiler/component_url_mapper", "angular2/src/core/compiler/url_resolver", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/style_inliner"], function($__export) {
   "use strict";
   var Injector,
       bind,
@@ -10,8 +10,8 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       BaseException,
       assertionsEnabled,
       print,
+      BrowserDomAdapter,
       DOM,
-      Element,
       Compiler,
       CompilerCache,
       ProtoView,
@@ -37,8 +37,13 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       XHR,
       XHRImpl,
       EventManager,
+      DomEventsPlugin,
       HammerGesturesPlugin,
       Binding,
+      ComponentUrlMapper,
+      UrlResolver,
+      StyleUrlResolver,
+      StyleInliner,
       _rootInjector,
       _rootBindings,
       appViewToken,
@@ -70,9 +75,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }), [appViewToken]), bind(LifeCycle).toFactory((function(exceptionHandler) {
       return new LifeCycle(exceptionHandler, null, assertionsEnabled());
     }), [ExceptionHandler]), bind(EventManager).toFactory((function(zone) {
-      var plugins = [new HammerGesturesPlugin()];
+      var plugins = [new HammerGesturesPlugin(), new DomEventsPlugin()];
       return new EventManager(plugins, zone);
-    }), [VmTurnZone]), bind(ShadowDomStrategy).toValue(new NativeShadowDomStrategy()), Compiler, CompilerCache, TemplateResolver, bind(ChangeDetection).toValue(dynamicChangeDetection), TemplateLoader, DirectiveMetadataReader, Parser, Lexer, ExceptionHandler, bind(XHR).toValue(new XHRImpl())];
+    }), [VmTurnZone]), bind(ShadowDomStrategy).toClass(NativeShadowDomStrategy), Compiler, CompilerCache, TemplateResolver, bind(ChangeDetection).toValue(dynamicChangeDetection), TemplateLoader, DirectiveMetadataReader, Parser, Lexer, ExceptionHandler, bind(XHR).toValue(new XHRImpl()), ComponentUrlMapper, UrlResolver, StyleUrlResolver, StyleInliner];
   }
   function _createVmZone(givenReporter) {
     var defaultErrorReporter = (function(exception, stackTrace) {
@@ -88,6 +93,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
   function bootstrap(appComponentType) {
     var bindings = arguments[1] !== (void 0) ? arguments[1] : null;
     var givenBootstrapErrorReporter = arguments[2] !== (void 0) ? arguments[2] : null;
+    BrowserDomAdapter.makeCurrent();
     var bootstrapProcess = PromiseWrapper.completer();
     var zone = _createVmZone(givenBootstrapErrorReporter);
     zone.run((function() {
@@ -96,7 +102,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
         var lc = appInjector.get(LifeCycle);
         lc.registerWith(zone, rootView.changeDetector);
         lc.tick();
-        bootstrapProcess.complete(appInjector);
+        bootstrapProcess.resolve(appInjector);
       }), (function(err) {
         bootstrapProcess.reject(err);
       }));
@@ -125,8 +131,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       assertionsEnabled = $__m.assertionsEnabled;
       print = $__m.print;
     }, function($__m) {
+      BrowserDomAdapter = $__m.BrowserDomAdapter;
+    }, function($__m) {
       DOM = $__m.DOM;
-      Element = $__m.Element;
     }, function($__m) {
       Compiler = $__m.Compiler;
       CompilerCache = $__m.CompilerCache;
@@ -168,10 +175,19 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       XHRImpl = $__m.XHRImpl;
     }, function($__m) {
       EventManager = $__m.EventManager;
+      DomEventsPlugin = $__m.DomEventsPlugin;
     }, function($__m) {
       HammerGesturesPlugin = $__m.HammerGesturesPlugin;
     }, function($__m) {
       Binding = $__m.Binding;
+    }, function($__m) {
+      ComponentUrlMapper = $__m.ComponentUrlMapper;
+    }, function($__m) {
+      UrlResolver = $__m.UrlResolver;
+    }, function($__m) {
+      StyleUrlResolver = $__m.StyleUrlResolver;
+    }, function($__m) {
+      StyleInliner = $__m.StyleInliner;
     }],
     execute: function() {
       _rootBindings = [bind(Reflector).toValue(reflector)];

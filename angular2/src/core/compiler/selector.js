@@ -12,7 +12,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       _EMPTY_ATTR_VALUE,
       _SELECTOR_REGEXP,
       CssSelector,
-      SelectorMatcher;
+      SelectorMatcher,
+      SelectorContext;
   return {
     setters: [function($__m) {
       List = $__m.List;
@@ -119,11 +120,12 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
           this._attrValuePartialMap = MapWrapper.create();
         };
         return ($traceurRuntime.createClass)(SelectorMatcher, {
-          addSelectable: function(cssSelector, selectable) {
+          addSelectable: function(cssSelector, callbackCtxt) {
             var matcher = this;
             var element = cssSelector.element;
             var classNames = cssSelector.classNames;
             var attrs = cssSelector.attrs;
+            var selectable = new SelectorContext(cssSelector, callbackCtxt);
             if (isPresent(element)) {
               var isTerminal = attrs.length === 0 && classNames.length === 0;
               if (isTerminal) {
@@ -216,8 +218,10 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
             if (isBlank(selectables)) {
               return ;
             }
+            var selectable;
             for (var index = 0; index < selectables.length; index++) {
-              matchedCallback(selectables[index]);
+              selectable = selectables[index];
+              matchedCallback(selectable.selector, selectable.cbContext);
             }
           },
           _matchPartial: function() {
@@ -253,6 +257,16 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
         }});
       Object.defineProperty(SelectorMatcher.prototype._matchPartial, "parameters", {get: function() {
           return [[assert.genericType(Map, assert.type.string, assert.type.string)], [], [], []];
+        }});
+      SelectorContext = (function() {
+        var SelectorContext = function SelectorContext(selector, cbContext) {
+          this.selector = selector;
+          this.cbContext = cbContext;
+        };
+        return ($traceurRuntime.createClass)(SelectorContext, {}, {});
+      }());
+      Object.defineProperty(SelectorContext, "parameters", {get: function() {
+          return [[CssSelector], []];
         }});
     }
   };

@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./pipe"], function($__export) {
   "use strict";
   var ListWrapper,
       MapWrapper,
@@ -6,6 +6,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       stringify,
       looseIdentical,
       isJsObject,
+      NO_CHANGE,
+      Pipe,
+      KeyValueChangesFactory,
       KeyValueChanges,
       KVChangeRecord;
   return {
@@ -17,10 +20,25 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       stringify = $__m.stringify;
       looseIdentical = $__m.looseIdentical;
       isJsObject = $__m.isJsObject;
+    }, function($__m) {
+      NO_CHANGE = $__m.NO_CHANGE;
+      Pipe = $__m.Pipe;
     }],
     execute: function() {
-      KeyValueChanges = $__export("KeyValueChanges", (function() {
+      KeyValueChangesFactory = $__export("KeyValueChangesFactory", (function() {
+        var KeyValueChangesFactory = function KeyValueChangesFactory() {};
+        return ($traceurRuntime.createClass)(KeyValueChangesFactory, {
+          supports: function(obj) {
+            return KeyValueChanges.supportsObj(obj);
+          },
+          create: function() {
+            return new KeyValueChanges();
+          }
+        }, {});
+      }()));
+      KeyValueChanges = $__export("KeyValueChanges", (function($__super) {
         var KeyValueChanges = function KeyValueChanges() {
+          $traceurRuntime.superConstructor(KeyValueChanges).call(this);
           this._records = MapWrapper.create();
           this._mapHead = null;
           this._previousMapHead = null;
@@ -32,8 +50,15 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
           this._removalsTail = null;
         };
         return ($traceurRuntime.createClass)(KeyValueChanges, {
-          supportsObj: function(obj) {
-            return KeyValueChanges.supports(obj);
+          supports: function(obj) {
+            return KeyValueChanges.supportsObj(obj);
+          },
+          transform: function(map) {
+            if (this.check(map)) {
+              return this;
+            } else {
+              return NO_CHANGE;
+            }
           },
           get isDirty() {
             return this._additionsHead !== null || this._changesHead !== null || this._removalsHead !== null;
@@ -235,10 +260,10 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
               StringMapWrapper.forEach(obj, fn);
             }
           }
-        }, {supports: function(obj) {
+        }, {supportsObj: function(obj) {
             return obj instanceof Map || isJsObject(obj);
-          }});
-      }()));
+          }}, $__super);
+      }(Pipe)));
       Object.defineProperty(KeyValueChanges.prototype.forEachItem, "parameters", {get: function() {
           return [[Function]];
         }});

@@ -1,10 +1,11 @@
-System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/context_with_variable_bindings", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/array_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
+System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/context_with_variable_bindings", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/array_changes", "./src/change_detection/pipes/keyvalue_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
   "use strict";
   var ProtoChangeDetector,
       DynamicProtoChangeDetector,
       JitProtoChangeDetector,
       PipeRegistry,
       ArrayChangesFactory,
+      KeyValueChangesFactory,
       NullPipeFactory,
       ChangeDetection,
       defaultPipes,
@@ -74,6 +75,8 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
     }, function($__m) {
       ArrayChangesFactory = $__m.ArrayChangesFactory;
     }, function($__m) {
+      KeyValueChangesFactory = $__m.KeyValueChangesFactory;
+    }, function($__m) {
       NullPipeFactory = $__m.NullPipeFactory;
     }],
     execute: function() {
@@ -86,7 +89,10 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
       Object.defineProperty(ChangeDetection.prototype.createProtoChangeDetector, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      defaultPipes = $__export("defaultPipes", {"iterableDiff": [new ArrayChangesFactory(), new NullPipeFactory()]});
+      defaultPipes = $__export("defaultPipes", {
+        "iterableDiff": [new ArrayChangesFactory(), new NullPipeFactory()],
+        "keyValDiff": [new KeyValueChangesFactory(), new NullPipeFactory()]
+      });
       DynamicChangeDetection = $__export("DynamicChangeDetection", (function($__super) {
         var DynamicChangeDetection = function DynamicChangeDetection(registry) {
           $traceurRuntime.superConstructor(DynamicChangeDetection).call(this);

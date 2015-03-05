@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/dom", "rtts_assert/rtts_assert"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "rtts_assert/rtts_assert"], function($__export) {
   "use strict";
   var DOM,
       describe,
@@ -13,9 +13,6 @@ System.register(["angular2/src/facade/dom", "rtts_assert/rtts_assert"], function
       IS_DARTIUM,
       SpyObject;
   function elementText(n) {
-    var hasShadowRoot = (function(n) {
-      return n instanceof Element && n.shadowRoot;
-    });
     var hasNodes = (function(n) {
       var children = DOM.childNodes(n);
       return children && children.length > 0;
@@ -28,7 +25,7 @@ System.register(["angular2/src/facade/dom", "rtts_assert/rtts_assert"], function
       })).join("");
     if (n instanceof Element && DOM.tagName(n) == 'CONTENT')
       return elementText(Array.prototype.slice.apply(n.getDistributedNodes()));
-    if (hasShadowRoot(n))
+    if (DOM.hasShadowRoot(n))
       return elementText(DOM.childNodesAsList(n.shadowRoot));
     if (hasNodes(n))
       return elementText(DOM.childNodesAsList(n));

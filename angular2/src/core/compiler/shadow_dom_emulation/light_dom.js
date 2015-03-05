@@ -1,8 +1,6 @@
-System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "angular2/src/facade/lang", "../view", "../element_injector", "../view_container", "./content_tag"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "../view", "../element_injector", "../view_container", "./content_tag"], function($__export) {
   "use strict";
-  var Element,
-      Node,
-      DOM,
+  var DOM,
       List,
       ListWrapper,
       isBlank,
@@ -34,8 +32,6 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
   }
   return {
     setters: [function($__m) {
-      Element = $__m.Element;
-      Node = $__m.Node;
       DOM = $__m.DOM;
     }, function($__m) {
       List = $__m.List;
@@ -135,13 +131,13 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
         }, {});
       }()));
       Object.defineProperty(LightDom, "parameters", {get: function() {
-          return [[View], [View], [Element]];
+          return [[View], [View], []];
         }});
       Object.defineProperty(LightDom.prototype._collectAllContentTags, "parameters", {get: function() {
           return [[View], [assert.genericType(List, Content)]];
         }});
       Object.defineProperty(redistributeNodes, "parameters", {get: function() {
-          return [[assert.genericType(List, Content)], [assert.genericType(List, Node)]];
+          return [[assert.genericType(List, Content)], [List]];
         }});
     }
   };

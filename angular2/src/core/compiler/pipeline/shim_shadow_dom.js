@@ -1,12 +1,12 @@
-System.register(["./compile_step", "./compile_element", "./compile_control", "angular2/src/facade/lang", "angular2/src/core/compiler/directive_metadata", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/shadow_dom_emulation/shim_component"], function($__export) {
+System.register(["./compile_step", "./compile_element", "./compile_control", "angular2/src/facade/lang", "angular2/src/core/compiler/directive_metadata", "angular2/src/core/compiler/shadow_dom_strategy"], function($__export) {
   "use strict";
   var CompileStep,
       CompileElement,
       CompileControl,
       isPresent,
+      Type,
       DirectiveMetadata,
       ShadowDomStrategy,
-      ShimComponent,
       ShimShadowDom;
   return {
     setters: [function($__m) {
@@ -17,29 +17,27 @@ System.register(["./compile_step", "./compile_element", "./compile_control", "an
       CompileControl = $__m.CompileControl;
     }, function($__m) {
       isPresent = $__m.isPresent;
+      Type = $__m.Type;
     }, function($__m) {
       DirectiveMetadata = $__m.DirectiveMetadata;
     }, function($__m) {
       ShadowDomStrategy = $__m.ShadowDomStrategy;
-    }, function($__m) {
-      ShimComponent = $__m.ShimComponent;
     }],
     execute: function() {
       ShimShadowDom = $__export("ShimShadowDom", (function($__super) {
         var ShimShadowDom = function ShimShadowDom(cmpMetadata, strategy) {
           $traceurRuntime.superConstructor(ShimShadowDom).call(this);
           this._strategy = strategy;
-          this._shimComponent = strategy.getShimComponent(cmpMetadata.type);
+          this._component = cmpMetadata.type;
         };
         return ($traceurRuntime.createClass)(ShimShadowDom, {process: function(parent, current, control) {
             if (current.ignoreBindings) {
               return ;
             }
-            this._shimComponent.shimContentElement(current.element);
+            this._strategy.shimContentElement(this._component, current.element);
             var host = current.componentDirective;
             if (isPresent(host)) {
-              var shimComponent = this._strategy.getShimComponent(host.type);
-              shimComponent.shimHostElement(current.element);
+              this._strategy.shimHostElement(host.type, current.element);
             }
           }}, {}, $__super);
       }(CompileStep)));

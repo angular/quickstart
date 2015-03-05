@@ -1,15 +1,16 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "angular2/change_detection"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "angular2/change_detection"], function($__export) {
   "use strict";
   var List,
       Map,
       ListWrapper,
       MapWrapper,
-      Element,
       DOM,
       int,
       isBlank,
       isPresent,
       Type,
+      StringJoiner,
+      assertionsEnabled,
       DirectiveMetadata,
       Decorator,
       Component,
@@ -19,6 +20,30 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
       ProtoView,
       AST,
       CompileElement;
+  function getElementDescription(domElement) {
+    var buf = new StringJoiner();
+    var atts = DOM.attributeMap(domElement);
+    buf.add("<");
+    buf.add(DOM.tagName(domElement).toLowerCase());
+    addDescriptionAttribute(buf, "id", MapWrapper.get(atts, "id"));
+    addDescriptionAttribute(buf, "class", MapWrapper.get(atts, "class"));
+    MapWrapper.forEach(atts, (function(attValue, attName) {
+      if (attName !== "id" && attName !== "class") {
+        addDescriptionAttribute(buf, attName, attValue);
+      }
+    }));
+    buf.add(">");
+    return buf.toString();
+  }
+  function addDescriptionAttribute(buffer, attName, attValue) {
+    if (isPresent(attValue)) {
+      if (attValue.length === 0) {
+        buffer.add(' ' + attName);
+      } else {
+        buffer.add(' ' + attName + '="' + attValue + '"');
+      }
+    }
+  }
   return {
     setters: [function($__m) {
       List = $__m.List;
@@ -26,13 +51,14 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
       ListWrapper = $__m.ListWrapper;
       MapWrapper = $__m.MapWrapper;
     }, function($__m) {
-      Element = $__m.Element;
       DOM = $__m.DOM;
     }, function($__m) {
       int = $__m.int;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
       Type = $__m.Type;
+      StringJoiner = $__m.StringJoiner;
+      assertionsEnabled = $__m.assertionsEnabled;
     }, function($__m) {
       DirectiveMetadata = $__m.DirectiveMetadata;
     }, function($__m) {
@@ -51,6 +77,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
     execute: function() {
       CompileElement = $__export("CompileElement", (function() {
         var CompileElement = function CompileElement(element) {
+          var compilationUnit = arguments[1] !== (void 0) ? arguments[1] : '';
           this.element = element;
           this._attrs = null;
           this._classList = null;
@@ -70,6 +97,14 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
           this.distanceToParentInjector = 0;
           this.compileChildren = true;
           this.ignoreBindings = false;
+          var tplDesc = assertionsEnabled() ? getElementDescription(element) : null;
+          if (compilationUnit !== '') {
+            this.elementDescription = compilationUnit;
+            if (isPresent(tplDesc))
+              this.elementDescription += ": " + tplDesc;
+          } else {
+            this.elementDescription = tplDesc;
+          }
         };
         return ($traceurRuntime.createClass)(CompileElement, {
           refreshAttrs: function() {
@@ -153,9 +188,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
           }
         }, {});
       }()));
-      Object.defineProperty(CompileElement, "parameters", {get: function() {
-          return [[Element]];
-        }});
       Object.defineProperty(CompileElement.prototype.addTextNodeBinding, "parameters", {get: function() {
           return [[int], [AST]];
         }});
@@ -170,6 +202,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "a
         }});
       Object.defineProperty(CompileElement.prototype.addDirective, "parameters", {get: function() {
           return [[DirectiveMetadata]];
+        }});
+      Object.defineProperty(addDescriptionAttribute, "parameters", {get: function() {
+          return [[StringJoiner], [assert.type.string], []];
         }});
     }
   };
