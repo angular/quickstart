@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/facade/dom", "./compile_step", "./compile_element", "./compile_control"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "./compile_step", "./compile_element", "./compile_control"], function($__export) {
   "use strict";
   var isPresent,
       MapWrapper,

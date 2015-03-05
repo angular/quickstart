@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/dom", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang"], function($__export) {
   "use strict";
   var List,
       ListWrapper,

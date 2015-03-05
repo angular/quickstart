@@ -1,50 +1,38 @@
-System.register(["angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./dom_adapter"], function($__export) {
   "use strict";
   var List,
       MapWrapper,
       ListWrapper,
-      window,
-      DocumentFragment,
-      Node,
-      NodeList,
-      Text,
-      Element,
-      TemplateElement,
-      StyleElement,
-      document,
-      location,
-      gc,
-      CssRule,
-      CssKeyframesRule,
-      DOM,
-      CSSRuleWrapper;
+      isPresent,
+      DomAdapter,
+      setRootDomAdapter,
+      _attrToPropMap,
+      BrowserDomAdapter;
   return {
     setters: [function($__m) {
       List = $__m.List;
       MapWrapper = $__m.MapWrapper;
       ListWrapper = $__m.ListWrapper;
+    }, function($__m) {
+      isPresent = $__m.isPresent;
+    }, function($__m) {
+      DomAdapter = $__m.DomAdapter;
+      setRootDomAdapter = $__m.setRootDomAdapter;
     }],
     execute: function() {
-      window = $__export("window", frames.window);
-      DocumentFragment = $__export("DocumentFragment", window.DocumentFragment);
-      Node = $__export("Node", window.Node);
-      NodeList = $__export("NodeList", window.NodeList);
-      Text = $__export("Text", window.Text);
-      Element = $__export("Element", window.HTMLElement);
-      TemplateElement = $__export("TemplateElement", window.HTMLTemplateElement);
-      StyleElement = $__export("StyleElement", window.HTMLStyleElement);
-      document = $__export("document", window.document);
-      location = $__export("location", window.location);
-      gc = $__export("gc", window.gc ? (function() {
-        return window.gc();
-      }) : (function() {
-        return null;
-      }));
-      CssRule = $__export("CssRule", window.CSSRule);
-      CssKeyframesRule = $__export("CssKeyframesRule", window.CSSKeyframesRule);
-      DOM = $__export("DOM", (function() {
-        var DOM = function DOM() {};
-        return ($traceurRuntime.createClass)(DOM, {}, {
+      _attrToPropMap = {
+        'inner-html': 'innerHTML',
+        'readonly': 'readOnly',
+        'tabindex': 'tabIndex'
+      };
+      BrowserDomAdapter = $__export("BrowserDomAdapter", (function($__super) {
+        var BrowserDomAdapter = function BrowserDomAdapter() {
+          $traceurRuntime.superConstructor(BrowserDomAdapter).apply(this, arguments);
+        };
+        return ($traceurRuntime.createClass)(BrowserDomAdapter, {
+          get attrToPropMap() {
+            return _attrToPropMap;
+          },
           query: function(selector) {
             return document.querySelector(selector);
           },
@@ -107,7 +95,7 @@ System.register(["angular2/src/facade/collection"], function($__export) {
             return res;
           },
           clearNodes: function(el) {
-            el.innerHTML = "";
+            el.innerHTML = '';
           },
           appendChild: function(el, node) {
             el.appendChild(node);
@@ -167,7 +155,7 @@ System.register(["angular2/src/facade/collection"], function($__export) {
           },
           createScriptTag: function(attrName, attrValue) {
             var doc = arguments[2] !== (void 0) ? arguments[2] : document;
-            var el = doc.createElement("SCRIPT");
+            var el = doc.createElement('SCRIPT');
             el.setAttribute(attrName, attrValue);
             return el;
           },
@@ -176,6 +164,12 @@ System.register(["angular2/src/facade/collection"], function($__export) {
             var style = doc.createElement('STYLE');
             style.innerText = css;
             return style;
+          },
+          createShadowRoot: function(el) {
+            return el.createShadowRoot();
+          },
+          getShadowRoot: function(el) {
+            return el.shadowRoot;
           },
           clone: function(node) {
             return node.cloneNode(true);
@@ -232,7 +226,7 @@ System.register(["angular2/src/facade/collection"], function($__export) {
             return element.removeAttribute(attribute);
           },
           templateAwareRoot: function(el) {
-            return el instanceof TemplateElement ? el.content : el;
+            return el instanceof HTMLTemplateElement ? el.content : el;
           },
           createHtmlDocument: function() {
             return document.implementation.createHTMLDocument();
@@ -241,139 +235,26 @@ System.register(["angular2/src/facade/collection"], function($__export) {
             return document;
           },
           elementMatches: function(n, selector) {
-            return n instanceof Element && n.matches(selector);
+            return n instanceof HTMLElement && n.matches(selector);
           },
           isTemplateElement: function(el) {
-            return el instanceof TemplateElement;
+            return el instanceof HTMLTemplateElement;
           },
           isTextNode: function(node) {
+            return node.nodeType === Node.TEXT_NODE;
+          },
+          isCommentNode: function(node) {
             return node.nodeType === Node.TEXT_NODE;
           },
           isElementNode: function(node) {
             return node.nodeType === Node.ELEMENT_NODE;
           },
+          hasShadowRoot: function(node) {
+            return node instanceof HTMLElement && isPresent(node.shadowRoot);
+          },
           importIntoDoc: function(node) {
             return document.importNode(node, true);
-          }
-        });
-      }()));
-      Object.defineProperty(DOM.querySelector, "parameters", {get: function() {
-          return [[], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.querySelectorAll, "parameters", {get: function() {
-          return [[], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.nodeName, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      Object.defineProperty(DOM.nodeValue, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      Object.defineProperty(DOM.type, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.content, "parameters", {get: function() {
-          return [[TemplateElement]];
-        }});
-      Object.defineProperty(DOM.remove, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.getText, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.setText, "parameters", {get: function() {
-          return [[], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.getValue, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.setValue, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.getChecked, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.setChecked, "parameters", {get: function() {
-          return [[Element], [assert.type.boolean]];
-        }});
-      Object.defineProperty(DOM.createTextNode, "parameters", {get: function() {
-          return [[assert.type.string], []];
-        }});
-      Object.defineProperty(DOM.createScriptTag, "parameters", {get: function() {
-          return [[assert.type.string], [assert.type.string], []];
-        }});
-      Object.defineProperty(DOM.createStyleElement, "parameters", {get: function() {
-          return [[assert.type.string], []];
-        }});
-      Object.defineProperty(DOM.clone, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      Object.defineProperty(DOM.hasProperty, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.getElementsByClassName, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.getElementsByTagName, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.classList, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.addClass, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.removeClass, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.hasClass, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.setStyle, "parameters", {get: function() {
-          return [[Element], [assert.type.string], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.removeStyle, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.getStyle, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.tagName, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.attributeMap, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.getAttribute, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.setAttribute, "parameters", {get: function() {
-          return [[Element], [assert.type.string], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.removeAttribute, "parameters", {get: function() {
-          return [[Element], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.templateAwareRoot, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(DOM.elementMatches, "parameters", {get: function() {
-          return [[], [assert.type.string]];
-        }});
-      Object.defineProperty(DOM.isTemplateElement, "parameters", {get: function() {
-          return [[assert.type.any]];
-        }});
-      Object.defineProperty(DOM.isTextNode, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      Object.defineProperty(DOM.isElementNode, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      Object.defineProperty(DOM.importIntoDoc, "parameters", {get: function() {
-          return [[Node]];
-        }});
-      CSSRuleWrapper = $__export("CSSRuleWrapper", (function() {
-        var CSSRuleWrapper = function CSSRuleWrapper() {};
-        return ($traceurRuntime.createClass)(CSSRuleWrapper, {}, {
+          },
           isPageRule: function(rule) {
             return rule.type === CSSRule.PAGE_RULE;
           },
@@ -386,12 +267,113 @@ System.register(["angular2/src/facade/collection"], function($__export) {
           isKeyframesRule: function(rule) {
             return rule.type === CSSRule.KEYFRAMES_RULE;
           }
-        });
-      }()));
+        }, {makeCurrent: function() {
+            setRootDomAdapter(new BrowserDomAdapter());
+          }}, $__super);
+      }(DomAdapter)));
+      Object.defineProperty(BrowserDomAdapter.prototype.querySelector, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.querySelectorAll, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.nodeName, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.nodeValue, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.type, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.content, "parameters", {get: function() {
+          return [[HTMLTemplateElement]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setText, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setValue, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setChecked, "parameters", {get: function() {
+          return [[], [assert.type.boolean]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.createTextNode, "parameters", {get: function() {
+          return [[assert.type.string], []];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.createScriptTag, "parameters", {get: function() {
+          return [[assert.type.string], [assert.type.string], []];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.createStyleElement, "parameters", {get: function() {
+          return [[assert.type.string], []];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.createShadowRoot, "parameters", {get: function() {
+          return [[HTMLElement]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getShadowRoot, "parameters", {get: function() {
+          return [[HTMLElement]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.clone, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.hasProperty, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getElementsByClassName, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getElementsByTagName, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.addClass, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.removeClass, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.hasClass, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setStyle, "parameters", {get: function() {
+          return [[], [assert.type.string], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.removeStyle, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getStyle, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getAttribute, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setAttribute, "parameters", {get: function() {
+          return [[], [assert.type.string], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.removeAttribute, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.elementMatches, "parameters", {get: function() {
+          return [[], [assert.type.string]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.isTemplateElement, "parameters", {get: function() {
+          return [[assert.type.any]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.isTextNode, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.isCommentNode, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.isElementNode, "parameters", {get: function() {
+          return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.importIntoDoc, "parameters", {get: function() {
+          return [[Node]];
+        }});
     }
   };
 });
 
-//# sourceMappingURL=src/facade/dom.map
+//# sourceMappingURL=src/dom/browser_adapter.map
 
-//# sourceMappingURL=../../src/facade/dom.js.map
+//# sourceMappingURL=../../src/dom/browser_adapter.js.map

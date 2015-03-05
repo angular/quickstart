@@ -1,13 +1,11 @@
-System.register(["angular2/src/facade/dom", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/lang"], function($__export) {
   "use strict";
   var DOM,
-      Element,
       normalizeBlank,
       NgElement;
   return {
     setters: [function($__m) {
       DOM = $__m.DOM;
-      Element = $__m.Element;
     }, function($__m) {
       normalizeBlank = $__m.normalizeBlank;
     }],
@@ -20,9 +18,6 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/lang"], functio
             return normalizeBlank(DOM.getAttribute(this.domElement, name));
           }}, {});
       }()));
-      Object.defineProperty(NgElement, "parameters", {get: function() {
-          return [[Element]];
-        }});
       Object.defineProperty(NgElement.prototype.getAttribute, "parameters", {get: function() {
           return [[assert.type.string]];
         }});

@@ -1,9 +1,7 @@
-System.register(["./view", "angular2/src/facade/dom", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/compiler/element_injector", "angular2/src/core/events/event_manager"], function($__export) {
+System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/compiler/element_injector", "angular2/src/core/events/event_manager"], function($__export) {
   "use strict";
   var viewModule,
       DOM,
-      Node,
-      Element,
       ListWrapper,
       MapWrapper,
       List,
@@ -19,8 +17,6 @@ System.register(["./view", "angular2/src/facade/dom", "angular2/src/facade/colle
       viewModule = $__m;
     }, function($__m) {
       DOM = $__m.DOM;
-      Node = $__m.Node;
-      Element = $__m.Element;
     }, function($__m) {
       ListWrapper = $__m.ListWrapper;
       MapWrapper = $__m.MapWrapper;
@@ -84,8 +80,9 @@ System.register(["./view", "angular2/src/facade/dom", "angular2/src/facade/colle
             if (!this.hydrated())
               throw new BaseException('Cannot create views on a dehydrated ViewContainer');
             var newView = this.defaultProtoView.instantiate(this.hostElementInjector, this._eventManager);
+            this.insert(newView, atIndex);
             newView.hydrate(this.appInjector, this.hostElementInjector, this.parentView.context);
-            return this.insert(newView, atIndex);
+            return newView;
           },
           insert: function(view) {
             var atIndex = arguments[1] !== (void 0) ? arguments[1] : -1;
@@ -158,7 +155,7 @@ System.register(["./view", "angular2/src/facade/dom", "angular2/src/facade/colle
         });
       }()));
       Object.defineProperty(ViewContainer, "parameters", {get: function() {
-          return [[viewModule.View], [Element], [viewModule.ProtoView], [eiModule.ElementInjector], [EventManager], []];
+          return [[viewModule.View], [], [viewModule.ProtoView], [eiModule.ElementInjector], [EventManager], []];
         }});
       Object.defineProperty(ViewContainer.prototype.hydrate, "parameters", {get: function() {
           return [[Injector], [eiModule.ElementInjector]];

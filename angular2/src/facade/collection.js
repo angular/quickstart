@@ -17,11 +17,15 @@ System.register(["angular2/src/facade/lang"], function($__export) {
     return ListWrapper.isList(obj) || (!(obj instanceof Map) && Symbol.iterator in obj);
   }
   function iterateListLike(obj, fn) {
-    for (var $__1 = obj[$traceurRuntime.toProperty(Symbol.iterator)](),
-        $__2 = void 0; !($__2 = $__1.next()).done; ) {
-      var item = $__2.value;
-      {
-        fn(item);
+    if (ListWrapper.isList(obj)) {
+      for (var i = 0; i < obj.length; i++) {
+        fn(obj[i]);
+      }
+    } else {
+      var iterator = obj[Symbol.iterator]();
+      var item;
+      while (!((item = iterator.next()).done)) {
+        fn(item.value);
       }
     }
   }
@@ -161,12 +165,8 @@ System.register(["angular2/src/facade/lang"], function($__export) {
             return array.map(fn);
           },
           forEach: function(array, fn) {
-            for (var $__1 = array[$traceurRuntime.toProperty(Symbol.iterator)](),
-                $__2 = void 0; !($__2 = $__1.next()).done; ) {
-              var p = $__2.value;
-              {
-                fn(p);
-              }
+            for (var i = 0; i < array.length; i++) {
+              fn(array[i]);
             }
           },
           push: function(array, el) {
@@ -273,6 +273,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
       }()));
       Object.defineProperty(ListWrapper.clone, "parameters", {get: function() {
           return [[List]];
+        }});
+      Object.defineProperty(ListWrapper.forEach, "parameters", {get: function() {
+          return [[List], [Function]];
         }});
       Object.defineProperty(ListWrapper.find, "parameters", {get: function() {
           return [[List], [Function]];

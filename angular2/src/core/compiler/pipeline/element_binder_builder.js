@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular2/src/facade/collection", "angular2/src/reflection/reflection", "angular2/change_detection", "../directive_metadata", "./compile_step", "./compile_element", "./compile_control"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/reflection/reflection", "angular2/change_detection", "../directive_metadata", "./compile_step", "./compile_element", "./compile_control"], function($__export) {
   "use strict";
   var int,
       isPresent,
@@ -9,7 +9,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       RegExpWrapper,
       isString,
       stringify,
-      Element,
       DOM,
       ListWrapper,
       List,
@@ -25,8 +24,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       DOT_REGEXP,
       ARIA_PREFIX,
       ariaSettersCache,
+      CLASS_ATTR,
       CLASS_PREFIX,
       classSettersCache,
+      STYLE_ATTR,
       STYLE_PREFIX,
       styleSettersCache,
       ROLE_ATTR,
@@ -86,6 +87,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       }
     }
   }
+  function isSpecialProperty(propName) {
+    return StringWrapper.startsWith(propName, ARIA_PREFIX) || StringWrapper.startsWith(propName, CLASS_PREFIX) || StringWrapper.startsWith(propName, STYLE_PREFIX) || StringMapWrapper.contains(DOM.attrToPropMap, propName);
+  }
+  $__export("isSpecialProperty", isSpecialProperty);
   return {
     setters: [function($__m) {
       int = $__m.int;
@@ -98,7 +103,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       isString = $__m.isString;
       stringify = $__m.stringify;
     }, function($__m) {
-      Element = $__m.Element;
       DOM = $__m.DOM;
     }, function($__m) {
       ListWrapper = $__m.ListWrapper;
@@ -126,25 +130,26 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       Object.defineProperty(ariaSetterFactory, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
+      CLASS_ATTR = 'class';
       CLASS_PREFIX = 'class.';
       classSettersCache = StringMapWrapper.create();
       Object.defineProperty(classSetterFactory, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
+      STYLE_ATTR = 'style';
       STYLE_PREFIX = 'style.';
       styleSettersCache = StringMapWrapper.create();
       Object.defineProperty(styleSetterFactory, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
         }});
       ROLE_ATTR = 'role';
-      Object.defineProperty(roleSetter, "parameters", {get: function() {
-          return [[Element], []];
+      Object.defineProperty(isSpecialProperty, "parameters", {get: function() {
+          return [[assert.type.string]];
         }});
       ElementBinderBuilder = $__export("ElementBinderBuilder", (function($__super) {
-        var ElementBinderBuilder = function ElementBinderBuilder(parser, compilationUnit) {
+        var ElementBinderBuilder = function ElementBinderBuilder(parser) {
           $traceurRuntime.superConstructor(ElementBinderBuilder).call(this);
           this._parser = parser;
-          this._compilationUnit = compilationUnit;
         };
         return ($traceurRuntime.createClass)(ElementBinderBuilder, {
           process: function(parent, current, control) {
@@ -175,6 +180,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
             }));
           },
           _bindElementProperties: function(protoView, compileElement) {
+            var $__0 = this;
             MapWrapper.forEach(compileElement.propertyBindings, (function(expression, property) {
               var setterFn,
                   styleParts,
@@ -189,8 +195,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
                 styleParts = StringWrapper.split(property, DOT_REGEXP);
                 styleSuffix = styleParts.length > 2 ? ListWrapper.get(styleParts, 2) : '';
                 setterFn = styleSetterFactory(ListWrapper.get(styleParts, 1), styleSuffix);
-              } else if (DOM.hasProperty(compileElement.element, property)) {
-                setterFn = reflector.setter(property);
+              } else {
+                property = $__0._resolvePropertyName(property);
+                if (DOM.hasProperty(compileElement.element, property) || StringWrapper.equals(property, 'innerHtml')) {
+                  setterFn = reflector.setter(property);
+                }
               }
               if (isPresent(setterFn)) {
                 protoView.bindElementProperty(expression.ast, property, setterFn);
@@ -218,7 +227,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
                 if (isBlank(bindingAst)) {
                   var attributeValue = MapWrapper.get(compileElement.attrs(), elProp);
                   if (isPresent(attributeValue)) {
-                    bindingAst = $__0._parser.wrapLiteralPrimitive(attributeValue, $__0._compilationUnit);
+                    bindingAst = $__0._parser.wrapLiteralPrimitive(attributeValue, compileElement.elementDescription);
                   }
                 }
                 if (isPresent(bindingAst)) {
@@ -233,11 +242,15 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
             return ListWrapper.map(parts, (function(s) {
               return s.trim();
             }));
+          },
+          _resolvePropertyName: function(attrName) {
+            var mappedPropName = StringMapWrapper.get(DOM.attrToPropMap, attrName);
+            return isPresent(mappedPropName) ? mappedPropName : attrName;
           }
         }, {}, $__super);
       }(CompileStep)));
       Object.defineProperty(ElementBinderBuilder, "parameters", {get: function() {
-          return [[Parser], [assert.type.any]];
+          return [[Parser]];
         }});
       Object.defineProperty(ElementBinderBuilder.prototype.process, "parameters", {get: function() {
           return [[CompileElement], [CompileElement], [CompileControl]];
@@ -246,6 +259,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
           return [[assert.genericType(List, DirectiveMetadata)], [CompileElement]];
         }});
       Object.defineProperty(ElementBinderBuilder.prototype._splitBindConfig, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(ElementBinderBuilder.prototype._resolvePropertyName, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
     }

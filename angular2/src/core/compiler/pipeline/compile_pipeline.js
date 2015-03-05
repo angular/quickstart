@@ -1,9 +1,8 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/facade/dom", "./compile_element", "./compile_control", "./compile_step"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "./compile_element", "./compile_control", "./compile_step"], function($__export) {
   "use strict";
   var isPresent,
       List,
       ListWrapper,
-      Element,
       DOM,
       CompileElement,
       CompileControl,
@@ -16,7 +15,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       List = $__m.List;
       ListWrapper = $__m.ListWrapper;
     }, function($__m) {
-      Element = $__m.Element;
       DOM = $__m.DOM;
     }, function($__m) {
       CompileElement = $__m.CompileElement;
@@ -32,18 +30,20 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         };
         return ($traceurRuntime.createClass)(CompilePipeline, {
           process: function(rootElement) {
+            var compilationCtxtDescription = arguments[1] !== (void 0) ? arguments[1] : '';
             var results = ListWrapper.create();
-            this._process(results, null, new CompileElement(rootElement));
+            this._process(results, null, new CompileElement(rootElement, compilationCtxtDescription), compilationCtxtDescription);
             return results;
           },
           _process: function(results, parent, current) {
+            var compilationCtxtDescription = arguments[3] !== (void 0) ? arguments[3] : '';
             var additionalChildren = this._control.internalProcess(results, 0, parent, current);
             if (current.compileChildren) {
               var node = DOM.firstChild(DOM.templateAwareRoot(current.element));
               while (isPresent(node)) {
                 var nextNode = DOM.nextSibling(node);
                 if (DOM.isElementNode(node)) {
-                  this._process(results, current, new CompileElement(node));
+                  this._process(results, current, new CompileElement(node, compilationCtxtDescription));
                 }
                 node = nextNode;
               }
@@ -60,10 +60,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[assert.genericType(List, CompileStep)]];
         }});
       Object.defineProperty(CompilePipeline.prototype.process, "parameters", {get: function() {
-          return [[Element]];
+          return [[], [assert.type.string]];
         }});
       Object.defineProperty(CompilePipeline.prototype._process, "parameters", {get: function() {
-          return [[], [CompileElement], [CompileElement]];
+          return [[], [CompileElement], [CompileElement], [assert.type.string]];
         }});
     }
   };

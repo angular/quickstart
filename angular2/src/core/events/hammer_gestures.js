@@ -1,15 +1,12 @@
-System.register(["./hammer_common", "angular2/src/facade/dom", "angular2/src/facade/lang"], function($__export) {
+System.register(["./hammer_common", "angular2/src/facade/lang"], function($__export) {
   "use strict";
   var HammerGesturesPluginCommon,
-      Element,
       isPresent,
       BaseException,
       HammerGesturesPlugin;
   return {
     setters: [function($__m) {
       HammerGesturesPluginCommon = $__m.HammerGesturesPluginCommon;
-    }, function($__m) {
-      Element = $__m.Element;
     }, function($__m) {
       isPresent = $__m.isPresent;
       BaseException = $__m.BaseException;
@@ -28,7 +25,9 @@ System.register(["./hammer_common", "angular2/src/facade/dom", "angular2/src/fac
             }
             return true;
           },
-          addEventListener: function(element, eventName, handler) {
+          addEventListener: function(element, eventName, handler, shouldSupportBubble) {
+            if (shouldSupportBubble)
+              throw new BaseException('Hammer.js plugin does not support bubbling gestures.');
             var zone = this.manager.getZone();
             eventName = eventName.toLowerCase();
             zone.runOutsideAngular(function() {
@@ -48,7 +47,7 @@ System.register(["./hammer_common", "angular2/src/facade/dom", "angular2/src/fac
           return [[assert.type.string]];
         }});
       Object.defineProperty(HammerGesturesPlugin.prototype.addEventListener, "parameters", {get: function() {
-          return [[Element], [assert.type.string], [Function]];
+          return [[], [assert.type.string], [Function], [assert.type.boolean]];
         }});
     }
   };

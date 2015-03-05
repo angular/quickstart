@@ -1,15 +1,17 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular2/src/facade/collection", "./xhr/xhr", "angular2/src/core/annotations/template"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "./xhr/xhr", "angular2/src/core/annotations/template", "./url_resolver"], function($__export) {
   "use strict";
   var isBlank,
       isPresent,
       BaseException,
       stringify,
-      DOM,
-      Element,
+      Map,
+      MapWrapper,
       StringMapWrapper,
       StringMap,
+      DOM,
       XHR,
       Template,
+      UrlResolver,
       TemplateLoader;
   return {
     setters: [function($__m) {
@@ -18,45 +20,79 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/dom", "angular
       BaseException = $__m.BaseException;
       stringify = $__m.stringify;
     }, function($__m) {
-      DOM = $__m.DOM;
-      Element = $__m.Element;
-    }, function($__m) {
+      Map = $__m.Map;
+      MapWrapper = $__m.MapWrapper;
       StringMapWrapper = $__m.StringMapWrapper;
       StringMap = $__m.StringMap;
+    }, function($__m) {
+      DOM = $__m.DOM;
     }, function($__m) {
       XHR = $__m.XHR;
     }, function($__m) {
       Template = $__m.Template;
+    }, function($__m) {
+      UrlResolver = $__m.UrlResolver;
     }],
     execute: function() {
       TemplateLoader = $__export("TemplateLoader", (function() {
-        var TemplateLoader = function TemplateLoader(xhr) {
+        var TemplateLoader = function TemplateLoader(xhr, urlResolver) {
           this._xhr = xhr;
-          this._cache = StringMapWrapper.create();
+          this._urlResolver = urlResolver;
+          this._htmlCache = StringMapWrapper.create();
+          this._baseUrls = MapWrapper.create();
+          this._urlCache = MapWrapper.create();
         };
-        return ($traceurRuntime.createClass)(TemplateLoader, {load: function(template) {
+        return ($traceurRuntime.createClass)(TemplateLoader, {
+          load: function(template) {
             if (isPresent(template.inline)) {
               return DOM.createTemplate(template.inline);
             }
             if (isPresent(template.url)) {
-              var url = template.url;
-              var promise = StringMapWrapper.get(this._cache, url);
+              var url = this.getTemplateUrl(template);
+              var promise = StringMapWrapper.get(this._htmlCache, url);
               if (isBlank(promise)) {
                 promise = this._xhr.get(url).then(function(html) {
                   var template = DOM.createTemplate(html);
                   return template;
                 });
-                StringMapWrapper.set(this._cache, url, promise);
+                StringMapWrapper.set(this._htmlCache, url, promise);
               }
               return promise;
             }
-            throw new BaseException("Templates should have either their url or inline property set");
-          }}, {});
+            throw new BaseException('Templates should have either their url or inline property set');
+          },
+          setBaseUrl: function(template, baseUrl) {
+            MapWrapper.set(this._baseUrls, template, baseUrl);
+            MapWrapper.delete(this._urlCache, template);
+          },
+          getTemplateUrl: function(template) {
+            if (!MapWrapper.contains(this._urlCache, template)) {
+              var baseUrl = MapWrapper.get(this._baseUrls, template);
+              if (isBlank(baseUrl)) {
+                throw new BaseException('The template base URL is not set');
+              }
+              var templateUrl;
+              if (isPresent(template.url)) {
+                templateUrl = this._urlResolver.resolve(baseUrl, template.url);
+              } else {
+                templateUrl = baseUrl;
+              }
+              MapWrapper.set(this._urlCache, template, templateUrl);
+            }
+            return MapWrapper.get(this._urlCache, template);
+          }
+        }, {});
       }()));
       Object.defineProperty(TemplateLoader, "parameters", {get: function() {
-          return [[XHR]];
+          return [[XHR], [UrlResolver]];
         }});
       Object.defineProperty(TemplateLoader.prototype.load, "parameters", {get: function() {
+          return [[Template]];
+        }});
+      Object.defineProperty(TemplateLoader.prototype.setBaseUrl, "parameters", {get: function() {
+          return [[Template], [assert.type.string]];
+        }});
+      Object.defineProperty(TemplateLoader.prototype.getTemplateUrl, "parameters", {get: function() {
           return [[Template]];
         }});
     }

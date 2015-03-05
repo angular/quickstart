@@ -1,18 +1,15 @@
-System.register(["../../annotations/annotations", "./light_dom", "angular2/di", "angular2/src/facade/dom", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/core/dom/element"], function($__export) {
+System.register(["../../annotations/annotations", "./light_dom", "angular2/di", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/core/dom/element"], function($__export) {
   "use strict";
   var Decorator,
       SourceLightDom,
       DestinationLightDom,
       LightDom,
       Inject,
-      Element,
-      Node,
       DOM,
       isPresent,
       List,
       ListWrapper,
       NgElement,
-      _scriptTemplate,
       ContentStrategy,
       RenderedContent,
       IntermediateContent,
@@ -27,8 +24,6 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
     }, function($__m) {
       Inject = $__m.Inject;
     }, function($__m) {
-      Element = $__m.Element;
-      Node = $__m.Node;
       DOM = $__m.DOM;
     }, function($__m) {
       isPresent = $__m.isPresent;
@@ -39,13 +34,12 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
       NgElement = $__m.NgElement;
     }],
     execute: function() {
-      _scriptTemplate = DOM.createScriptTag('type', 'ng/content');
       ContentStrategy = (function() {
         var ContentStrategy = function ContentStrategy() {};
         return ($traceurRuntime.createClass)(ContentStrategy, {insert: function(nodes) {}}, {});
       }());
       Object.defineProperty(ContentStrategy.prototype.insert, "parameters", {get: function() {
-          return [[assert.genericType(List, Node)]];
+          return [[List]];
         }});
       RenderedContent = (function($__super) {
         var RenderedContent = function RenderedContent(contentEl) {
@@ -54,14 +48,20 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           this.nodes = [];
         };
         return ($traceurRuntime.createClass)(RenderedContent, {
+          _scriptTemplate: function() {
+            if (!isPresent(RenderedContent._lazyScriptTemplate)) {
+              RenderedContent._lazyScriptTemplate = DOM.createScriptTag('type', 'ng/content');
+            }
+            return RenderedContent._lazyScriptTemplate;
+          },
           insert: function(nodes) {
             this.nodes = nodes;
             DOM.insertAllBefore(this.endScript, nodes);
             this._removeNodesUntil(ListWrapper.isEmpty(nodes) ? this.endScript : nodes[0]);
           },
           _replaceContentElementWithScriptTags: function(contentEl) {
-            this.beginScript = DOM.clone(_scriptTemplate);
-            this.endScript = DOM.clone(_scriptTemplate);
+            this.beginScript = DOM.clone(this._scriptTemplate());
+            this.endScript = DOM.clone(this._scriptTemplate());
             DOM.insertBefore(contentEl, this.beginScript);
             DOM.insertBefore(contentEl, this.endScript);
             DOM.removeChild(DOM.parentElement(contentEl), contentEl);
@@ -74,17 +74,8 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           }
         }, {}, $__super);
       }(ContentStrategy));
-      Object.defineProperty(RenderedContent, "parameters", {get: function() {
-          return [[Element]];
-        }});
       Object.defineProperty(RenderedContent.prototype.insert, "parameters", {get: function() {
-          return [[assert.genericType(List, Node)]];
-        }});
-      Object.defineProperty(RenderedContent.prototype._replaceContentElementWithScriptTags, "parameters", {get: function() {
-          return [[Element]];
-        }});
-      Object.defineProperty(RenderedContent.prototype._removeNodesUntil, "parameters", {get: function() {
-          return [[Node]];
+          return [[List]];
         }});
       IntermediateContent = (function($__super) {
         var IntermediateContent = function IntermediateContent(destinationLightDom) {
@@ -101,7 +92,7 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           return [[LightDom]];
         }});
       Object.defineProperty(IntermediateContent.prototype.insert, "parameters", {get: function() {
-          return [[assert.genericType(List, Node)]];
+          return [[List]];
         }});
       Content = $__export("Content", (function() {
         var Content = function Content(destinationLightDom, contentEl) {
@@ -124,7 +115,7 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           return [[new Inject(DestinationLightDom)], [NgElement]];
         }});
       Object.defineProperty(Content.prototype.insert, "parameters", {get: function() {
-          return [[assert.genericType(List, Node)]];
+          return [[List]];
         }});
     }
   };

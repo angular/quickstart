@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model"], function($__export) {
+System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model", "./validators"], function($__export) {
   "use strict";
   var Template,
       Component,
@@ -14,16 +14,13 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
       ListWrapper,
       ControlGroup,
       Control,
-      ControlGroupDirectiveBase,
+      validators,
       ControlValueAccessor,
       DefaultControlValueAccessor,
       CheckboxControlValueAccessor,
       controlValueAccessors,
-      ControlDirectiveBase,
-      ControlNameDirective,
       ControlDirective,
       ControlGroupDirective,
-      NewControlGroupDirective,
       FormDirectives;
   function controlValueAccessorFor(controlType) {
     var accessor = StringMapWrapper.get(controlValueAccessors, controlType);
@@ -53,20 +50,10 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
     }, function($__m) {
       ControlGroup = $__m.ControlGroup;
       Control = $__m.Control;
+    }, function($__m) {
+      validators = $__m;
     }],
     execute: function() {
-      ControlGroupDirectiveBase = (function() {
-        var ControlGroupDirectiveBase = function ControlGroupDirectiveBase() {};
-        return ($traceurRuntime.createClass)(ControlGroupDirectiveBase, {
-          addDirective: function(directive) {},
-          findControl: function(name) {
-            return null;
-          }
-        }, {});
-      }());
-      Object.defineProperty(ControlGroupDirectiveBase.prototype.findControl, "parameters", {get: function() {
-          return [[assert.type.string]];
-        }});
       ControlValueAccessor = $__export("ControlValueAccessor", (function() {
         var ControlValueAccessor = function ControlValueAccessor() {};
         return ($traceurRuntime.createClass)(ControlValueAccessor, {
@@ -119,18 +106,24 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
       Object.defineProperty(controlValueAccessorFor, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      ControlDirectiveBase = $__export("ControlDirectiveBase", (function() {
-        var ControlDirectiveBase = function ControlDirectiveBase(groupDecorator, el) {
+      ControlDirective = $__export("ControlDirective", (function() {
+        var ControlDirective = function ControlDirective(groupDecorator, el) {
           this._groupDecorator = groupDecorator;
           this._el = el;
+          this.validator = validators.nullValidator;
         };
-        return ($traceurRuntime.createClass)(ControlDirectiveBase, {
+        return ($traceurRuntime.createClass)(ControlDirective, {
+          onChange: function(_) {
+            this._initialize();
+          },
           _initialize: function() {
             var $__0 = this;
+            this._groupDecorator.addDirective(this);
+            var c = this._control();
+            c.validator = validators.compose([c.validator, this.validator]);
             if (isBlank(this.valueAccessor)) {
               this.valueAccessor = controlValueAccessorFor(this.type);
             }
-            this._groupDecorator.addDirective(this);
             this._updateDomValue();
             DOM.on(this._el.domElement, "change", (function(_) {
               return $__0._updateControlValue();
@@ -140,45 +133,13 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
             this.valueAccessor.writeValue(this._el.domElement, this._control().value);
           },
           _updateControlValue: function() {
-            this._control().value = this.valueAccessor.readValue(this._el.domElement);
+            this._control().updateValue(this.valueAccessor.readValue(this._el.domElement));
           },
           _control: function() {
             return this._groupDecorator.findControl(this.controlName);
           }
         }, {});
       }()));
-      Object.defineProperty(ControlDirectiveBase, "parameters", {get: function() {
-          return [[], [NgElement]];
-        }});
-      ControlNameDirective = $__export("ControlNameDirective", (function($__super) {
-        var ControlNameDirective = function ControlNameDirective(groupDecorator, el) {
-          $traceurRuntime.superConstructor(ControlNameDirective).call(this, groupDecorator, el);
-        };
-        return ($traceurRuntime.createClass)(ControlNameDirective, {onChange: function(_) {
-            this._initialize();
-          }}, {}, $__super);
-      }(ControlDirectiveBase)));
-      Object.defineProperty(ControlNameDirective, "annotations", {get: function() {
-          return [new Decorator({
-            lifecycle: [onChange],
-            selector: '[control-name]',
-            bind: {
-              'controlName': 'control-name',
-              'type': 'type'
-            }
-          })];
-        }});
-      Object.defineProperty(ControlNameDirective, "parameters", {get: function() {
-          return [[ControlGroupDirective, new Ancestor()], [NgElement]];
-        }});
-      ControlDirective = $__export("ControlDirective", (function($__super) {
-        var ControlDirective = function ControlDirective(groupDecorator, el) {
-          $traceurRuntime.superConstructor(ControlDirective).call(this, groupDecorator, el);
-        };
-        return ($traceurRuntime.createClass)(ControlDirective, {onChange: function(_) {
-            this._initialize();
-          }}, {}, $__super);
-      }(ControlDirectiveBase)));
       Object.defineProperty(ControlDirective, "annotations", {get: function() {
           return [new Decorator({
             lifecycle: [onChange],
@@ -190,9 +151,9 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
           })];
         }});
       Object.defineProperty(ControlDirective, "parameters", {get: function() {
-          return [[NewControlGroupDirective, new Ancestor()], [NgElement]];
+          return [[ControlGroupDirective, new Ancestor()], [NgElement]];
         }});
-      ControlGroupDirective = $__export("ControlGroupDirective", (function($__super) {
+      ControlGroupDirective = $__export("ControlGroupDirective", (function() {
         var ControlGroupDirective = function ControlGroupDirective() {
           $traceurRuntime.superConstructor(ControlGroupDirective).call(this);
           this._directives = ListWrapper.create();
@@ -210,8 +171,8 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
           findControl: function(name) {
             return this._controlGroup.controls[name];
           }
-        }, {}, $__super);
-      }(ControlGroupDirectiveBase)));
+        }, {});
+      }()));
       Object.defineProperty(ControlGroupDirective, "annotations", {get: function() {
           return [new Decorator({
             selector: '[control-group]',
@@ -222,57 +183,12 @@ System.register(["angular2/core", "angular2/src/facade/dom", "angular2/src/facad
           return [[ControlGroup]];
         }});
       Object.defineProperty(ControlGroupDirective.prototype.addDirective, "parameters", {get: function() {
-          return [[ControlNameDirective]];
+          return [[ControlDirective]];
         }});
       Object.defineProperty(ControlGroupDirective.prototype.findControl, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      NewControlGroupDirective = $__export("NewControlGroupDirective", (function($__super) {
-        var NewControlGroupDirective = function NewControlGroupDirective() {
-          $traceurRuntime.superConstructor(NewControlGroupDirective).call(this);
-          this._directives = ListWrapper.create();
-        };
-        return ($traceurRuntime.createClass)(NewControlGroupDirective, {
-          set initData(value) {
-            this._initData = value;
-          },
-          addDirective: function(c) {
-            ListWrapper.push(this._directives, c);
-            this._controlGroup = null;
-          },
-          findControl: function(name) {
-            if (isBlank(this._controlGroup)) {
-              this._controlGroup = this._createControlGroup();
-            }
-            return this._controlGroup.controls[name];
-          },
-          _createControlGroup: function() {
-            var $__0 = this;
-            var controls = ListWrapper.reduce(this._directives, (function(memo, cd) {
-              var initControlValue = $__0._initData[cd.controlName];
-              memo[cd.controlName] = new Control(initControlValue);
-              return memo;
-            }), {});
-            return new ControlGroup(controls);
-          },
-          get value() {
-            return this._controlGroup.value;
-          }
-        }, {}, $__super);
-      }(ControlGroupDirectiveBase)));
-      Object.defineProperty(NewControlGroupDirective, "annotations", {get: function() {
-          return [new Component({
-            selector: '[new-control-group]',
-            bind: {'initData': 'new-control-group'}
-          }), new Template({inline: '<content>'})];
-        }});
-      Object.defineProperty(NewControlGroupDirective.prototype.addDirective, "parameters", {get: function() {
-          return [[ControlDirective]];
-        }});
-      Object.defineProperty(NewControlGroupDirective.prototype.findControl, "parameters", {get: function() {
-          return [[assert.type.string]];
-        }});
-      FormDirectives = $__export("FormDirectives", [ControlGroupDirective, ControlNameDirective, ControlDirective, NewControlGroupDirective]);
+      FormDirectives = $__export("FormDirectives", [ControlGroupDirective, ControlDirective]);
     }
   };
 });

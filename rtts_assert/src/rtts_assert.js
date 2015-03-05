@@ -16,8 +16,8 @@ System.register([], function($__export) {
   function proxy() {}
   function assertArgumentTypes() {
     for (var params = [],
-        $__2 = 0; $__2 < arguments.length; $__2++)
-      params[$__2] = arguments[$__2];
+        $__0 = 0; $__0 < arguments.length; $__0++)
+      params[$__0] = arguments[$__0];
     var actual,
         type;
     var currentArgErrors;
@@ -158,17 +158,13 @@ System.register([], function($__export) {
   }
   function arrayOf() {
     for (var types = [],
-        $__3 = 0; $__3 < arguments.length; $__3++)
-      types[$__3] = arguments[$__3];
+        $__1 = 0; $__1 < arguments.length; $__1++)
+      types[$__1] = arguments[$__1];
     return assert.define('array of ' + types.map(prettyPrint).join('/'), function(value) {
-      var $__5;
+      var $__3;
       if (assert(value).is(Array)) {
-        for (var $__0 = value[$traceurRuntime.toProperty(Symbol.iterator)](),
-            $__1 = void 0; !($__1 = $__0.next()).done; ) {
-          var item = $__1.value;
-          {
-            ($__5 = assert(item)).is.apply($__5, $traceurRuntime.spread(types));
-          }
+        for (var i = 0; i < value.length; i++) {
+          ($__3 = assert(value[i])).is.apply($__3, $traceurRuntime.spread(types));
         }
       }
     });
@@ -177,12 +173,9 @@ System.register([], function($__export) {
     var properties = Object.keys(definition);
     return assert.define('object with properties ' + properties.join(', '), function(value) {
       if (assert(value).is(Object)) {
-        for (var $__0 = properties[$traceurRuntime.toProperty(Symbol.iterator)](),
-            $__1 = void 0; !($__1 = $__0.next()).done; ) {
-          var property = $__1.value;
-          {
-            assert(value[property]).is(definition[property]);
-          }
+        for (var i = 0; i < properties.length; i++) {
+          var property = properties[i];
+          assert(value[property]).is(definition[property]);
         }
       }
     });
@@ -203,27 +196,24 @@ System.register([], function($__export) {
   }
   function assert(value) {
     return {is: function is() {
-        var $__5;
+        var $__3;
         for (var types = [],
-            $__4 = 0; $__4 < arguments.length; $__4++)
-          types[$__4] = arguments[$__4];
+            $__2 = 0; $__2 < arguments.length; $__2++)
+          types[$__2] = arguments[$__2];
         var allErrors = [];
         var errors;
-        for (var $__0 = types[$traceurRuntime.toProperty(Symbol.iterator)](),
-            $__1 = void 0; !($__1 = $__0.next()).done; ) {
-          var type = $__1.value;
-          {
-            errors = [];
-            if (isType(value, type, errors)) {
-              return true;
-            }
-            allErrors.push(prettyPrint(value) + ' is not instance of ' + prettyPrint(type));
-            if (errors.length) {
-              allErrors.push(errors);
-            }
+        for (var i = 0; i < types.length; i++) {
+          var type = types[i];
+          errors = [];
+          if (isType(value, type, errors)) {
+            return true;
+          }
+          allErrors.push(prettyPrint(value) + ' is not instance of ' + prettyPrint(type));
+          if (errors.length) {
+            allErrors.push(errors);
           }
         }
-        ($__5 = currentStack).push.apply($__5, $traceurRuntime.spread(allErrors));
+        ($__3 = currentStack).push.apply($__3, $traceurRuntime.spread(allErrors));
         return false;
       }};
   }

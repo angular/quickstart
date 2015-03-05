@@ -1,10 +1,6 @@
-System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang"], function($__export) {
   "use strict";
-  var StyleElement,
-      DOM,
-      CssRule,
-      CssKeyframesRule,
-      CSSRuleWrapper,
+  var DOM,
       List,
       ListWrapper,
       StringWrapper,
@@ -53,11 +49,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
   }
   return {
     setters: [function($__m) {
-      StyleElement = $__m.StyleElement;
       DOM = $__m.DOM;
-      CssRule = $__m.CssRule;
-      CssKeyframesRule = $__m.CssKeyframesRule;
-      CSSRuleWrapper = $__m.CSSRuleWrapper;
     }, function($__m) {
       List = $__m.List;
       ListWrapper = $__m.ListWrapper;
@@ -176,10 +168,10 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
             if (isPresent(cssRules)) {
               for (var i = 0; i < cssRules.length; i++) {
                 var rule = cssRules[i];
-                if (CSSRuleWrapper.isStyleRule(rule) || CSSRuleWrapper.isPageRule(rule)) {
+                if (DOM.isStyleRule(rule) || DOM.isPageRule(rule)) {
                   cssText += this._scopeSelector(rule.selectorText, scopeSelector, hostSelector, this.strictStyling) + ' {\n';
                   cssText += this._propertiesFromRule(rule) + '\n}\n\n';
-                } else if (CSSRuleWrapper.isMediaRule(rule)) {
+                } else if (DOM.isMediaRule(rule)) {
                   cssText += '@media ' + rule.media.mediaText + ' {\n';
                   cssText += this._scopeRules(rule.cssRules, scopeSelector, hostSelector);
                   cssText += '\n}\n\n';
@@ -189,7 +181,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
                       cssText += rule.cssText + '\n\n';
                     }
                   } catch (x) {
-                    if (CSSRuleWrapper.isKeyframesRule(rule) && isPresent(rule.cssRules)) {
+                    if (DOM.isKeyframesRule(rule) && isPresent(rule.cssRules)) {
                       cssText += this._ieSafeCssTextFromKeyFrameRule(rule);
                     }
                   }
@@ -285,7 +277,7 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
         }, {});
       }()));
       Object.defineProperty(ShadowCss.prototype.shimStyle, "parameters", {get: function() {
-          return [[StyleElement], [assert.type.string], [assert.type.string]];
+          return [[], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(ShadowCss.prototype.shimCssText, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string], [assert.type.string]];
@@ -325,9 +317,6 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/collection", "a
         }});
       Object.defineProperty(ShadowCss.prototype._scopeRules, "parameters", {get: function() {
           return [[], [assert.type.string], [assert.type.string]];
-        }});
-      Object.defineProperty(ShadowCss.prototype._ieSafeCssTextFromKeyFrameRule, "parameters", {get: function() {
-          return [[CssKeyframesRule]];
         }});
       Object.defineProperty(ShadowCss.prototype._scopeSelector, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.boolean]];

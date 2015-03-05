@@ -1,11 +1,11 @@
-System.register(["angular2/src/facade/dom", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/src/dom/browser_adapter", "angular2/src/facade/browser", "angular2/src/facade/lang"], function($__export) {
   "use strict";
-  var DOM,
+  var BrowserDomAdapter,
       document,
-      location,
       NumberWrapper,
       BaseException,
-      isBlank;
+      isBlank,
+      DOM;
   function getIntParameter(name) {
     return NumberWrapper.parseInt(getStringParameter(name), 10);
   }
@@ -37,15 +37,16 @@ System.register(["angular2/src/facade/dom", "angular2/src/facade/lang"], functio
   $__export("bindAction", bindAction);
   return {
     setters: [function($__m) {
-      DOM = $__m.DOM;
+      BrowserDomAdapter = $__m.BrowserDomAdapter;
+    }, function($__m) {
       document = $__m.document;
-      location = $__m.location;
     }, function($__m) {
       NumberWrapper = $__m.NumberWrapper;
       BaseException = $__m.BaseException;
       isBlank = $__m.isBlank;
     }],
     execute: function() {
+      DOM = new BrowserDomAdapter();
       Object.defineProperty(getIntParameter, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
