@@ -1,0 +1,38 @@
+{
+  "name": "es6-shim",
+  "version": "0.0.1",
+  "description": "",
+  "main": "gulpfile.js",
+  "private": true,
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davideast/es6-shim.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davideast/es6-shim/issues"
+  },
+  "homepage": "https://github.com/davideast/es6-shim",
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-shell": "^0.3.0",
+    "run-sequence": "^1.0.2"
+  },
+  "dependencies": {
+    "angular2": "^2.0.0-alpha.11",
+    "rtts_assert": "^2.0.0-alpha.11",
+    "systemjs": "^0.14.1",
+    "zone.js": "^0.4.1"
+  }
+}
