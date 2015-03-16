@@ -3,7 +3,6 @@ System.register(["./exceptions", "angular2/src/facade/collection", "angular2/src
   var KeyMetadataError,
       MapWrapper,
       Map,
-      FIELD,
       int,
       isPresent,
       Key,
@@ -16,7 +15,6 @@ System.register(["./exceptions", "angular2/src/facade/collection", "angular2/src
       MapWrapper = $__m.MapWrapper;
       Map = $__m.Map;
     }, function($__m) {
-      FIELD = $__m.FIELD;
       int = $__m.int;
       isPresent = $__m.isPresent;
     }],

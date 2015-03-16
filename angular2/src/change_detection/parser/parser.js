@@ -1,7 +1,6 @@
 System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./lexer", "angular2/src/reflection/reflection", "./ast"], function($__export) {
   "use strict";
-  var FIELD,
-      int,
+  var int,
       isBlank,
       isPresent,
       BaseException,
@@ -52,7 +51,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       _ParseAST;
   return {
     setters: [function($__m) {
-      FIELD = $__m.FIELD;
       int = $__m.int;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;

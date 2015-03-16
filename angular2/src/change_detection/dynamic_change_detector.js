@@ -83,15 +83,32 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           this.pipes = ListWrapper.createFixedSize(protoRecords.length + 1);
           this.prevContexts = ListWrapper.createFixedSize(protoRecords.length + 1);
           this.changes = ListWrapper.createFixedSize(protoRecords.length + 1);
+          ListWrapper.fill(this.values, uninitialized);
+          ListWrapper.fill(this.pipes, null);
+          ListWrapper.fill(this.prevContexts, uninitialized);
+          ListWrapper.fill(this.changes, false);
           this.protos = protoRecords;
         };
         return ($traceurRuntime.createClass)(DynamicChangeDetector, {
-          setContext: function(context) {
+          hydrate: function(context) {
+            this.values[0] = context;
+          },
+          dehydrate: function() {
+            this._destroyPipes();
             ListWrapper.fill(this.values, uninitialized);
             ListWrapper.fill(this.changes, false);
             ListWrapper.fill(this.pipes, null);
             ListWrapper.fill(this.prevContexts, uninitialized);
-            this.values[0] = context;
+          },
+          _destroyPipes: function() {
+            for (var i = 0; i < this.pipes.length; ++i) {
+              if (isPresent(this.pipes[i])) {
+                this.pipes[i].onDestroy();
+              }
+            }
+          },
+          hydrated: function() {
+            return this.values[0] !== uninitialized;
           },
           detectChangesInRecords: function(throwOnChange) {
             var protos = this.protos;
@@ -203,11 +220,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             var storedPipe = this._readPipe(proto);
             if (isPresent(storedPipe) && storedPipe.supports(context)) {
               return storedPipe;
-            } else {
-              var pipe = this.pipeRegistry.get(proto.name, context);
-              this._writePipe(proto, pipe);
-              return pipe;
             }
+            if (isPresent(storedPipe)) {
+              storedPipe.onDestroy();
+            }
+            var pipe = this.pipeRegistry.get(proto.name, context);
+            this._writePipe(proto, pipe);
+            return pipe;
           },
           _readContext: function(proto) {
             return this.values[proto.contextIndex];
@@ -252,7 +271,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(DynamicChangeDetector, "parameters", {get: function() {
           return [[assert.type.any], [PipeRegistry], [assert.genericType(List, ProtoRecord)]];
         }});
-      Object.defineProperty(DynamicChangeDetector.prototype.setContext, "parameters", {get: function() {
+      Object.defineProperty(DynamicChangeDetector.prototype.hydrate, "parameters", {get: function() {
           return [[assert.type.any]];
         }});
       Object.defineProperty(DynamicChangeDetector.prototype.detectChangesInRecords, "parameters", {get: function() {

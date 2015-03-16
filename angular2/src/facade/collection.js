@@ -82,6 +82,13 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           clear: function(m) {
             m.clear();
           },
+          clearValues: function(m) {
+            var keyIterator = m.keys();
+            var k;
+            while (!((k = keyIterator.next()).done)) {
+              m.set(k.value, null);
+            }
+          },
           iterable: function(m) {
             return m;
           },

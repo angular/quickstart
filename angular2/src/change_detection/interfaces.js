@@ -44,7 +44,8 @@ System.register(["angular2/src/facade/collection"], function($__export) {
           addChild: function(cd) {},
           removeChild: function(cd) {},
           remove: function() {},
-          setContext: function(context) {},
+          hydrate: function(context) {},
+          dehydrate: function() {},
           markPathToRootAsCheckOnce: function() {},
           detectChanges: function() {},
           checkNoChanges: function() {}
@@ -56,7 +57,7 @@ System.register(["angular2/src/facade/collection"], function($__export) {
       Object.defineProperty(ChangeDetector.prototype.removeChild, "parameters", {get: function() {
           return [[ChangeDetector]];
         }});
-      Object.defineProperty(ChangeDetector.prototype.setContext, "parameters", {get: function() {
+      Object.defineProperty(ChangeDetector.prototype.hydrate, "parameters", {get: function() {
           return [[assert.type.any]];
         }});
     }

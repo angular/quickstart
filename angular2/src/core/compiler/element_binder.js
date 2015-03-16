@@ -3,7 +3,7 @@ System.register(["./element_injector", "./directive_metadata", "angular2/src/fac
   var ProtoElementInjector,
       DirectiveMetadata,
       List,
-      Map,
+      StringMap,
       ProtoView,
       ElementBinder;
   return {
@@ -13,7 +13,7 @@ System.register(["./element_injector", "./directive_metadata", "angular2/src/fac
       DirectiveMetadata = $__m.DirectiveMetadata;
     }, function($__m) {
       List = $__m.List;
-      Map = $__m.Map;
+      StringMap = $__m.StringMap;
     }, function($__m) {
       ProtoView = $__m.ProtoView;
     }],

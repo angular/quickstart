@@ -1,7 +1,6 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/events", "angular2/src/core/compiler/view", "angular2/src/core/compiler/shadow_dom_emulation/light_dom", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/binding_propagation_config"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/di", "angular2/src/core/compiler/view", "angular2/src/core/compiler/shadow_dom_emulation/light_dom", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/binding_propagation_config", "angular2/src/reflection/reflection"], function($__export) {
   "use strict";
-  var FIELD,
-      isPresent,
+  var isPresent,
       isBlank,
       Type,
       int,
@@ -21,10 +20,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       Parent,
       Ancestor,
       EventEmitter,
-      View,
-      ProtoView,
+      PropertySetter,
+      viewModule,
       LightDom,
-      SourceLightDom,
       DestinationLightDom,
       ViewContainer,
       NgElement,
@@ -32,6 +30,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       onChange,
       onDestroy,
       BindingPropagationConfig,
+      reflector,
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER,
       MAX_DEPTH,
       _undefined,
@@ -46,7 +45,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       OutOfBoundsAccess;
   return {
     setters: [function($__m) {
-      FIELD = $__m.FIELD;
       isPresent = $__m.isPresent;
       isBlank = $__m.isBlank;
       Type = $__m.Type;
@@ -72,12 +70,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       Ancestor = $__m.Ancestor;
     }, function($__m) {
       EventEmitter = $__m.EventEmitter;
+      PropertySetter = $__m.PropertySetter;
     }, function($__m) {
-      View = $__m.View;
-      ProtoView = $__m.ProtoView;
+      viewModule = $__m;
     }, function($__m) {
       LightDom = $__m.LightDom;
-      SourceLightDom = $__m.SourceLightDom;
       DestinationLightDom = $__m.DestinationLightDom;
     }, function($__m) {
       ViewContainer = $__m.ViewContainer;
@@ -89,6 +86,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       onDestroy = $__m.onDestroy;
     }, function($__m) {
       BindingPropagationConfig = $__m.BindingPropagationConfig;
+    }, function($__m) {
+      reflector = $__m.reflector;
     }],
     execute: function() {
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER = 10;
@@ -96,11 +95,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       _undefined = new Object();
       StaticKeys = (function() {
         var StaticKeys = function StaticKeys() {
-          this.viewId = Key.get(View).id;
+          this.viewId = Key.get(viewModule.View).id;
           this.ngElementId = Key.get(NgElement).id;
           this.viewContainerId = Key.get(ViewContainer).id;
           this.destinationLightDomId = Key.get(DestinationLightDom).id;
-          this.sourceLightDomId = Key.get(SourceLightDom).id;
+          this.lightDomId = Key.get(LightDom).id;
           this.bindingPropagationConfigId = Key.get(BindingPropagationConfig).id;
         };
         return ($traceurRuntime.createClass)(StaticKeys, {}, {instance: function() {
@@ -154,14 +153,15 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           return [[TreeNode]];
         }});
       DirectiveDependency = $__export("DirectiveDependency", (function($__super) {
-        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, properties, depth, eventEmitterName) {
-          $traceurRuntime.superConstructor(DirectiveDependency).call(this, key, asPromise, lazy, properties);
+        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, optional, properties, depth, eventEmitterName, propSetterName) {
+          $traceurRuntime.superConstructor(DirectiveDependency).call(this, key, asPromise, lazy, optional, properties);
           this.depth = depth;
           this.eventEmitterName = eventEmitterName;
+          this.propSetterName = propSetterName;
         };
         return ($traceurRuntime.createClass)(DirectiveDependency, {}, {
           createFrom: function(d) {
-            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.properties, DirectiveDependency._depth(d.properties), DirectiveDependency._eventEmitterName(d.properties));
+            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.optional, d.properties, DirectiveDependency._depth(d.properties), DirectiveDependency._eventEmitterName(d.properties), DirectiveDependency._propSetterName(d.properties));
           },
           _depth: function(properties) {
             if (properties.length == 0)
@@ -183,11 +183,19 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
               }
             }
             return null;
+          },
+          _propSetterName: function(properties) {
+            for (var i = 0; i < properties.length; i++) {
+              if (properties[i] instanceof PropertySetter) {
+                return properties[i].propName;
+              }
+            }
+            return null;
           }
         }, $__super);
       }(Dependency)));
       Object.defineProperty(DirectiveDependency, "parameters", {get: function() {
-          return [[Key], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string]];
+          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(DirectiveDependency.createFrom, "parameters", {get: function() {
           return [[Dependency]];
@@ -315,8 +323,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           }
         };
         return ($traceurRuntime.createClass)(ProtoElementInjector, {
-          instantiate: function(parent, host, eventCallbacks) {
-            return new ElementInjector(this, parent, host, eventCallbacks);
+          instantiate: function(parent, host) {
+            return new ElementInjector(this, parent, host);
           },
           directParent: function() {
             return this.distanceToParent < 2 ? this.parent : null;
@@ -362,13 +370,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           return [[ProtoElementInjector], [int], [List], [assert.type.boolean], [assert.type.number]];
         }});
       Object.defineProperty(ProtoElementInjector.prototype.instantiate, "parameters", {get: function() {
-          return [[ElementInjector], [ElementInjector], []];
+          return [[ElementInjector], [ElementInjector]];
         }});
       Object.defineProperty(ProtoElementInjector.prototype.hasEventEmitter, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
       ElementInjector = $__export("ElementInjector", (function($__super) {
-        var ElementInjector = function ElementInjector(proto, parent, host, eventCallbacks) {
+        var ElementInjector = function ElementInjector(proto, parent, host) {
           $traceurRuntime.superConstructor(ElementInjector).call(this, parent);
           if (isPresent(parent) && isPresent(host)) {
             throw new BaseException('Only either parent or host is allowed');
@@ -383,7 +391,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           this._preBuiltObjects = null;
           this._lightDomAppInjector = null;
           this._shadowDomAppInjector = null;
-          this._eventCallbacks = eventCallbacks;
           this._obj0 = null;
           this._obj1 = null;
           this._obj2 = null;
@@ -479,7 +486,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
             }
           },
           get: function(token) {
-            return this._getByKey(Key.get(token), 0, null);
+            return this._getByKey(Key.get(token), 0, false, null);
           },
           hasDirective: function(type) {
             return this._getDirectiveByKeyId(Key.get(type).id) !== _undefined;
@@ -583,19 +590,26 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           _getByDependency: function(dep, requestor) {
             if (isPresent(dep.eventEmitterName))
               return this._buildEventEmitter(dep);
-            return this._getByKey(dep.key, dep.depth, requestor);
+            if (isPresent(dep.propSetterName))
+              return this._buildPropSetter(dep);
+            return this._getByKey(dep.key, dep.depth, dep.optional, requestor);
           },
           _buildEventEmitter: function(dep) {
+            var $__0 = this;
             var view = this._getPreBuiltObjectByKeyId(StaticKeys.instance().viewId);
-            if (isPresent(this._eventCallbacks)) {
-              var callback = MapWrapper.get(this._eventCallbacks, dep.eventEmitterName);
-              if (isPresent(callback)) {
-                return ProtoView.buildInnerCallback(callback, view);
-              }
-            }
-            return (function(_) {});
+            return (function(event) {
+              view.triggerEventHandlers(dep.eventEmitterName, event, $__0._proto.index);
+            });
           },
-          _getByKey: function(key, depth, requestor) {
+          _buildPropSetter: function(dep) {
+            var ngElement = this._getPreBuiltObjectByKeyId(StaticKeys.instance().ngElementId);
+            var domElement = ngElement.domElement;
+            var setter = reflector.setter(dep.propSetterName);
+            return function(v) {
+              setter(domElement, v);
+            };
+          },
+          _getByKey: function(key, depth, optional, requestor) {
             var ei = this;
             if (!this._shouldIncludeSelf(depth)) {
               depth -= ei._proto.distanceToParent;
@@ -613,6 +627,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
             }
             if (isPresent(this._host) && this._host._isComponentKey(key)) {
               return this._host.getComponent();
+            } else if (optional) {
+              return this._appInjector(requestor).getOptional(key);
             } else {
               return this._appInjector(requestor).get(key);
             }
@@ -641,8 +657,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
               var p = this.directParent();
               return isPresent(p) ? p._preBuiltObjects.lightDom : null;
             }
-            if (keyId === staticKeys.sourceLightDomId) {
-              return this._host._preBuiltObjects.lightDom;
+            if (keyId === staticKeys.lightDomId) {
+              return this._preBuiltObjects.lightDom;
             }
             return _undefined;
           },
@@ -775,7 +791,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
         }, {}, $__super);
       }(TreeNode)));
       Object.defineProperty(ElementInjector, "parameters", {get: function() {
-          return [[ProtoElementInjector], [ElementInjector], [ElementInjector], [Map]];
+          return [[ProtoElementInjector], [ElementInjector], [ElementInjector]];
         }});
       Object.defineProperty(ElementInjector.prototype.instantiateDirectives, "parameters", {get: function() {
           return [[Injector], [Injector], [PreBuiltObjects]];
@@ -799,7 +815,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           return [[DirectiveDependency], [Key]];
         }});
       Object.defineProperty(ElementInjector.prototype._getByKey, "parameters", {get: function() {
-          return [[Key], [assert.type.number], [Key]];
+          return [[Key], [assert.type.number], [assert.type.boolean], [Key]];
         }});
       Object.defineProperty(ElementInjector.prototype._appInjector, "parameters", {get: function() {
           return [[Key]];

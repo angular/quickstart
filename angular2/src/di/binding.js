@@ -1,7 +1,6 @@
 System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/reflection/reflection", "./key", "./annotations", "./exceptions"], function($__export) {
   "use strict";
-  var FIELD,
-      Type,
+  var Type,
       isBlank,
       isPresent,
       List,
@@ -12,6 +11,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Inject,
       InjectLazy,
       InjectPromise,
+      Optional,
       DependencyAnnotation,
       NoAnnotationError,
       Dependency,
@@ -33,35 +33,41 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }));
   }
   function _extractToken(typeOrFunc, annotations) {
-    var type;
     var depProps = [];
+    var token = null;
+    var optional = false;
+    var lazy = false;
+    var asPromise = false;
     for (var i = 0; i < annotations.length; ++i) {
       var paramAnnotation = annotations[i];
       if (paramAnnotation instanceof Type) {
-        type = paramAnnotation;
+        token = paramAnnotation;
       } else if (paramAnnotation instanceof Inject) {
-        return _createDependency(paramAnnotation.token, false, false, []);
+        token = paramAnnotation.token;
       } else if (paramAnnotation instanceof InjectPromise) {
-        return _createDependency(paramAnnotation.token, true, false, []);
+        token = paramAnnotation.token;
+        asPromise = true;
       } else if (paramAnnotation instanceof InjectLazy) {
-        return _createDependency(paramAnnotation.token, false, true, []);
+        token = paramAnnotation.token;
+        lazy = true;
+      } else if (paramAnnotation instanceof Optional) {
+        optional = true;
       } else if (paramAnnotation instanceof DependencyAnnotation) {
         ListWrapper.push(depProps, paramAnnotation);
       }
     }
-    if (isPresent(type)) {
-      return _createDependency(type, false, false, depProps);
+    if (isPresent(token)) {
+      return _createDependency(token, asPromise, lazy, optional, depProps);
     } else {
       throw new NoAnnotationError(typeOrFunc);
     }
   }
-  function _createDependency(token, asPromise, lazy, depProps) {
-    return new Dependency(Key.get(token), asPromise, lazy, depProps);
+  function _createDependency(token, asPromise, lazy, optional, depProps) {
+    return new Dependency(Key.get(token), asPromise, lazy, optional, depProps);
   }
   $__export("bind", bind);
   return {
     setters: [function($__m) {
-      FIELD = $__m.FIELD;
       Type = $__m.Type;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
@@ -77,22 +83,29 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Inject = $__m.Inject;
       InjectLazy = $__m.InjectLazy;
       InjectPromise = $__m.InjectPromise;
+      Optional = $__m.Optional;
       DependencyAnnotation = $__m.DependencyAnnotation;
     }, function($__m) {
       NoAnnotationError = $__m.NoAnnotationError;
     }],
     execute: function() {
       Dependency = $__export("Dependency", (function() {
-        var Dependency = function Dependency(key, asPromise, lazy, properties) {
+        var Dependency = function Dependency(key, asPromise, lazy, optional, properties) {
           this.key = key;
           this.asPromise = asPromise;
           this.lazy = lazy;
+          this.optional = optional;
           this.properties = properties;
         };
-        return ($traceurRuntime.createClass)(Dependency, {}, {});
+        return ($traceurRuntime.createClass)(Dependency, {}, {fromKey: function(key) {
+            return new Dependency(key, false, false, false, []);
+          }});
       }()));
       Object.defineProperty(Dependency, "parameters", {get: function() {
-          return [[Key], [assert.type.boolean], [assert.type.boolean], [List]];
+          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List]];
+        }});
+      Object.defineProperty(Dependency.fromKey, "parameters", {get: function() {
+          return [[Key]];
         }});
       Binding = $__export("Binding", (function() {
         var Binding = function Binding(key, factory, dependencies, providedAsPromise) {
@@ -122,7 +135,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           toAlias: function(aliasToken) {
             return new Binding(Key.get(this.token), (function(aliasInstance) {
               return aliasInstance;
-            }), [new Dependency(Key.get(aliasToken), false, false, [])], false);
+            }), [Dependency.fromKey(Key.get(aliasToken))], false);
           },
           toFactory: function(factoryFunction) {
             var dependencies = arguments[1] !== (void 0) ? arguments[1] : null;
@@ -134,7 +147,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           },
           _constructDependencies: function(factoryFunction, dependencies) {
             return isBlank(dependencies) ? _dependenciesFor(factoryFunction) : ListWrapper.map(dependencies, (function(t) {
-              return new Dependency(Key.get(t), false, false, []);
+              return Dependency.fromKey(Key.get(t));
             }));
           }
         }, {});

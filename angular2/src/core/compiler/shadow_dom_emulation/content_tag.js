@@ -1,9 +1,7 @@
 System.register(["../../annotations/annotations", "./light_dom", "angular2/di", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/core/dom/element"], function($__export) {
   "use strict";
   var Decorator,
-      SourceLightDom,
-      DestinationLightDom,
-      LightDom,
+      ldModule,
       Inject,
       DOM,
       isPresent,
@@ -18,9 +16,7 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
     setters: [function($__m) {
       Decorator = $__m.Decorator;
     }, function($__m) {
-      SourceLightDom = $__m.SourceLightDom;
-      DestinationLightDom = $__m.DestinationLightDom;
-      LightDom = $__m.LightDom;
+      ldModule = $__m;
     }, function($__m) {
       Inject = $__m.Inject;
     }, function($__m) {
@@ -89,7 +85,7 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           }}, {}, $__super);
       }(ContentStrategy));
       Object.defineProperty(IntermediateContent, "parameters", {get: function() {
-          return [[LightDom]];
+          return [[ldModule.LightDom]];
         }});
       Object.defineProperty(IntermediateContent.prototype.insert, "parameters", {get: function() {
           return [[List]];
@@ -112,7 +108,7 @@ System.register(["../../annotations/annotations", "./light_dom", "angular2/di", 
           return [new Decorator({selector: 'content'})];
         }});
       Object.defineProperty(Content, "parameters", {get: function() {
-          return [[new Inject(DestinationLightDom)], [NgElement]];
+          return [[new Inject(ldModule.DestinationLightDom)], [NgElement]];
         }});
       Object.defineProperty(Content.prototype.insert, "parameters", {get: function() {
           return [[List]];

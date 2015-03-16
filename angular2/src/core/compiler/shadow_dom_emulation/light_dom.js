@@ -5,11 +5,10 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       ListWrapper,
       isBlank,
       isPresent,
-      View,
+      viewModule,
       ElementInjector,
       ViewContainer,
       Content,
-      SourceLightDom,
       DestinationLightDom,
       _Root,
       LightDom;
@@ -40,7 +39,7 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
     }, function($__m) {
-      View = $__m.View;
+      viewModule = $__m;
     }, function($__m) {
       ElementInjector = $__m.ElementInjector;
     }, function($__m) {
@@ -49,10 +48,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       Content = $__m.Content;
     }],
     execute: function() {
-      SourceLightDom = $__export("SourceLightDom", (function() {
-        var SourceLightDom = function SourceLightDom() {};
-        return ($traceurRuntime.createClass)(SourceLightDom, {}, {});
-      }()));
       DestinationLightDom = $__export("DestinationLightDom", (function() {
         var DestinationLightDom = function DestinationLightDom() {};
         return ($traceurRuntime.createClass)(DestinationLightDom, {}, {});
@@ -131,10 +126,10 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
         }, {});
       }()));
       Object.defineProperty(LightDom, "parameters", {get: function() {
-          return [[View], [View], []];
+          return [[viewModule.View], [viewModule.View], []];
         }});
       Object.defineProperty(LightDom.prototype._collectAllContentTags, "parameters", {get: function() {
-          return [[View], [assert.genericType(List, Content)]];
+          return [[viewModule.View], [assert.genericType(List, Content)]];
         }});
       Object.defineProperty(redistributeNodes, "parameters", {get: function() {
           return [[assert.genericType(List, Content)], [List]];

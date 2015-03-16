@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/change_detection", "./directive_metadata_reader", "./view", "./pipeline/compile_pipeline", "./pipeline/compile_element", "./pipeline/default_steps", "./template_loader", "./template_resolver", "./directive_metadata", "../annotations/template", "./shadow_dom_strategy", "./pipeline/compile_step", "./component_url_mapper", "./url_resolver"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/change_detection", "./directive_metadata_reader", "./view", "./pipeline/compile_pipeline", "./pipeline/compile_element", "./pipeline/default_steps", "./template_loader", "./template_resolver", "./directive_metadata", "../annotations/template", "./shadow_dom_strategy", "./pipeline/compile_step", "./component_url_mapper", "./url_resolver", "./css_processor"], function($__export) {
   "use strict";
   var Type,
       isBlank,
@@ -27,6 +27,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
       CompileStep,
       ComponentUrlMapper,
       UrlResolver,
+      CssProcessor,
       CompilerCache,
       Compiler;
   return {
@@ -74,6 +75,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
       ComponentUrlMapper = $__m.ComponentUrlMapper;
     }, function($__m) {
       UrlResolver = $__m.UrlResolver;
+    }, function($__m) {
+      CssProcessor = $__m.CssProcessor;
     }],
     execute: function() {
       CompilerCache = $__export("CompilerCache", (function() {
@@ -100,7 +103,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
           return [[Type]];
         }});
       Compiler = $__export("Compiler", (function() {
-        var Compiler = function Compiler(changeDetection, templateLoader, reader, parser, cache, shadowDomStrategy, templateResolver, componentUrlMapper, urlResolver) {
+        var Compiler = function Compiler(changeDetection, templateLoader, reader, parser, cache, shadowDomStrategy, templateResolver, componentUrlMapper, urlResolver, cssProcessor) {
           this._changeDetection = changeDetection;
           this._reader = reader;
           this._parser = parser;
@@ -117,6 +120,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
           this._componentUrlMapper = componentUrlMapper;
           this._urlResolver = urlResolver;
           this._appUrl = urlResolver.resolve(null, './');
+          this._cssProcessor = cssProcessor;
         };
         return ($traceurRuntime.createClass)(Compiler, {
           createSteps: function(component, template) {
@@ -129,7 +133,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
             dirMetadata = ListWrapper.concat(dirMetadata, this._shadowDomDirectives);
             var cmpMetadata = this._reader.read(component);
             var templateUrl = this._templateLoader.getTemplateUrl(template);
-            return createDefaultSteps(this._changeDetection, this._parser, cmpMetadata, dirMetadata, this._shadowDomStrategy, templateUrl);
+            return createDefaultSteps(this._changeDetection, this._parser, cmpMetadata, dirMetadata, this._shadowDomStrategy, templateUrl, this._cssProcessor);
           },
           compile: function(component) {
             var protoView = this._compile(component);
@@ -163,10 +167,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
           },
           _compileTemplate: function(template, tplElement, component) {
             var pipeline = new CompilePipeline(this.createSteps(component, template));
-            var compilationCtxtDescription = stringify(this._reader.read(component).type);
             var compileElements;
             try {
-              compileElements = pipeline.process(tplElement, compilationCtxtDescription);
+              compileElements = pipeline.process(tplElement, stringify(component));
             } catch (ex) {
               return PromiseWrapper.reject(ex);
             }
@@ -198,10 +201,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
           _compileNestedProtoView: function(ce, promises) {
             var protoView = this._compile(ce.componentDirective.type);
             if (PromiseWrapper.isPromise(protoView)) {
-              ListWrapper.push(promises, protoView);
-              protoView.then(function(protoView) {
-                ce.inheritedElementBinder.nestedProtoView = protoView;
-              });
+              ListWrapper.push(promises, protoView.then(function(pv) {
+                ce.inheritedElementBinder.nestedProtoView = pv;
+              }));
             } else {
               ce.inheritedElementBinder.nestedProtoView = protoView;
             }
@@ -226,7 +228,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/async", "angul
         }, {});
       }()));
       Object.defineProperty(Compiler, "parameters", {get: function() {
-          return [[ChangeDetection], [TemplateLoader], [DirectiveMetadataReader], [Parser], [CompilerCache], [ShadowDomStrategy], [TemplateResolver], [ComponentUrlMapper], [UrlResolver]];
+          return [[ChangeDetection], [TemplateLoader], [DirectiveMetadataReader], [Parser], [CompilerCache], [ShadowDomStrategy], [TemplateResolver], [ComponentUrlMapper], [UrlResolver], [CssProcessor]];
         }});
       Object.defineProperty(Compiler.prototype.createSteps, "parameters", {get: function() {
           return [[Type], [Template]];
