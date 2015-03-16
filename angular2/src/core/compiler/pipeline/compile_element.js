@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "angular2/change_detection"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "./util", "angular2/change_detection"], function($__export) {
   "use strict";
   var List,
       Map,
@@ -18,6 +18,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
       ElementBinder,
       ProtoElementInjector,
       ProtoView,
+      dashCaseToCamelCase,
       AST,
       CompileElement;
   function getElementDescription(domElement) {
@@ -71,6 +72,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
       ProtoElementInjector = $__m.ProtoElementInjector;
     }, function($__m) {
       ProtoView = $__m.ProtoView;
+    }, function($__m) {
+      dashCaseToCamelCase = $__m.dashCaseToCamelCase;
     }, function($__m) {
       AST = $__m.AST;
     }],
@@ -139,7 +142,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
             if (isBlank(this.propertyBindings)) {
               this.propertyBindings = MapWrapper.create();
             }
-            MapWrapper.set(this.propertyBindings, property, expression);
+            MapWrapper.set(this.propertyBindings, dashCaseToCamelCase(property), expression);
           },
           addVariableBinding: function(variableName, variableValue) {
             if (isBlank(this.variableBindings)) {

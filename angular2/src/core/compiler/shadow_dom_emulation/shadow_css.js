@@ -26,20 +26,8 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       _polyfillHostRe,
       _colonHostRe,
       _colonHostContextRe;
-  function _cssTextToStyle(cssText) {
-    return DOM.createStyleElement(cssText);
-  }
   function _cssToRules(cssText) {
-    var style = _cssTextToStyle(cssText);
-    DOM.appendChild(DOM.defaultDoc().head, style);
-    var rules = [];
-    if (isPresent(style.sheet)) {
-      try {
-        rules = style.sheet.cssRules;
-      } catch (e) {}
-    } else {}
-    DOM.remove(style);
-    return rules;
+    return DOM.cssToRules(cssText);
   }
   function _withCssRules(cssText, callback) {
     if (isBlank(callback))
@@ -353,9 +341,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       _polyfillHostRe = RegExpWrapper.create(_polyfillHost, 'im');
       _colonHostRe = RegExpWrapper.create(':host', 'im');
       _colonHostContextRe = RegExpWrapper.create(':host-context', 'im');
-      Object.defineProperty(_cssTextToStyle, "parameters", {get: function() {
-          return [[assert.type.string]];
-        }});
       Object.defineProperty(_cssToRules, "parameters", {get: function() {
           return [[assert.type.string]];
         }});

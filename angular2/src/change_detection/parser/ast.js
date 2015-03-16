@@ -1,7 +1,6 @@
 System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./context_with_variable_bindings"], function($__export) {
   "use strict";
-  var FIELD,
-      autoConvertAdd,
+  var autoConvertAdd,
       isBlank,
       isPresent,
       FunctionWrapper,
@@ -42,7 +41,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
   }
   return {
     setters: [function($__m) {
-      FIELD = $__m.FIELD;
       autoConvertAdd = $__m.autoConvertAdd;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;

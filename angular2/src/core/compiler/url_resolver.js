@@ -25,8 +25,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter"], fu
         };
         return ($traceurRuntime.createClass)(UrlResolver, {resolve: function(baseUrl, url) {
             if (isBlank(baseUrl)) {
-              UrlResolver.a.href = url;
-              return UrlResolver.a.href;
+              DOM.resolveAndSetHref(UrlResolver.a, url, null);
+              return DOM.getHref(UrlResolver.a);
             }
             if (isBlank(url) || url == '')
               return baseUrl;
@@ -37,8 +37,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter"], fu
             if (isPresent(m[1])) {
               return url;
             }
-            UrlResolver.a.href = baseUrl + '/../' + url;
-            return UrlResolver.a.href;
+            DOM.resolveAndSetHref(UrlResolver.a, baseUrl, url);
+            return DOM.getHref(UrlResolver.a);
           }}, {});
       }()));
       Object.defineProperty(UrlResolver.prototype.resolve, "parameters", {get: function() {

@@ -46,20 +46,24 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               return ;
             }
             var attrs = current.attrs();
+            var newAttrs = MapWrapper.create();
             var desc = current.elementDescription;
             MapWrapper.forEach(attrs, (function(attrValue, attrName) {
               var bindParts = RegExpWrapper.firstMatch(BIND_NAME_REGEXP, attrName);
               if (isPresent(bindParts)) {
                 if (isPresent(bindParts[1])) {
                   current.addPropertyBinding(bindParts[4], $__0._parseBinding(attrValue, desc));
+                  MapWrapper.set(newAttrs, bindParts[4], attrValue);
                 } else if (isPresent(bindParts[2]) || isPresent(bindParts[7])) {
                   var identifier = (isPresent(bindParts[4]) && bindParts[4] !== '') ? bindParts[4] : bindParts[8];
                   var value = attrValue == '' ? '\$implicit' : attrValue;
                   current.addVariableBinding(identifier, value);
+                  MapWrapper.set(newAttrs, identifier, value);
                 } else if (isPresent(bindParts[3])) {
                   current.addEventBinding(bindParts[4], $__0._parseAction(attrValue, desc));
                 } else if (isPresent(bindParts[5])) {
                   current.addPropertyBinding(bindParts[5], $__0._parseBinding(attrValue, desc));
+                  MapWrapper.set(newAttrs, bindParts[5], attrValue);
                 } else if (isPresent(bindParts[6])) {
                   current.addEventBinding(bindParts[6], $__0._parseBinding(attrValue, desc));
                 }
@@ -69,6 +73,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
                   current.addPropertyBinding(attrName, ast);
                 }
               }
+            }));
+            MapWrapper.forEach(newAttrs, (function(attrValue, attrName) {
+              MapWrapper.set(attrs, attrName, attrValue);
             }));
           },
           _parseInterpolation: function(input, location) {

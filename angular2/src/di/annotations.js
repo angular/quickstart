@@ -4,6 +4,7 @@ System.register(["angular2/src/facade/lang"], function($__export) {
       Inject,
       InjectPromise,
       InjectLazy,
+      Optional,
       DependencyAnnotation;
   return {
     setters: [function($__m) {
@@ -35,6 +36,13 @@ System.register(["angular2/src/facade/lang"], function($__export) {
         return ($traceurRuntime.createClass)(InjectLazy, {}, {});
       }()));
       Object.defineProperty(InjectLazy, "annotations", {get: function() {
+          return [new CONST()];
+        }});
+      Optional = $__export("Optional", (function() {
+        var Optional = function Optional() {};
+        return ($traceurRuntime.createClass)(Optional, {}, {});
+      }()));
+      Object.defineProperty(Optional, "annotations", {get: function() {
           return [new CONST()];
         }});
       DependencyAnnotation = $__export("DependencyAnnotation", (function() {

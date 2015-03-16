@@ -1,10 +1,9 @@
-System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/browser_adapter", "angular2/src/dom/dom_adapter", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding", "angular2/src/core/compiler/component_url_mapper", "angular2/src/core/compiler/url_resolver", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/style_inliner"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/browser_adapter", "angular2/src/dom/dom_adapter", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding", "angular2/src/core/compiler/component_url_mapper", "angular2/src/core/compiler/url_resolver", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/style_inliner", "angular2/src/core/compiler/css_processor"], function($__export) {
   "use strict";
   var Injector,
       bind,
       OpaqueToken,
       Type,
-      FIELD,
       isBlank,
       isPresent,
       BaseException,
@@ -34,6 +33,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       LifeCycle,
       ShadowDomStrategy,
       NativeShadowDomStrategy,
+      EmulatedUnscopedShadowDomStrategy,
       XHR,
       XHRImpl,
       EventManager,
@@ -44,6 +44,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       UrlResolver,
       StyleUrlResolver,
       StyleInliner,
+      CssProcessor,
       _rootInjector,
       _rootBindings,
       appViewToken,
@@ -77,7 +78,11 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
     }), [ExceptionHandler]), bind(EventManager).toFactory((function(zone) {
       var plugins = [new HammerGesturesPlugin(), new DomEventsPlugin()];
       return new EventManager(plugins, zone);
-    }), [VmTurnZone]), bind(ShadowDomStrategy).toClass(NativeShadowDomStrategy), Compiler, CompilerCache, TemplateResolver, bind(ChangeDetection).toValue(dynamicChangeDetection), TemplateLoader, DirectiveMetadataReader, Parser, Lexer, ExceptionHandler, bind(XHR).toValue(new XHRImpl()), ComponentUrlMapper, UrlResolver, StyleUrlResolver, StyleInliner];
+    }), [VmTurnZone]), bind(ShadowDomStrategy).toFactory((function(styleUrlResolver, doc) {
+      return new EmulatedUnscopedShadowDomStrategy(styleUrlResolver, doc.head);
+    }), [StyleUrlResolver, appDocumentToken]), Compiler, CompilerCache, TemplateResolver, bind(ChangeDetection).toValue(dynamicChangeDetection), TemplateLoader, DirectiveMetadataReader, Parser, Lexer, ExceptionHandler, bind(XHR).toValue(new XHRImpl()), ComponentUrlMapper, UrlResolver, StyleUrlResolver, StyleInliner, bind(CssProcessor).toFactory((function() {
+      return new CssProcessor(null);
+    }), [])];
   }
   function _createVmZone(givenReporter) {
     var defaultErrorReporter = (function(exception, stackTrace) {
@@ -91,13 +96,13 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
     return zone;
   }
   function bootstrap(appComponentType) {
-    var bindings = arguments[1] !== (void 0) ? arguments[1] : null;
-    var givenBootstrapErrorReporter = arguments[2] !== (void 0) ? arguments[2] : null;
+    var componentServiceBindings = arguments[1] !== (void 0) ? arguments[1] : null;
+    var errorReporter = arguments[2] !== (void 0) ? arguments[2] : null;
     BrowserDomAdapter.makeCurrent();
     var bootstrapProcess = PromiseWrapper.completer();
-    var zone = _createVmZone(givenBootstrapErrorReporter);
+    var zone = _createVmZone(errorReporter);
     zone.run((function() {
-      var appInjector = _createAppInjector(appComponentType, bindings, zone);
+      var appInjector = _createAppInjector(appComponentType, componentServiceBindings, zone);
       PromiseWrapper.then(appInjector.asyncGet(appViewToken), (function(rootView) {
         var lc = appInjector.get(LifeCycle);
         lc.registerWith(zone, rootView.changeDetector);
@@ -124,7 +129,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       OpaqueToken = $__m.OpaqueToken;
     }, function($__m) {
       Type = $__m.Type;
-      FIELD = $__m.FIELD;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
       BaseException = $__m.BaseException;
@@ -169,6 +173,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
     }, function($__m) {
       ShadowDomStrategy = $__m.ShadowDomStrategy;
       NativeShadowDomStrategy = $__m.NativeShadowDomStrategy;
+      EmulatedUnscopedShadowDomStrategy = $__m.EmulatedUnscopedShadowDomStrategy;
     }, function($__m) {
       XHR = $__m.XHR;
     }, function($__m) {
@@ -188,6 +193,8 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       StyleUrlResolver = $__m.StyleUrlResolver;
     }, function($__m) {
       StyleInliner = $__m.StyleInliner;
+    }, function($__m) {
+      CssProcessor = $__m.CssProcessor;
     }],
     execute: function() {
       _rootBindings = [bind(Reflector).toValue(reflector)];

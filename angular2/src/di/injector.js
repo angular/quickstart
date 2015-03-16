@@ -21,6 +21,7 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
       PromiseWrapper,
       Key,
       _constructing,
+      _notFound,
       _Waiting,
       Injector,
       _SyncInjectorStrategy,
@@ -75,6 +76,7 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
     }],
     execute: function() {
       _constructing = new Object();
+      _notFound = new Object();
       _Waiting = (function() {
         var _Waiting = function _Waiting(promise) {
           this.promise = promise;
@@ -101,10 +103,13 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
         };
         return ($traceurRuntime.createClass)(Injector, {
           get: function(token) {
-            return this._getByKey(Key.get(token), false, false);
+            return this._getByKey(Key.get(token), false, false, false);
+          },
+          getOptional: function(token) {
+            return this._getByKey(Key.get(token), false, false, true);
           },
           asyncGet: function(token) {
-            return this._getByKey(Key.get(token), true, false);
+            return this._getByKey(Key.get(token), true, false, false);
           },
           createChild: function(bindings) {
             return new Injector(bindings, {parent: this});
@@ -119,30 +124,34 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
           _createInstances: function() {
             return ListWrapper.createFixedSize(Key.numberOfKeys + 1);
           },
-          _getByKey: function(key, returnPromise, returnLazy) {
+          _getByKey: function(key, returnPromise, returnLazy, optional) {
             var $__0 = this;
             if (returnLazy) {
               return (function() {
-                return $__0._getByKey(key, returnPromise, false);
+                return $__0._getByKey(key, returnPromise, false, optional);
               });
             }
             var strategy = returnPromise ? this._asyncStrategy : this._syncStrategy;
             var instance = strategy.readFromCache(key);
-            if (isPresent(instance))
+            if (instance !== _notFound)
               return instance;
             instance = strategy.instantiate(key);
-            if (isPresent(instance))
+            if (instance !== _notFound)
               return instance;
             if (isPresent(this._parent)) {
-              return this._parent._getByKey(key, returnPromise, returnLazy);
+              return this._parent._getByKey(key, returnPromise, returnLazy, optional);
             }
-            throw new NoProviderError(key);
+            if (optional) {
+              return null;
+            } else {
+              throw new NoProviderError(key);
+            }
           },
           _resolveDependencies: function(key, binding, forceAsync) {
             var $__0 = this;
             try {
               var getDependency = (function(d) {
-                return $__0._getByKey(d.key, forceAsync || d.asPromise, d.lazy);
+                return $__0._getByKey(d.key, forceAsync || d.asPromise, d.lazy, d.optional);
               });
               return ListWrapper.map(binding.dependencies, getDependency);
             } catch (e) {
@@ -183,7 +192,7 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
           return [[List]];
         }});
       Object.defineProperty(Injector.prototype._getByKey, "parameters", {get: function() {
-          return [[Key], [assert.type.boolean], [assert.type.boolean]];
+          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean]];
         }});
       Object.defineProperty(Injector.prototype._resolveDependencies, "parameters", {get: function() {
           return [[Key], [Binding], [assert.type.boolean]];
@@ -218,13 +227,13 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
             } else if (isPresent(instance) && !_isWaiting(instance)) {
               return instance;
             } else {
-              return null;
+              return _notFound;
             }
           },
           instantiate: function(key) {
             var binding = this.injector._getBinding(key);
             if (isBlank(binding))
-              return null;
+              return _notFound;
             if (binding.providedAsPromise)
               throw new AsyncBindingError(key);
             this.injector._markAsConstructing(key);
@@ -272,14 +281,14 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
             } else if (isPresent(instance)) {
               return PromiseWrapper.resolve(instance);
             } else {
-              return null;
+              return _notFound;
             }
           },
           instantiate: function(key) {
             var $__0 = this;
             var binding = this.injector._getBinding(key);
             if (isBlank(binding))
-              return null;
+              return _notFound;
             this.injector._markAsConstructing(key);
             var deps = this.injector._resolveDependencies(key, binding, true);
             var depsPromise = PromiseWrapper.all(deps);

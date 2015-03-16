@@ -4,7 +4,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       ListWrapper,
       SetWrapper,
       int,
-      FIELD,
       NumberWrapper,
       StringJoiner,
       StringWrapper,
@@ -172,7 +171,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       SetWrapper = $__m.SetWrapper;
     }, function($__m) {
       int = $__m.int;
-      FIELD = $__m.FIELD;
       NumberWrapper = $__m.NumberWrapper;
       StringJoiner = $__m.StringJoiner;
       StringWrapper = $__m.StringWrapper;

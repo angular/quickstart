@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model", "./validators"], function($__export) {
+System.register(["angular2/core", "angular2/di", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model", "./validators"], function($__export) {
   "use strict";
   var Template,
       Component,
@@ -6,9 +6,11 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
       NgElement,
       Ancestor,
       onChange,
+      Optional,
       DOM,
       isBlank,
       isPresent,
+      isString,
       CONST,
       StringMapWrapper,
       ListWrapper,
@@ -39,10 +41,13 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
       Ancestor = $__m.Ancestor;
       onChange = $__m.onChange;
     }, function($__m) {
+      Optional = $__m.Optional;
+    }, function($__m) {
       DOM = $__m.DOM;
     }, function($__m) {
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
+      isString = $__m.isString;
       CONST = $__m.CONST;
     }, function($__m) {
       StringMapWrapper = $__m.StringMapWrapper;
@@ -107,8 +112,8 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
           return [[assert.type.string]];
         }});
       ControlDirective = $__export("ControlDirective", (function() {
-        var ControlDirective = function ControlDirective(groupDecorator, el) {
-          this._groupDecorator = groupDecorator;
+        var ControlDirective = function ControlDirective(groupDirective, el) {
+          this._groupDirective = groupDirective;
           this._el = el;
           this.validator = validators.nullValidator;
         };
@@ -118,7 +123,7 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
           },
           _initialize: function() {
             var $__0 = this;
-            this._groupDecorator.addDirective(this);
+            this._groupDirective.addDirective(this);
             var c = this._control();
             c.validator = validators.compose([c.validator, this.validator]);
             if (isBlank(this.valueAccessor)) {
@@ -136,7 +141,7 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
             this._control().updateValue(this.valueAccessor.readValue(this._el.domElement));
           },
           _control: function() {
-            return this._groupDecorator.findControl(this.controlName);
+            return this._groupDirective.findControl(this.controlName);
           }
         }, {});
       }()));
@@ -154,13 +159,21 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
           return [[ControlGroupDirective, new Ancestor()], [NgElement]];
         }});
       ControlGroupDirective = $__export("ControlGroupDirective", (function() {
-        var ControlGroupDirective = function ControlGroupDirective() {
+        var ControlGroupDirective = function ControlGroupDirective(groupDirective) {
           $traceurRuntime.superConstructor(ControlGroupDirective).call(this);
+          this._groupDirective = groupDirective;
           this._directives = ListWrapper.create();
         };
         return ($traceurRuntime.createClass)(ControlGroupDirective, {
           set controlGroup(controlGroup) {
-            this._controlGroup = controlGroup;
+            if (isString(controlGroup)) {
+              this._controlGroupName = controlGroup;
+            } else {
+              this._controlGroup = controlGroup;
+            }
+            this._updateDomValue();
+          },
+          _updateDomValue: function() {
             ListWrapper.forEach(this._directives, (function(cd) {
               return cd._updateDomValue();
             }));
@@ -169,7 +182,14 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
             ListWrapper.push(this._directives, c);
           },
           findControl: function(name) {
-            return this._controlGroup.controls[name];
+            return this._getControlGroup().controls[name];
+          },
+          _getControlGroup: function() {
+            if (isPresent(this._controlGroupName)) {
+              return this._groupDirective.findControl(this._controlGroupName);
+            } else {
+              return this._controlGroup;
+            }
           }
         }, {});
       }()));
@@ -179,8 +199,8 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
             bind: {'controlGroup': 'control-group'}
           })];
         }});
-      Object.defineProperty(Object.getOwnPropertyDescriptor(ControlGroupDirective.prototype, "controlGroup").set, "parameters", {get: function() {
-          return [[ControlGroup]];
+      Object.defineProperty(ControlGroupDirective, "parameters", {get: function() {
+          return [[ControlGroupDirective, new Optional(), new Ancestor()]];
         }});
       Object.defineProperty(ControlGroupDirective.prototype.addDirective, "parameters", {get: function() {
           return [[ControlDirective]];

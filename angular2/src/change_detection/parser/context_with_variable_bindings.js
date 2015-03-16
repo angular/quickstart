@@ -30,13 +30,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
             }
           },
           clearValues: function() {
-            for (var $__1 = MapWrapper.keys(this.varBindings)[$traceurRuntime.toProperty(Symbol.iterator)](),
-                $__2 = void 0; !($__2 = $__1.next()).done; ) {
-              var k = $__2.value;
-              {
-                MapWrapper.set(this.varBindings, k, null);
-              }
-            }
+            MapWrapper.clearValues(this.varBindings);
           }
         }, {});
       }()));

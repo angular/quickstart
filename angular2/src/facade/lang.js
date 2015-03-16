@@ -6,7 +6,6 @@ System.register([], function($__export) {
       Date,
       assertionsEnabled_,
       int,
-      FIELD,
       CONST,
       ABSTRACT,
       IMPLEMENTS,
@@ -93,12 +92,6 @@ System.register([], function($__export) {
         _global.assert = function() {};
       }
       $__export("int", int);
-      FIELD = $__export("FIELD", (function() {
-        var FIELD = function FIELD(definition) {
-          this.definition = definition;
-        };
-        return ($traceurRuntime.createClass)(FIELD, {}, {});
-      }()));
       CONST = $__export("CONST", (function() {
         var CONST = function CONST() {};
         return ($traceurRuntime.createClass)(CONST, {}, {});
@@ -330,11 +323,20 @@ System.register([], function($__export) {
           fromMillis: function(ms) {
             return new Date(ms);
           },
+          toMillis: function(date) {
+            return date.getTime();
+          },
           now: function() {
             return new Date();
+          },
+          toJson: function(date) {
+            return date.toJSON();
           }
         });
       }()));
+      Object.defineProperty(DateWrapper.toMillis, "parameters", {get: function() {
+          return [[Date]];
+        }});
     }
   };
 });

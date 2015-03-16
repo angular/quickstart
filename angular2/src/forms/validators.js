@@ -1,12 +1,11 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/forms"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./model"], function($__export) {
   "use strict";
   var isBlank,
       isPresent,
       List,
       ListWrapper,
       StringMapWrapper,
-      ControlGroup,
-      Control;
+      modelModule;
   function required(c) {
     return isBlank(c.value) || c.value == "" ? {"required": true} : null;
   }
@@ -25,7 +24,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
   function controlGroupValidator(c) {
     var res = {};
     StringMapWrapper.forEach(c.controls, (function(control, name) {
-      if (control.active && isPresent(control.errors)) {
+      if (c.contains(name) && isPresent(control.errors)) {
         StringMapWrapper.forEach(control.errors, (function(value, error) {
           if (!StringMapWrapper.contains(res, error)) {
             res[error] = [];
@@ -49,21 +48,20 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ListWrapper = $__m.ListWrapper;
       StringMapWrapper = $__m.StringMapWrapper;
     }, function($__m) {
-      ControlGroup = $__m.ControlGroup;
-      Control = $__m.Control;
+      modelModule = $__m;
     }],
     execute: function() {
       Object.defineProperty(required, "parameters", {get: function() {
-          return [[Control]];
+          return [[modelModule.Control]];
         }});
       Object.defineProperty(nullValidator, "parameters", {get: function() {
-          return [[Control]];
+          return [[modelModule.Control]];
         }});
       Object.defineProperty(compose, "parameters", {get: function() {
           return [[assert.genericType(List, Function)]];
         }});
       Object.defineProperty(controlGroupValidator, "parameters", {get: function() {
-          return [[ControlGroup]];
+          return [[modelModule.ControlGroup]];
         }});
     }
   };

@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "../selector", "../directive_metadata", "../../annotations/annotations", "./compile_step", "./compile_element", "./compile_control", "./element_binder_builder"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "../selector", "../directive_metadata", "../../annotations/annotations", "./compile_step", "./compile_element", "./compile_control", "./element_binder_builder", "./util"], function($__export) {
   "use strict";
   var isPresent,
       isBlank,
@@ -18,6 +18,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       CompileElement,
       CompileControl,
       isSpecialProperty,
+      dashCaseToCamelCase,
+      camelCaseToDashCase,
       PROPERTY_BINDING_REGEXP,
       DirectiveParser;
   function updateMatchedProperties(matchedProperties, selector, directive) {
@@ -28,7 +30,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       }
       if (isPresent(attrs)) {
         for (var idx = 0; idx < attrs.length; idx += 2) {
-          StringMapWrapper.set(matchedProperties, attrs[idx], true);
+          StringMapWrapper.set(matchedProperties, dashCaseToCamelCase(attrs[idx]), true);
         }
       }
       if (isPresent(directive.annotation) && isPresent(directive.annotation.bind)) {
@@ -36,7 +38,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         StringMapWrapper.forEach(bindMap, (function(value, key) {
           var bindProp = RegExpWrapper.firstMatch(PROPERTY_BINDING_REGEXP, value);
           if (isPresent(bindProp) && isPresent(bindProp[1])) {
-            StringMapWrapper.set(matchedProperties, bindProp[1], true);
+            StringMapWrapper.set(matchedProperties, dashCaseToCamelCase(bindProp[1]), true);
           }
         }));
       }
@@ -63,7 +65,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         MapWrapper.forEach(ppBindings, (function(expression, prop) {
           if (!DOM.hasProperty(current.element, prop) && !isSpecialProperty(prop)) {
             if (!isPresent(matchedProperties) || !isPresent(StringMapWrapper.get(matchedProperties, prop))) {
-              throw new BaseException(("Missing directive to handle '" + prop + "' in " + current.elementDescription));
+              throw new BaseException(("Missing directive to handle '" + camelCaseToDashCase(prop) + "' in " + current.elementDescription));
             }
           }
         }));
@@ -102,9 +104,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       CompileControl = $__m.CompileControl;
     }, function($__m) {
       isSpecialProperty = $__m.isSpecialProperty;
+    }, function($__m) {
+      dashCaseToCamelCase = $__m.dashCaseToCamelCase;
+      camelCaseToDashCase = $__m.camelCaseToDashCase;
     }],
     execute: function() {
-      ;
       PROPERTY_BINDING_REGEXP = RegExpWrapper.create('^ *([^\\s\\|]+)');
       DirectiveParser = $__export("DirectiveParser", (function($__super) {
         var DirectiveParser = function DirectiveParser(directives) {
@@ -126,20 +130,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               cssSelector.addClassName(classList[i]);
             }
             MapWrapper.forEach(attrs, (function(attrValue, attrName) {
-              if (isBlank(current.propertyBindings) || isPresent(current.propertyBindings) && !MapWrapper.contains(current.propertyBindings, attrName)) {
-                cssSelector.addAttribute(attrName, attrValue);
-              }
+              cssSelector.addAttribute(attrName, attrValue);
             }));
-            if (isPresent(current.propertyBindings)) {
-              MapWrapper.forEach(current.propertyBindings, (function(expression, prop) {
-                cssSelector.addAttribute(prop, expression.source);
-              }));
-            }
-            if (isPresent(current.variableBindings)) {
-              MapWrapper.forEach(current.variableBindings, (function(value, name) {
-                cssSelector.addAttribute(name, value);
-              }));
-            }
             var isTemplateElement = DOM.isTemplateElement(current.element);
             var matchedProperties;
             this._selectorMatcher.match(cssSelector, (function(selector, directive) {

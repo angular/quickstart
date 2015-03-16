@@ -28,13 +28,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
+              events = $__1.events,
               implementsTypes = $__1.implementsTypes,
               lifecycle = $__1.lifecycle;
           this.selector = selector;
-          this.lightDomServices = lightDomServices;
           this.implementsTypes = implementsTypes;
           this.bind = bind;
+          this.events = events;
           this.lifecycle = lifecycle;
         };
         return ($traceurRuntime.createClass)(Directive, {hasLifecycleHook: function(hook) {
@@ -52,22 +52,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
-              shadowDomServices = $__1.shadowDomServices,
-              componentServices = $__1.componentServices,
+              events = $__1.events,
+              services = $__1.services,
               implementsTypes = $__1.implementsTypes,
               lifecycle = $__1.lifecycle;
           $traceurRuntime.superConstructor(Component).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
+            events: events,
             implementsTypes: implementsTypes,
             lifecycle: lifecycle
           });
-          this.lightDomServices = lightDomServices;
-          this.shadowDomServices = shadowDomServices;
-          this.componentServices = componentServices;
-          this.lifecycle = lifecycle;
+          this.services = services;
         };
         return ($traceurRuntime.createClass)(Component, {}, {}, $__super);
       }(Directive)));
@@ -80,7 +76,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
+              events = $__1.events,
               implementsTypes = $__1.implementsTypes,
               lifecycle = $__1.lifecycle,
               compileChildren = ($__2 = $__1.compileChildren) === void 0 ? true : $__2;
@@ -88,7 +84,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           $traceurRuntime.superConstructor(Decorator).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
+            events: events,
             implementsTypes: implementsTypes,
             lifecycle: lifecycle
           });
@@ -103,13 +99,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
+              events = $__1.events,
               implementsTypes = $__1.implementsTypes,
               lifecycle = $__1.lifecycle;
           $traceurRuntime.superConstructor(Viewport).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
+            events: events,
             implementsTypes: implementsTypes,
             lifecycle: lifecycle
           });

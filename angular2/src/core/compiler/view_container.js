@@ -1,4 +1,4 @@
-System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/compiler/element_injector", "angular2/src/core/events/event_manager"], function($__export) {
+System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/compiler/element_injector", "angular2/src/core/events/event_manager", "./shadow_dom_emulation/light_dom"], function($__export) {
   "use strict";
   var viewModule,
       DOM,
@@ -11,6 +11,7 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
       isPresent,
       isBlank,
       EventManager,
+      ldModule,
       ViewContainer;
   return {
     setters: [function($__m) {
@@ -31,6 +32,8 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
       eiModule = $__m;
     }, function($__m) {
       EventManager = $__m.EventManager;
+    }, function($__m) {
+      ldModule = $__m;
     }],
     execute: function() {
       ViewContainer = $__export("ViewContainer", (function() {
@@ -44,16 +47,19 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
           this._views = [];
           this.appInjector = null;
           this.hostElementInjector = null;
+          this.hostLightDom = null;
           this._eventManager = eventManager;
         };
         return ($traceurRuntime.createClass)(ViewContainer, {
           hydrate: function(appInjector, hostElementInjector) {
             this.appInjector = appInjector;
             this.hostElementInjector = hostElementInjector;
+            this.hostLightDom = isPresent(hostElementInjector) ? hostElementInjector.get(ldModule.LightDom) : null;
           },
           dehydrate: function() {
             this.appInjector = null;
             this.hostElementInjector = null;
+            this.hostLightDom = null;
             this.clear();
           },
           clear: function() {
@@ -82,6 +88,9 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
             var newView = this.defaultProtoView.instantiate(this.hostElementInjector, this._eventManager);
             this.insert(newView, atIndex);
             newView.hydrate(this.appInjector, this.hostElementInjector, this.parentView.context);
+            if (isPresent(this.hostLightDom)) {
+              this.hostLightDom.redistribute();
+            }
             return newView;
           },
           insert: function(view) {
@@ -116,6 +125,9 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
               ViewContainer.removeViewNodesFromParent(this.templateElement.parentNode, detachedView);
             } else {
               this._lightDom.redistribute();
+            }
+            if (isPresent(this.hostLightDom)) {
+              this.hostLightDom.redistribute();
             }
             detachedView.changeDetector.remove();
             this._unlinkElementInjectors(detachedView);
