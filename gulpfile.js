@@ -1,7 +1,9 @@
 var gulp = require('gulp');
 var shell = require('gulp-shell');
-var del = require('del');
 var concat = require('gulp-concat');
+var webserver = require('gulp-webserver');
+
+var del = require('del');
 var runSequence = require('run-sequence');
 
 // static dependencies for Angular2
@@ -34,6 +36,16 @@ gulp.task('clean', function(cb) {
     './rtts_assert',
     './dist'
   ], cb);
+});
+
+// start the http-server
+gulp.task('serve', function() {
+  gulp.src('.')
+    .pipe(webserver({
+      livereload: true,
+      directoryListening: true,
+      open: true
+    }))
 });
 
 // Synchronous build
