@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "angular2": "^2.0.0-alpha.14",
-    "rtts_assert": "^2.0.0-alpha.14",
+    "rtts_assert": "^2.0.0-alpha.7",
     "systemjs": "^0.14.1",
     "zone.js": "^0.4.1"
   }
