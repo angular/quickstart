@@ -1,5 +1,5 @@
 {
-  "name": "es6-shim",
+  "name": "angular2/quickstart",
   "version": "0.0.1",
   "description": "",
   "main": "gulpfile.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/davideast/es6-shim.git"
+    "url": "https://github.com/angular/quickstart.git"
   },
   "author": "",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/davideast/es6-shim/issues"
+    "url": "https://github.com/angular/quickstart/issues"
   },
-  "homepage": "https://github.com/davideast/es6-shim",
+  "homepage": "https://github.com/angular/quickstart",
   "devDependencies": {
     "del": "^1.1.1",
     "gulp": "^3.8.11",
