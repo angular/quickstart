@@ -151,6 +151,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           getShadowRoot: function(el) {
             throw _abstract();
           },
+          getDistributedNodes: function(el) {
+            throw _abstract();
+          },
           clone: function(node) {
             throw _abstract();
           },
@@ -208,6 +211,12 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           defaultDoc: function() {
             throw _abstract();
           },
+          getTitle: function() {
+            throw _abstract();
+          },
+          setTitle: function(newTitle) {
+            throw _abstract();
+          },
           elementMatches: function(n, selector) {
             throw _abstract();
           },
@@ -240,6 +249,21 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           },
           isKeyframesRule: function(rule) {
             throw _abstract();
+          },
+          getHref: function(element) {
+            throw _abstract();
+          },
+          resolveAndSetHref: function(element, baseUrl, href) {
+            throw _abstract();
+          },
+          cssToRules: function(css) {
+            throw _abstract();
+          },
+          supportsDOMEvents: function() {
+            throw _abstract();
+          },
+          supportsNativeShadowDOM: function() {
+            throw _abstract();
           }
         }, {});
       }()));
@@ -247,6 +271,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           return [new ABSTRACT()];
         }});
       Object.defineProperty(DomAdapter.prototype.parse, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(DomAdapter.prototype.query, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
       Object.defineProperty(DomAdapter.prototype.querySelector, "parameters", {get: function() {
@@ -309,11 +336,20 @@ System.register(["angular2/src/facade/lang"], function($__export) {
       Object.defineProperty(DomAdapter.prototype.removeAttribute, "parameters", {get: function() {
           return [[], [assert.type.string]];
         }});
+      Object.defineProperty(DomAdapter.prototype.setTitle, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
       Object.defineProperty(DomAdapter.prototype.elementMatches, "parameters", {get: function() {
           return [[], [assert.type.string]];
         }});
       Object.defineProperty(DomAdapter.prototype.isTemplateElement, "parameters", {get: function() {
           return [[assert.type.any]];
+        }});
+      Object.defineProperty(DomAdapter.prototype.resolveAndSetHref, "parameters", {get: function() {
+          return [[], [assert.type.string], [assert.type.string]];
+        }});
+      Object.defineProperty(DomAdapter.prototype.cssToRules, "parameters", {get: function() {
+          return [[assert.type.string]];
         }});
     }
   };

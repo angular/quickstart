@@ -1,6 +1,7 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "./xhr/xhr", "angular2/src/core/annotations/template", "./url_resolver"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "./xhr/xhr", "angular2/src/core/annotations/template", "./url_resolver"], function($__export) {
   "use strict";
-  var isBlank,
+  var Injectable,
+      isBlank,
       isPresent,
       BaseException,
       stringify,
@@ -15,6 +16,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       TemplateLoader;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
       BaseException = $__m.BaseException;
@@ -83,6 +86,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           }
         }, {});
       }()));
+      Object.defineProperty(TemplateLoader, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(TemplateLoader, "parameters", {get: function() {
           return [[XHR], [UrlResolver]];
         }});

@@ -3,13 +3,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
   var isPresent,
       StringMap,
       StringMapWrapper,
-      nullValidator,
-      controlGroupValidator,
+      Validators,
       VALID,
       INVALID,
+      AbstractControl,
       Control,
-      ControlGroup,
-      OptionalControl;
+      ControlGroup;
   return {
     setters: [function($__m) {
       isPresent = $__m.isPresent;
@@ -17,29 +16,20 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       StringMap = $__m.StringMap;
       StringMapWrapper = $__m.StringMapWrapper;
     }, function($__m) {
-      nullValidator = $__m.nullValidator;
-      controlGroupValidator = $__m.controlGroupValidator;
+      Validators = $__m.Validators;
     }],
     execute: function() {
       VALID = $__export("VALID", "VALID");
       INVALID = $__export("INVALID", "INVALID");
-      Control = $__export("Control", (function() {
-        var Control = function Control(value) {
-          var validator = arguments[1] !== (void 0) ? arguments[1] : nullValidator;
-          this._value = value;
+      AbstractControl = $__export("AbstractControl", (function() {
+        var AbstractControl = function AbstractControl(validator) {
           this.validator = validator;
-          this._dirty = true;
+          this._updateNeeded = true;
+          this._pristine = true;
         };
-        return ($traceurRuntime.createClass)(Control, {
-          updateValue: function(value) {
-            this._value = value;
-            this._dirty = true;
-            this._updateParent();
-          },
-          get active() {
-            return true;
-          },
+        return ($traceurRuntime.createClass)(AbstractControl, {
           get value() {
+            this._updateIfNeeded();
             return this._value;
           },
           get status() {
@@ -54,16 +44,17 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             this._updateIfNeeded();
             return this._errors;
           },
+          get pristine() {
+            this._updateIfNeeded();
+            return this._pristine;
+          },
+          get dirty() {
+            return !this.pristine;
+          },
           setParent: function(parent) {
             this._parent = parent;
           },
-          _updateIfNeeded: function() {
-            if (this._dirty) {
-              this._dirty = false;
-              this._errors = this.validator(this);
-              this._status = isPresent(this._errors) ? INVALID : VALID;
-            }
-          },
+          _updateIfNeeded: function() {},
           _updateParent: function() {
             if (isPresent(this._parent)) {
               this._parent._controlChanged();
@@ -71,36 +62,58 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           }
         }, {});
       }()));
+      Object.defineProperty(AbstractControl, "parameters", {get: function() {
+          return [[Function]];
+        }});
+      Control = $__export("Control", (function($__super) {
+        var Control = function Control(value) {
+          var validator = arguments[1] !== (void 0) ? arguments[1] : Validators.nullValidator;
+          $traceurRuntime.superConstructor(Control).call(this, validator);
+          this._value = value;
+        };
+        return ($traceurRuntime.createClass)(Control, {
+          updateValue: function(value) {
+            this._value = value;
+            this._updateNeeded = true;
+            this._pristine = false;
+            this._updateParent();
+          },
+          _updateIfNeeded: function() {
+            if (this._updateNeeded) {
+              this._updateNeeded = false;
+              this._errors = this.validator(this);
+              this._status = isPresent(this._errors) ? INVALID : VALID;
+            }
+          }
+        }, {}, $__super);
+      }(AbstractControl)));
       Object.defineProperty(Control, "parameters", {get: function() {
           return [[assert.type.any], [Function]];
         }});
       Object.defineProperty(Control.prototype.updateValue, "parameters", {get: function() {
           return [[assert.type.any]];
         }});
-      ControlGroup = $__export("ControlGroup", (function() {
+      ControlGroup = $__export("ControlGroup", (function($__super) {
         var ControlGroup = function ControlGroup(controls) {
-          var validator = arguments[1] !== (void 0) ? arguments[1] : controlGroupValidator;
+          var optionals = arguments[1] !== (void 0) ? arguments[1] : null;
+          var validator = arguments[2] !== (void 0) ? arguments[2] : Validators.group;
+          $traceurRuntime.superConstructor(ControlGroup).call(this, validator);
           this.controls = controls;
-          this.validator = validator;
-          this._dirty = true;
+          this.optionals = isPresent(optionals) ? optionals : {};
           this._setParentForControls();
         };
         return ($traceurRuntime.createClass)(ControlGroup, {
-          get value() {
-            this._updateIfNeeded();
-            return this._value;
+          include: function(controlName) {
+            this._updateNeeded = true;
+            StringMapWrapper.set(this.optionals, controlName, true);
           },
-          get status() {
-            this._updateIfNeeded();
-            return this._status;
+          exclude: function(controlName) {
+            this._updateNeeded = true;
+            StringMapWrapper.set(this.optionals, controlName, false);
           },
-          get valid() {
-            this._updateIfNeeded();
-            return this._status === VALID;
-          },
-          get errors() {
-            this._updateIfNeeded();
-            return this._errors;
+          contains: function(controlName) {
+            var c = StringMapWrapper.contains(this.controls, controlName);
+            return c && this._included(controlName);
           },
           _setParentForControls: function() {
             var $__0 = this;
@@ -109,78 +122,62 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             }));
           },
           _updateIfNeeded: function() {
-            if (this._dirty) {
-              this._dirty = false;
+            if (this._updateNeeded) {
+              this._updateNeeded = false;
               this._value = this._reduceValue();
+              this._pristine = this._reducePristine();
               this._errors = this.validator(this);
               this._status = isPresent(this._errors) ? INVALID : VALID;
             }
           },
           _reduceValue: function() {
-            var newValue = {};
+            return this._reduceChildren({}, (function(acc, control, name) {
+              acc[name] = control.value;
+              return acc;
+            }));
+          },
+          _reducePristine: function() {
+            return this._reduceChildren(true, (function(acc, control, name) {
+              return acc && control.pristine;
+            }));
+          },
+          _reduceChildren: function(initValue, fn) {
+            var $__0 = this;
+            var res = initValue;
             StringMapWrapper.forEach(this.controls, (function(control, name) {
-              if (control.active) {
-                newValue[name] = control.value;
+              if ($__0._included(name)) {
+                res = fn(res, control, name);
               }
             }));
-            return newValue;
+            return res;
           },
           _controlChanged: function() {
-            this._dirty = true;
+            this._updateNeeded = true;
+            this._updateParent();
+          },
+          _included: function(controlName) {
+            var isOptional = StringMapWrapper.contains(this.optionals, controlName);
+            return !isOptional || StringMapWrapper.get(this.optionals, controlName);
           }
-        }, {});
-      }()));
+        }, {}, $__super);
+      }(AbstractControl)));
       Object.defineProperty(ControlGroup, "parameters", {get: function() {
+          return [[], [], [Function]];
+        }});
+      Object.defineProperty(ControlGroup.prototype.include, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(ControlGroup.prototype.exclude, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(ControlGroup.prototype.contains, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
+      Object.defineProperty(ControlGroup.prototype._reduceChildren, "parameters", {get: function() {
           return [[], [Function]];
         }});
-      OptionalControl = $__export("OptionalControl", (function() {
-        var OptionalControl = function OptionalControl(control, cond) {
-          $traceurRuntime.superConstructor(OptionalControl).call(this);
-          this._control = control;
-          this._cond = cond;
-        };
-        return ($traceurRuntime.createClass)(OptionalControl, {
-          get active() {
-            return this._cond;
-          },
-          get value() {
-            return this._control.value;
-          },
-          get status() {
-            return this._control.status;
-          },
-          get errors() {
-            return this._control.errors;
-          },
-          set validator(v) {
-            this._control.validator = v;
-          },
-          get validator() {
-            return this._control.validator;
-          },
-          set cond(value) {
-            this._cond = value;
-            this._control._updateParent();
-          },
-          get cond() {
-            return this._cond;
-          },
-          updateValue: function(value) {
-            this._control.updateValue(value);
-          },
-          setParent: function(parent) {
-            this._control.setParent(parent);
-          }
-        }, {});
-      }()));
-      Object.defineProperty(OptionalControl, "parameters", {get: function() {
-          return [[Control], [assert.type.boolean]];
-        }});
-      Object.defineProperty(Object.getOwnPropertyDescriptor(OptionalControl.prototype, "cond").set, "parameters", {get: function() {
-          return [[assert.type.boolean]];
-        }});
-      Object.defineProperty(OptionalControl.prototype.updateValue, "parameters", {get: function() {
-          return [[assert.type.any]];
+      Object.defineProperty(ControlGroup.prototype._included, "parameters", {get: function() {
+          return [[assert.type.string]];
         }});
     }
   };

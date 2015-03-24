@@ -1,10 +1,10 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/collection", "angular2/src/facade/lang"], function($__export) {
   "use strict";
-  var List,
+  var Injectable,
+      List,
       ListWrapper,
       SetWrapper,
       int,
-      FIELD,
       NumberWrapper,
       StringJoiner,
       StringWrapper,
@@ -167,12 +167,13 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
   }
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       List = $__m.List;
       ListWrapper = $__m.ListWrapper;
       SetWrapper = $__m.SetWrapper;
     }, function($__m) {
       int = $__m.int;
-      FIELD = $__m.FIELD;
       NumberWrapper = $__m.NumberWrapper;
       StringJoiner = $__m.StringJoiner;
       StringWrapper = $__m.StringWrapper;
@@ -197,6 +198,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
             return tokens;
           }}, {});
       }()));
+      Object.defineProperty(Lexer, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(Lexer.prototype.tokenize, "parameters", {get: function() {
           return [[assert.type.string]];
         }});

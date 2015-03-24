@@ -1,13 +1,13 @@
 System.register(["./compile_element", "./compile_control"], function($__export) {
   "use strict";
   var CompileElement,
-      CompileControl,
+      ccModule,
       CompileStep;
   return {
     setters: [function($__m) {
       CompileElement = $__m.CompileElement;
     }, function($__m) {
-      CompileControl = $__m.CompileControl;
+      ccModule = $__m;
     }],
     execute: function() {
       CompileStep = $__export("CompileStep", (function() {
@@ -15,7 +15,7 @@ System.register(["./compile_element", "./compile_control"], function($__export) 
         return ($traceurRuntime.createClass)(CompileStep, {process: function(parent, current, control) {}}, {});
       }()));
       Object.defineProperty(CompileStep.prototype.process, "parameters", {get: function() {
-          return [[CompileElement], [CompileElement], [CompileControl]];
+          return [[CompileElement], [CompileElement], [ccModule.CompileControl]];
         }});
     }
   };

@@ -6,7 +6,7 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
       isPresent,
       isBlank,
       ListWrapper,
-      Foreach,
+      For,
       RecordViewTuple;
   return {
     setters: [function($__m) {
@@ -22,12 +22,12 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
       ListWrapper = $__m.ListWrapper;
     }],
     execute: function() {
-      Foreach = $__export("Foreach", (function() {
-        var Foreach = function Foreach(viewContainer) {
-          $traceurRuntime.superConstructor(Foreach).call(this);
+      For = $__export("For", (function() {
+        var For = function For(viewContainer) {
+          $traceurRuntime.superConstructor(For).call(this);
           this.viewContainer = viewContainer;
         };
-        return ($traceurRuntime.createClass)(Foreach, {
+        return ($traceurRuntime.createClass)(For, {
           set iterableChanges(changes) {
             if (isBlank(changes)) {
               this.viewContainer.clear();
@@ -40,11 +40,11 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
             changes.forEachMovedItem((function(movedRecord) {
               return ListWrapper.push(recordViewTuples, new RecordViewTuple(movedRecord, null));
             }));
-            var insertTuples = Foreach.bulkRemove(recordViewTuples, this.viewContainer);
+            var insertTuples = For.bulkRemove(recordViewTuples, this.viewContainer);
             changes.forEachAddedItem((function(addedRecord) {
               return ListWrapper.push(insertTuples, new RecordViewTuple(addedRecord, null));
             }));
-            Foreach.bulkInsert(insertTuples, this.viewContainer);
+            For.bulkInsert(insertTuples, this.viewContainer);
             for (var i = 0; i < insertTuples.length; i++) {
               this.perViewChange(insertTuples[i].view, insertTuples[i].record);
             }
@@ -86,13 +86,13 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
           }
         });
       }()));
-      Object.defineProperty(Foreach, "annotations", {get: function() {
+      Object.defineProperty(For, "annotations", {get: function() {
           return [new Viewport({
-            selector: '[foreach][in]',
-            bind: {'iterableChanges': 'in | iterableDiff'}
+            selector: '[for][of]',
+            bind: {'iterableChanges': 'of | iterableDiff'}
           })];
         }});
-      Object.defineProperty(Foreach, "parameters", {get: function() {
+      Object.defineProperty(For, "parameters", {get: function() {
           return [[ViewContainer]];
         }});
       RecordViewTuple = (function() {
@@ -106,6 +106,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
   };
 });
 
-//# sourceMappingURL=src/directives/foreach.map
+//# sourceMappingURL=src/directives/for.map
 
-//# sourceMappingURL=../../src/directives/foreach.js.map
+//# sourceMappingURL=../../src/directives/for.js.map

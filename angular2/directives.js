@@ -1,4 +1,4 @@
-System.register(["./src/directives/foreach", "./src/directives/if", "./src/directives/non_bindable", "./src/directives/switch"], function($__export) {
+System.register(["./src/directives/for", "./src/directives/if", "./src/directives/non_bindable", "./src/directives/switch"], function($__export) {
   "use strict";
   var $__exportNames = {};
   var $__exportNames = {};

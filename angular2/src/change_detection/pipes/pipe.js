@@ -12,6 +12,7 @@ System.register([], function($__export) {
           supports: function(obj) {
             return false;
           },
+          onDestroy: function() {},
           transform: function(value) {
             return null;
           }

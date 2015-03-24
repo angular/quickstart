@@ -1,6 +1,7 @@
-System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/url_resolver", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/async"], function($__export) {
+System.register(["angular2/di", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/url_resolver", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/async"], function($__export) {
   "use strict";
-  var XHR,
+  var Injectable,
+      XHR,
       StyleUrlResolver,
       UrlResolver,
       ListWrapper,
@@ -34,6 +35,8 @@ System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compil
   }
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       XHR = $__m.XHR;
     }, function($__m) {
       StyleUrlResolver = $__m.StyleUrlResolver;
@@ -116,6 +119,9 @@ System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compil
           }
         }, {});
       }()));
+      Object.defineProperty(StyleInliner, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(StyleInliner, "parameters", {get: function() {
           return [[XHR], [StyleUrlResolver], [UrlResolver]];
         }});

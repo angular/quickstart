@@ -6,7 +6,6 @@ System.register([], function($__export) {
       Date,
       assertionsEnabled_,
       int,
-      FIELD,
       CONST,
       ABSTRACT,
       IMPLEMENTS,
@@ -29,6 +28,9 @@ System.register([], function($__export) {
   }
   function isString(obj) {
     return typeof obj === "string";
+  }
+  function isFunction(obj) {
+    return typeof obj === "function";
   }
   function stringify(token) {
     if (typeof token === 'string') {
@@ -67,6 +69,7 @@ System.register([], function($__export) {
   $__export("isPresent", isPresent);
   $__export("isBlank", isBlank);
   $__export("isString", isString);
+  $__export("isFunction", isFunction);
   $__export("stringify", stringify);
   $__export("looseIdentical", looseIdentical);
   $__export("getMapKey", getMapKey);
@@ -93,12 +96,6 @@ System.register([], function($__export) {
         _global.assert = function() {};
       }
       $__export("int", int);
-      FIELD = $__export("FIELD", (function() {
-        var FIELD = function FIELD(definition) {
-          this.definition = definition;
-        };
-        return ($traceurRuntime.createClass)(FIELD, {}, {});
-      }()));
       CONST = $__export("CONST", (function() {
         var CONST = function CONST() {};
         return ($traceurRuntime.createClass)(CONST, {}, {});
@@ -297,6 +294,7 @@ System.register([], function($__export) {
             return input.match(regExp.single);
           },
           matcher: function(regExp, input) {
+            regExp.multiple.lastIndex = 0;
             return {
               re: regExp.multiple,
               input: input
@@ -330,11 +328,20 @@ System.register([], function($__export) {
           fromMillis: function(ms) {
             return new Date(ms);
           },
+          toMillis: function(date) {
+            return date.getTime();
+          },
           now: function() {
             return new Date();
+          },
+          toJson: function(date) {
+            return date.toJSON();
           }
         });
       }()));
+      Object.defineProperty(DateWrapper.toMillis, "parameters", {get: function() {
+          return [[Date]];
+        }});
     }
   };
 });

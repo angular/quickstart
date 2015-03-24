@@ -1,6 +1,7 @@
-System.register(["angular2/src/facade/lang", "../annotations/annotations", "./directive_metadata", "angular2/src/reflection/reflection"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "../annotations/annotations", "./directive_metadata", "angular2/src/reflection/reflection"], function($__export) {
   "use strict";
-  var Type,
+  var Injectable,
+      Type,
       isPresent,
       BaseException,
       stringify,
@@ -10,6 +11,8 @@ System.register(["angular2/src/facade/lang", "../annotations/annotations", "./di
       DirectiveMetadataReader;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       Type = $__m.Type;
       isPresent = $__m.isPresent;
       BaseException = $__m.BaseException;
@@ -37,6 +40,9 @@ System.register(["angular2/src/facade/lang", "../annotations/annotations", "./di
             throw new BaseException(("No Directive annotation found on " + stringify(type)));
           }}, {});
       }()));
+      Object.defineProperty(DirectiveMetadataReader, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(DirectiveMetadataReader.prototype.read, "parameters", {get: function() {
           return [[Type]];
         }});

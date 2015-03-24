@@ -1,4 +1,4 @@
-System.register(["angular2/change_detection", "angular2/src/facade/collection", "./property_binding_parser", "./text_interpolation_parser", "./directive_parser", "./view_splitter", "./element_binding_marker", "./proto_view_builder", "./proto_element_injector_builder", "./element_binder_builder", "./resolve_css", "./shim_shadow_dom", "angular2/src/core/compiler/directive_metadata", "angular2/src/core/compiler/shadow_dom_strategy"], function($__export) {
+System.register(["angular2/change_detection", "angular2/src/facade/collection", "./property_binding_parser", "./text_interpolation_parser", "./directive_parser", "./view_splitter", "./element_binding_marker", "./proto_view_builder", "./proto_element_injector_builder", "./element_binder_builder", "angular2/src/core/compiler/css_processor", "angular2/src/core/compiler/directive_metadata", "angular2/src/core/compiler/shadow_dom_strategy"], function($__export) {
   "use strict";
   var ChangeDetection,
       Parser,
@@ -12,17 +12,12 @@ System.register(["angular2/change_detection", "angular2/src/facade/collection", 
       ProtoViewBuilder,
       ProtoElementInjectorBuilder,
       ElementBinderBuilder,
-      ResolveCss,
-      ShimShadowDom,
+      CssProcessor,
       DirectiveMetadata,
       ShadowDomStrategy,
       EmulatedScopedShadowDomStrategy;
-  function createDefaultSteps(changeDetection, parser, compiledComponent, directives, shadowDomStrategy, templateUrl) {
-    var steps = [new ViewSplitter(parser), new ResolveCss(compiledComponent, shadowDomStrategy, templateUrl), new PropertyBindingParser(parser), new DirectiveParser(directives), new TextInterpolationParser(parser), new ElementBindingMarker(), new ProtoViewBuilder(changeDetection, shadowDomStrategy), new ProtoElementInjectorBuilder(), new ElementBinderBuilder(parser)];
-    if (shadowDomStrategy instanceof EmulatedScopedShadowDomStrategy) {
-      var step = new ShimShadowDom(compiledComponent, shadowDomStrategy);
-      ListWrapper.push(steps, step);
-    }
+  function createDefaultSteps(changeDetection, parser, compiledComponent, directives, shadowDomStrategy, templateUrl, cssProcessor) {
+    var steps = [new ViewSplitter(parser), cssProcessor.getCompileStep(compiledComponent, shadowDomStrategy, templateUrl), shadowDomStrategy.getTemplateCompileStep(compiledComponent), new PropertyBindingParser(parser), new DirectiveParser(directives), new TextInterpolationParser(parser), new ElementBindingMarker(), new ProtoViewBuilder(changeDetection, shadowDomStrategy), new ProtoElementInjectorBuilder(), new ElementBinderBuilder(parser)];
     return steps;
   }
   $__export("createDefaultSteps", createDefaultSteps);
@@ -50,9 +45,7 @@ System.register(["angular2/change_detection", "angular2/src/facade/collection", 
     }, function($__m) {
       ElementBinderBuilder = $__m.ElementBinderBuilder;
     }, function($__m) {
-      ResolveCss = $__m.ResolveCss;
-    }, function($__m) {
-      ShimShadowDom = $__m.ShimShadowDom;
+      CssProcessor = $__m.CssProcessor;
     }, function($__m) {
       DirectiveMetadata = $__m.DirectiveMetadata;
     }, function($__m) {
@@ -61,7 +54,7 @@ System.register(["angular2/change_detection", "angular2/src/facade/collection", 
     }],
     execute: function() {
       Object.defineProperty(createDefaultSteps, "parameters", {get: function() {
-          return [[ChangeDetection], [Parser], [DirectiveMetadata], [assert.genericType(List, DirectiveMetadata)], [ShadowDomStrategy], [assert.type.string]];
+          return [[ChangeDetection], [Parser], [DirectiveMetadata], [assert.genericType(List, DirectiveMetadata)], [ShadowDomStrategy], [assert.type.string], [CssProcessor]];
         }});
     }
   };

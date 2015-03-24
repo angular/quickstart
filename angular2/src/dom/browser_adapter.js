@@ -1,11 +1,11 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./dom_adapter"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./dom_adapter", "./generic_browser_adapter"], function($__export) {
   "use strict";
   var List,
       MapWrapper,
       ListWrapper,
       isPresent,
-      DomAdapter,
       setRootDomAdapter,
+      GenericBrowserDomAdapter,
       _attrToPropMap,
       BrowserDomAdapter;
   return {
@@ -16,12 +16,13 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }, function($__m) {
       isPresent = $__m.isPresent;
     }, function($__m) {
-      DomAdapter = $__m.DomAdapter;
       setRootDomAdapter = $__m.setRootDomAdapter;
+    }, function($__m) {
+      GenericBrowserDomAdapter = $__m.GenericBrowserDomAdapter;
     }],
     execute: function() {
       _attrToPropMap = {
-        'inner-html': 'innerHTML',
+        'innerHtml': 'innerHTML',
         'readonly': 'readOnly',
         'tabindex': 'tabIndex'
       };
@@ -95,7 +96,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             return res;
           },
           clearNodes: function(el) {
-            el.innerHTML = '';
+            for (var i = 0; i < el.childNodes.length; i++) {
+              this.remove(el.childNodes[i]);
+            }
           },
           appendChild: function(el, node) {
             el.appendChild(node);
@@ -234,6 +237,12 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
           defaultDoc: function() {
             return document;
           },
+          getTitle: function() {
+            return document.title;
+          },
+          setTitle: function(newTitle) {
+            document.title = newTitle;
+          },
           elementMatches: function(n, selector) {
             return n instanceof HTMLElement && n.matches(selector);
           },
@@ -244,7 +253,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             return node.nodeType === Node.TEXT_NODE;
           },
           isCommentNode: function(node) {
-            return node.nodeType === Node.TEXT_NODE;
+            return node.nodeType === Node.COMMENT_NODE;
           },
           isElementNode: function(node) {
             return node.nodeType === Node.ELEMENT_NODE;
@@ -253,7 +262,14 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             return node instanceof HTMLElement && isPresent(node.shadowRoot);
           },
           importIntoDoc: function(node) {
-            return document.importNode(node, true);
+            var result = document.importNode(node, true);
+            if (this.isTemplateElement(result) && !result.content.childNodes.length && node.content.childNodes.length) {
+              var childNodes = node.content.childNodes;
+              for (var i = 0; i < childNodes.length; ++i) {
+                result.content.appendChild(this.importIntoDoc(childNodes[i]));
+              }
+            }
+            return result;
           },
           isPageRule: function(rule) {
             return rule.type === CSSRule.PAGE_RULE;
@@ -266,11 +282,17 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
           },
           isKeyframesRule: function(rule) {
             return rule.type === CSSRule.KEYFRAMES_RULE;
+          },
+          getHref: function(el) {
+            return el.href;
           }
         }, {makeCurrent: function() {
             setRootDomAdapter(new BrowserDomAdapter());
           }}, $__super);
-      }(DomAdapter)));
+      }(GenericBrowserDomAdapter)));
+      Object.defineProperty(BrowserDomAdapter.prototype.query, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
       Object.defineProperty(BrowserDomAdapter.prototype.querySelector, "parameters", {get: function() {
           return [[], [assert.type.string]];
         }});
@@ -352,6 +374,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       Object.defineProperty(BrowserDomAdapter.prototype.removeAttribute, "parameters", {get: function() {
           return [[], [assert.type.string]];
         }});
+      Object.defineProperty(BrowserDomAdapter.prototype.setTitle, "parameters", {get: function() {
+          return [[assert.type.string]];
+        }});
       Object.defineProperty(BrowserDomAdapter.prototype.elementMatches, "parameters", {get: function() {
           return [[], [assert.type.string]];
         }});
@@ -369,6 +394,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
         }});
       Object.defineProperty(BrowserDomAdapter.prototype.importIntoDoc, "parameters", {get: function() {
           return [[Node]];
+        }});
+      Object.defineProperty(BrowserDomAdapter.prototype.getHref, "parameters", {get: function() {
+          return [[Element]];
         }});
     }
   };

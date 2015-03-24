@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/reflection/reflection", "angular2/change_detection", "../directive_metadata", "./compile_step", "./compile_element", "./compile_control"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/reflection/reflection", "angular2/change_detection", "../directive_metadata", "./compile_step", "./compile_element", "./compile_control", "./util"], function($__export) {
   "use strict";
   var int,
       isPresent,
@@ -21,28 +21,39 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
       CompileStep,
       CompileElement,
       CompileControl,
+      dashCaseToCamelCase,
+      camelCaseToDashCase,
       DOT_REGEXP,
-      ARIA_PREFIX,
-      ariaSettersCache,
-      CLASS_ATTR,
+      ATTRIBUTE_PREFIX,
+      attributeSettersCache,
       CLASS_PREFIX,
       classSettersCache,
-      STYLE_ATTR,
       STYLE_PREFIX,
       styleSettersCache,
-      ROLE_ATTR,
       ElementBinderBuilder;
-  function ariaSetterFactory(attrName) {
-    var setterFn = StringMapWrapper.get(ariaSettersCache, attrName);
+  function _isValidAttributeValue(attrName, value) {
+    if (attrName == "role") {
+      return isString(value);
+    } else {
+      return isPresent(value);
+    }
+  }
+  function attributeSetterFactory(attrName) {
+    var setterFn = StringMapWrapper.get(attributeSettersCache, attrName);
+    var dashCasedAttributeName;
     if (isBlank(setterFn)) {
+      dashCasedAttributeName = camelCaseToDashCase(attrName);
       setterFn = function(element, value) {
-        if (isPresent(value)) {
-          DOM.setAttribute(element, attrName, stringify(value));
+        if (_isValidAttributeValue(dashCasedAttributeName, value)) {
+          DOM.setAttribute(element, dashCasedAttributeName, stringify(value));
         } else {
-          DOM.removeAttribute(element, attrName);
+          DOM.removeAttribute(element, dashCasedAttributeName);
+          if (isPresent(value)) {
+            throw new BaseException("Invalid " + dashCasedAttributeName + " attribute, only string values are allowed, got '" + stringify(value) + "'");
+          }
         }
       };
-      StringMapWrapper.set(ariaSettersCache, attrName, setterFn);
+      StringMapWrapper.set(attributeSettersCache, attrName, setterFn);
     }
     return setterFn;
   }
@@ -63,34 +74,22 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
   function styleSetterFactory(styleName, stylesuffix) {
     var cacheKey = styleName + stylesuffix;
     var setterFn = StringMapWrapper.get(styleSettersCache, cacheKey);
+    var dashCasedStyleName;
     if (isBlank(setterFn)) {
+      dashCasedStyleName = camelCaseToDashCase(styleName);
       setterFn = function(element, value) {
         var valAsStr;
         if (isPresent(value)) {
           valAsStr = stringify(value);
-          DOM.setStyle(element, styleName, valAsStr + stylesuffix);
+          DOM.setStyle(element, dashCasedStyleName, valAsStr + stylesuffix);
         } else {
-          DOM.removeStyle(element, styleName);
+          DOM.removeStyle(element, dashCasedStyleName);
         }
       };
       StringMapWrapper.set(classSettersCache, cacheKey, setterFn);
     }
     return setterFn;
   }
-  function roleSetter(element, value) {
-    if (isString(value)) {
-      DOM.setAttribute(element, ROLE_ATTR, value);
-    } else {
-      DOM.removeAttribute(element, ROLE_ATTR);
-      if (isPresent(value)) {
-        throw new BaseException("Invalid role attribute, only string values are allowed, got '" + stringify(value) + "'");
-      }
-    }
-  }
-  function isSpecialProperty(propName) {
-    return StringWrapper.startsWith(propName, ARIA_PREFIX) || StringWrapper.startsWith(propName, CLASS_PREFIX) || StringWrapper.startsWith(propName, STYLE_PREFIX) || StringMapWrapper.contains(DOM.attrToPropMap, propName);
-  }
-  $__export("isSpecialProperty", isSpecialProperty);
   return {
     setters: [function($__m) {
       int = $__m.int;
@@ -122,29 +121,29 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
       CompileElement = $__m.CompileElement;
     }, function($__m) {
       CompileControl = $__m.CompileControl;
+    }, function($__m) {
+      dashCaseToCamelCase = $__m.dashCaseToCamelCase;
+      camelCaseToDashCase = $__m.camelCaseToDashCase;
     }],
     execute: function() {
       DOT_REGEXP = RegExpWrapper.create('\\.');
-      ARIA_PREFIX = 'aria-';
-      ariaSettersCache = StringMapWrapper.create();
-      Object.defineProperty(ariaSetterFactory, "parameters", {get: function() {
+      ATTRIBUTE_PREFIX = 'attr.';
+      attributeSettersCache = StringMapWrapper.create();
+      Object.defineProperty(_isValidAttributeValue, "parameters", {get: function() {
+          return [[assert.type.string], [assert.type.any]];
+        }});
+      Object.defineProperty(attributeSetterFactory, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      CLASS_ATTR = 'class';
       CLASS_PREFIX = 'class.';
       classSettersCache = StringMapWrapper.create();
       Object.defineProperty(classSetterFactory, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      STYLE_ATTR = 'style';
       STYLE_PREFIX = 'style.';
       styleSettersCache = StringMapWrapper.create();
       Object.defineProperty(styleSetterFactory, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
-        }});
-      ROLE_ATTR = 'role';
-      Object.defineProperty(isSpecialProperty, "parameters", {get: function() {
-          return [[assert.type.string]];
         }});
       ElementBinderBuilder = $__export("ElementBinderBuilder", (function($__super) {
         var ElementBinderBuilder = function ElementBinderBuilder(parser) {
@@ -154,11 +153,17 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
         return ($traceurRuntime.createClass)(ElementBinderBuilder, {
           process: function(parent, current, control) {
             var elementBinder = null;
+            var parentElementBinder = null;
+            var distanceToParentBinder = this._getDistanceToParentBinder(parent, current);
+            if (isPresent(parent)) {
+              parentElementBinder = parent.inheritedElementBinder;
+            }
             if (current.hasBindings) {
               var protoView = current.inheritedProtoView;
               var protoInjectorWasBuilt = isBlank(parent) ? true : current.inheritedProtoElementInjector !== parent.inheritedProtoElementInjector;
               var currentProtoElementInjector = protoInjectorWasBuilt ? current.inheritedProtoElementInjector : null;
-              elementBinder = protoView.bindElement(currentProtoElementInjector, current.componentDirective, current.viewportDirective);
+              elementBinder = protoView.bindElement(parentElementBinder, distanceToParentBinder, currentProtoElementInjector, current.componentDirective, current.viewportDirective);
+              current.distanceToParentBinder = 0;
               if (isPresent(current.textNodeBindings)) {
                 this._bindTextNodes(protoView, current);
               }
@@ -168,11 +173,20 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
               if (isPresent(current.eventBindings)) {
                 this._bindEvents(protoView, current);
               }
-              this._bindDirectiveProperties(current.getAllDirectives(), current);
+              if (isPresent(current.contentTagSelector)) {
+                elementBinder.contentTagSelector = current.contentTagSelector;
+              }
+              var directives = current.getAllDirectives();
+              this._bindDirectiveProperties(directives, current);
+              this._bindDirectiveEvents(directives, current);
             } else if (isPresent(parent)) {
-              elementBinder = parent.inheritedElementBinder;
+              elementBinder = parentElementBinder;
+              current.distanceToParentBinder = distanceToParentBinder;
             }
             current.inheritedElementBinder = elementBinder;
+          },
+          _getDistanceToParentBinder: function(parent, current) {
+            return isPresent(parent) ? parent.distanceToParentBinder + 1 : 0;
           },
           _bindTextNodes: function(protoView, compileElement) {
             MapWrapper.forEach(compileElement.textNodeBindings, (function(expression, indexInParent) {
@@ -185,31 +199,48 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
               var setterFn,
                   styleParts,
                   styleSuffix;
-              if (StringWrapper.startsWith(property, ARIA_PREFIX)) {
-                setterFn = ariaSetterFactory(property);
-              } else if (StringWrapper.equals(property, ROLE_ATTR)) {
-                setterFn = roleSetter;
+              if (StringWrapper.startsWith(property, ATTRIBUTE_PREFIX)) {
+                setterFn = attributeSetterFactory(StringWrapper.substring(property, ATTRIBUTE_PREFIX.length));
               } else if (StringWrapper.startsWith(property, CLASS_PREFIX)) {
                 setterFn = classSetterFactory(StringWrapper.substring(property, CLASS_PREFIX.length));
               } else if (StringWrapper.startsWith(property, STYLE_PREFIX)) {
                 styleParts = StringWrapper.split(property, DOT_REGEXP);
                 styleSuffix = styleParts.length > 2 ? ListWrapper.get(styleParts, 2) : '';
                 setterFn = styleSetterFactory(ListWrapper.get(styleParts, 1), styleSuffix);
+              } else if (StringWrapper.equals(property, 'innerHtml')) {
+                setterFn = (function(element, value) {
+                  return DOM.setInnerHTML(element, value);
+                });
               } else {
                 property = $__0._resolvePropertyName(property);
-                if (DOM.hasProperty(compileElement.element, property) || StringWrapper.equals(property, 'innerHtml')) {
-                  setterFn = reflector.setter(property);
-                }
+                var propertySetterFn = reflector.setter(property);
+                setterFn = function(receiver, value) {
+                  if (DOM.hasProperty(receiver, property)) {
+                    return propertySetterFn(receiver, value);
+                  }
+                };
               }
-              if (isPresent(setterFn)) {
-                protoView.bindElementProperty(expression.ast, property, setterFn);
-              }
+              protoView.bindElementProperty(expression.ast, property, setterFn);
             }));
           },
           _bindEvents: function(protoView, compileElement) {
             MapWrapper.forEach(compileElement.eventBindings, (function(expression, eventName) {
               protoView.bindEvent(eventName, expression);
             }));
+          },
+          _bindDirectiveEvents: function(directives, compileElement) {
+            var $__0 = this;
+            for (var directiveIndex = 0; directiveIndex < directives.length; directiveIndex++) {
+              var directive = directives[directiveIndex];
+              var annotation = directive.annotation;
+              if (isBlank(annotation.events))
+                continue;
+              var protoView = compileElement.inheritedProtoView;
+              StringMapWrapper.forEach(annotation.events, (function(action, eventName) {
+                var expression = $__0._parser.parseAction(action, compileElement.elementDescription);
+                protoView.bindEvent(eventName, expression, directiveIndex);
+              }));
+            }
           },
           _bindDirectiveProperties: function(directives, compileElement) {
             var $__0 = this;
@@ -220,10 +251,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
               if (isBlank(annotation.bind))
                 continue;
               StringMapWrapper.forEach(annotation.bind, (function(bindConfig, dirProp) {
-                var bindConfigParts = $__0._splitBindConfig(bindConfig);
-                var elProp = bindConfigParts[0];
-                var pipes = ListWrapper.slice(bindConfigParts, 1, bindConfigParts.length);
-                var bindingAst = isPresent(compileElement.propertyBindings) ? MapWrapper.get(compileElement.propertyBindings, elProp) : null;
+                var pipes = $__0._splitBindConfig(bindConfig);
+                var elProp = ListWrapper.removeAt(pipes, 0);
+                var bindingAst = isPresent(compileElement.propertyBindings) ? MapWrapper.get(compileElement.propertyBindings, dashCaseToCamelCase(elProp)) : null;
                 if (isBlank(bindingAst)) {
                   var attributeValue = MapWrapper.get(compileElement.attrs(), elProp);
                   if (isPresent(attributeValue)) {
@@ -232,14 +262,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
                 }
                 if (isPresent(bindingAst)) {
                   var fullExpAstWithBindPipes = $__0._parser.addPipes(bindingAst, pipes);
-                  protoView.bindDirectiveProperty(directiveIndex, fullExpAstWithBindPipes, dirProp, reflector.setter(dirProp));
+                  protoView.bindDirectiveProperty(directiveIndex, fullExpAstWithBindPipes, dirProp, reflector.setter(dashCaseToCamelCase(dirProp)));
                 }
               }));
             }
           },
           _splitBindConfig: function(bindConfig) {
-            var parts = StringWrapper.split(bindConfig, RegExpWrapper.create("\\|"));
-            return ListWrapper.map(parts, (function(s) {
+            return ListWrapper.map(bindConfig.split('|'), (function(s) {
               return s.trim();
             }));
           },
@@ -254,6 +283,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
         }});
       Object.defineProperty(ElementBinderBuilder.prototype.process, "parameters", {get: function() {
           return [[CompileElement], [CompileElement], [CompileControl]];
+        }});
+      Object.defineProperty(ElementBinderBuilder.prototype._bindDirectiveEvents, "parameters", {get: function() {
+          return [[assert.genericType(List, DirectiveMetadata)], [CompileElement]];
         }});
       Object.defineProperty(ElementBinderBuilder.prototype._bindDirectiveProperties, "parameters", {get: function() {
           return [[assert.genericType(List, DirectiveMetadata)], [CompileElement]];

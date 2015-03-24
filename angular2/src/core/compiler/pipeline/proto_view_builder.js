@@ -38,11 +38,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           this._shadowDomStrategy = shadowDomStrategy;
           this.changeDetection = changeDetection;
         };
-        return ($traceurRuntime.createClass)(ProtoViewBuilder, {process: function(parent, current, control) {
+        return ($traceurRuntime.createClass)(ProtoViewBuilder, {
+          process: function(parent, current, control) {
             var inheritedProtoView = null;
             if (current.isViewRoot) {
               var protoChangeDetector = this.changeDetection.createProtoChangeDetector('dummy');
-              inheritedProtoView = new ProtoView(current.element, protoChangeDetector, this._shadowDomStrategy);
+              inheritedProtoView = new ProtoView(current.element, protoChangeDetector, this._shadowDomStrategy, this._getParentProtoView(parent));
               if (isPresent(parent)) {
                 if (isPresent(parent.inheritedElementBinder.nestedProtoView)) {
                   throw new BaseException('Only one nested view per element is allowed');
@@ -59,17 +60,24 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             }
             if (isPresent(current.variableBindings)) {
               MapWrapper.forEach(current.variableBindings, (function(mappedName, varName) {
-                MapWrapper.set(inheritedProtoView.protoContextLocals, mappedName, null);
+                MapWrapper.set(inheritedProtoView.protoLocals, mappedName, null);
               }));
             }
             current.inheritedProtoView = inheritedProtoView;
-          }}, {}, $__super);
+          },
+          _getParentProtoView: function(parent) {
+            return isPresent(parent) ? parent.inheritedProtoView : null;
+          }
+        }, {}, $__super);
       }(CompileStep)));
       Object.defineProperty(ProtoViewBuilder, "parameters", {get: function() {
           return [[ChangeDetection], [ShadowDomStrategy]];
         }});
       Object.defineProperty(ProtoViewBuilder.prototype.process, "parameters", {get: function() {
           return [[CompileElement], [CompileElement], [CompileControl]];
+        }});
+      Object.defineProperty(ProtoViewBuilder.prototype._getParentProtoView, "parameters", {get: function() {
+          return [[CompileElement]];
         }});
     }
   };

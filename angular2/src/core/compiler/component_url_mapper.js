@@ -1,6 +1,7 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
   "use strict";
-  var Type,
+  var Injectable,
+      Type,
       isPresent,
       Map,
       MapWrapper,
@@ -8,6 +9,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
       RuntimeComponentUrlMapper;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       Type = $__m.Type;
       isPresent = $__m.isPresent;
     }, function($__m) {
@@ -21,6 +24,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
             return './';
           }}, {});
       }()));
+      Object.defineProperty(ComponentUrlMapper, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(ComponentUrlMapper.prototype.getUrl, "parameters", {get: function() {
           return [[Type]];
         }});

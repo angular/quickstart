@@ -1,6 +1,7 @@
-System.register(["angular2/src/facade/lang", "./url_resolver"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "./url_resolver"], function($__export) {
   "use strict";
-  var RegExp,
+  var Injectable,
+      RegExp,
       RegExpWrapper,
       StringWrapper,
       UrlResolver,
@@ -10,6 +11,8 @@ System.register(["angular2/src/facade/lang", "./url_resolver"], function($__expo
       _quoteRe;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       RegExp = $__m.RegExp;
       RegExpWrapper = $__m.RegExpWrapper;
       StringWrapper = $__m.StringWrapper;
@@ -39,6 +42,9 @@ System.register(["angular2/src/facade/lang", "./url_resolver"], function($__expo
           }
         }, {});
       }()));
+      Object.defineProperty(StyleUrlResolver, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(StyleUrlResolver, "parameters", {get: function() {
           return [[UrlResolver]];
         }});

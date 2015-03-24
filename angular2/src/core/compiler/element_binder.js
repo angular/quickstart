@@ -1,37 +1,51 @@
-System.register(["./element_injector", "./directive_metadata", "angular2/src/facade/collection", "./view"], function($__export) {
+System.register(["angular2/src/facade/lang", "./element_injector", "./directive_metadata", "angular2/src/facade/collection", "./view"], function($__export) {
   "use strict";
-  var ProtoElementInjector,
+  var int,
+      isBlank,
+      BaseException,
+      eiModule,
       DirectiveMetadata,
       List,
-      Map,
-      ProtoView,
+      StringMap,
+      viewModule,
       ElementBinder;
   return {
     setters: [function($__m) {
-      ProtoElementInjector = $__m.ProtoElementInjector;
+      int = $__m.int;
+      isBlank = $__m.isBlank;
+      BaseException = $__m.BaseException;
+    }, function($__m) {
+      eiModule = $__m;
     }, function($__m) {
       DirectiveMetadata = $__m.DirectiveMetadata;
     }, function($__m) {
       List = $__m.List;
-      Map = $__m.Map;
+      StringMap = $__m.StringMap;
     }, function($__m) {
-      ProtoView = $__m.ProtoView;
+      viewModule = $__m;
     }],
     execute: function() {
       ElementBinder = $__export("ElementBinder", (function() {
-        var ElementBinder = function ElementBinder(protoElementInjector, componentDirective, viewportDirective) {
+        var ElementBinder = function ElementBinder(index, parent, distanceToParent, protoElementInjector, componentDirective, viewportDirective) {
+          if (isBlank(index)) {
+            throw new BaseException('null index not allowed.');
+          }
           this.protoElementInjector = protoElementInjector;
           this.componentDirective = componentDirective;
           this.viewportDirective = viewportDirective;
+          this.parent = parent;
+          this.index = index;
+          this.distanceToParent = distanceToParent;
           this.events = null;
           this.textNodeIndices = null;
           this.hasElementPropertyBindings = false;
           this.nestedProtoView = null;
+          this.contentTagSelector = null;
         };
         return ($traceurRuntime.createClass)(ElementBinder, {}, {});
       }()));
       Object.defineProperty(ElementBinder, "parameters", {get: function() {
-          return [[ProtoElementInjector], [DirectiveMetadata], [DirectiveMetadata]];
+          return [[int], [ElementBinder], [int], [eiModule.ProtoElementInjector], [DirectiveMetadata], [DirectiveMetadata]];
         }});
     }
   };

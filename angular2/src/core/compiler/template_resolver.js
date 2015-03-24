@@ -1,6 +1,7 @@
-System.register(["angular2/src/core/annotations/template", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/reflection/reflection"], function($__export) {
+System.register(["angular2/di", "angular2/src/core/annotations/template", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/reflection/reflection"], function($__export) {
   "use strict";
-  var Template,
+  var Injectable,
+      Template,
       Type,
       stringify,
       isBlank,
@@ -13,6 +14,8 @@ System.register(["angular2/src/core/annotations/template", "angular2/src/facade/
       TemplateResolver;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       Template = $__m.Template;
     }, function($__m) {
       Type = $__m.Type;
@@ -53,6 +56,9 @@ System.register(["angular2/src/core/annotations/template", "angular2/src/facade/
           }
         }, {});
       }()));
+      Object.defineProperty(TemplateResolver, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(TemplateResolver.prototype.resolve, "parameters", {get: function() {
           return [[Type]];
         }});

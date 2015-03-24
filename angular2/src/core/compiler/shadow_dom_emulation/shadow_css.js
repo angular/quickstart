@@ -26,20 +26,8 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       _polyfillHostRe,
       _colonHostRe,
       _colonHostContextRe;
-  function _cssTextToStyle(cssText) {
-    return DOM.createStyleElement(cssText);
-  }
   function _cssToRules(cssText) {
-    var style = _cssTextToStyle(cssText);
-    DOM.appendChild(DOM.defaultDoc().head, style);
-    var rules = [];
-    if (isPresent(style.sheet)) {
-      try {
-        rules = style.sheet.cssRules;
-      } catch (e) {}
-    } else {}
-    DOM.remove(style);
-    return rules;
+    return DOM.cssToRules(cssText);
   }
   function _withCssRules(cssText, callback) {
     if (isBlank(callback))
@@ -348,14 +336,11 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       _cssColonHostRe = RegExpWrapper.create('(' + _polyfillHost + _parenSuffix, 'im');
       _cssColonHostContextRe = RegExpWrapper.create('(' + _polyfillHostContext + _parenSuffix, 'im');
       _polyfillHostNoCombinator = _polyfillHost + '-no-combinator';
-      _shadowDOMSelectorsRe = [RegExpWrapper.create('/shadow/'), RegExpWrapper.create('/shadow-deep/'), RegExpWrapper.create('::shadow'), RegExpWrapper.create('/deep/'), RegExpWrapper.create('::content')];
+      _shadowDOMSelectorsRe = [RegExpWrapper.create('>>>'), RegExpWrapper.create('::shadow'), RegExpWrapper.create('::content'), RegExpWrapper.create('/deep/'), RegExpWrapper.create('/shadow-deep/'), RegExpWrapper.create('/shadow/')];
       _selectorReSuffix = '([>\\s~+\[.,{:][\\s\\S]*)?$';
       _polyfillHostRe = RegExpWrapper.create(_polyfillHost, 'im');
       _colonHostRe = RegExpWrapper.create(':host', 'im');
       _colonHostContextRe = RegExpWrapper.create(':host-context', 'im');
-      Object.defineProperty(_cssTextToStyle, "parameters", {get: function() {
-          return [[assert.type.string]];
-        }});
       Object.defineProperty(_cssToRules, "parameters", {get: function() {
           return [[assert.type.string]];
         }});

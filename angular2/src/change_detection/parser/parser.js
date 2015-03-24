@@ -1,6 +1,6 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./lexer", "angular2/src/reflection/reflection", "./ast"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade/collection", "./lexer", "angular2/src/reflection/reflection", "./ast"], function($__export) {
   "use strict";
-  var FIELD,
+  var Injectable,
       int,
       isBlank,
       isPresent,
@@ -52,7 +52,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       _ParseAST;
   return {
     setters: [function($__m) {
-      FIELD = $__m.FIELD;
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       int = $__m.int;
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
@@ -159,6 +160,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           }
         }, {});
       }()));
+      Object.defineProperty(Parser, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(Parser, "parameters", {get: function() {
           return [[Lexer], [Reflector]];
         }});

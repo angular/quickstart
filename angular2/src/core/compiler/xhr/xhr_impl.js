@@ -1,11 +1,14 @@
-System.register(["angular2/src/facade/async", "./xhr"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/async", "./xhr"], function($__export) {
   "use strict";
-  var Promise,
+  var Injectable,
+      Promise,
       PromiseWrapper,
       XHR,
       XHRImpl;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       Promise = $__m.Promise;
       PromiseWrapper = $__m.PromiseWrapper;
     }, function($__m) {
@@ -36,6 +39,9 @@ System.register(["angular2/src/facade/async", "./xhr"], function($__export) {
             return completer.promise;
           }}, {}, $__super);
       }(XHR)));
+      Object.defineProperty(XHRImpl, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(XHRImpl.prototype.get, "parameters", {get: function() {
           return [[assert.type.string]];
         }});

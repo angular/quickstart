@@ -1,10 +1,10 @@
-System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/context_with_variable_bindings", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/array_changes", "./src/change_detection/pipes/keyvalue_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
+System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/locals", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/change_detection_util", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/iterable_changes", "./src/change_detection/pipes/keyvalue_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
   "use strict";
   var ProtoChangeDetector,
       DynamicProtoChangeDetector,
       JitProtoChangeDetector,
       PipeRegistry,
-      ArrayChangesFactory,
+      IterableChangesFactory,
       KeyValueChangesFactory,
       NullPipeFactory,
       ChangeDetection,
@@ -40,7 +40,7 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
     }, function($__m) {
       $__export("Parser", $__m.Parser);
     }, function($__m) {
-      $__export("ContextWithVariableBindings", $__m.ContextWithVariableBindings);
+      $__export("Locals", $__m.Locals);
     }, function($__m) {
       $__export("ExpressionChangedAfterItHasBeenChecked", $__m.ExpressionChangedAfterItHasBeenChecked);
       $__export("ChangeDetectionError", $__m.ChangeDetectionError);
@@ -59,6 +59,7 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
       $__export("ProtoChangeDetector", $__m.ProtoChangeDetector);
       $__export("DynamicProtoChangeDetector", $__m.DynamicProtoChangeDetector);
       $__export("JitProtoChangeDetector", $__m.JitProtoChangeDetector);
+      $__export("BindingRecord", $__m.BindingRecord);
     }, function($__m) {
       $__export("DynamicChangeDetector", $__m.DynamicChangeDetector);
     }, function($__m) {
@@ -68,12 +69,14 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
           $__export(p, $__m[p]);
       });
     }, function($__m) {
+      $__export("uninitialized", $__m.uninitialized);
+    }, function($__m) {
       Object.keys($__m).forEach(function(p) {
         if (!$__exportNames[p])
           $__export(p, $__m[p]);
       });
     }, function($__m) {
-      ArrayChangesFactory = $__m.ArrayChangesFactory;
+      IterableChangesFactory = $__m.IterableChangesFactory;
     }, function($__m) {
       KeyValueChangesFactory = $__m.KeyValueChangesFactory;
     }, function($__m) {
@@ -90,7 +93,7 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
           return [[assert.type.string]];
         }});
       defaultPipes = $__export("defaultPipes", {
-        "iterableDiff": [new ArrayChangesFactory(), new NullPipeFactory()],
+        "iterableDiff": [new IterableChangesFactory(), new NullPipeFactory()],
         "keyValDiff": [new KeyValueChangesFactory(), new NullPipeFactory()]
       });
       DynamicChangeDetection = $__export("DynamicChangeDetection", (function($__super) {

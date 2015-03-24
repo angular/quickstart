@@ -38,6 +38,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ProtoRecord,
       RECORD_TYPE_SELF,
       RECORD_TYPE_PROPERTY,
+      RECORD_TYPE_LOCAL,
       RECORD_TYPE_INVOKE_METHOD,
       RECORD_TYPE_CONST,
       RECORD_TYPE_INVOKE_CLOSURE,
@@ -46,6 +47,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PIPE,
       RECORD_TYPE_INTERPOLATE,
       ProtoChangeDetector,
+      BindingRecord,
       DynamicProtoChangeDetector,
       _jitProtoChangeDetectorClassCounter,
       JitProtoChangeDetector,
@@ -252,6 +254,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ProtoRecord = $__m.ProtoRecord;
       RECORD_TYPE_SELF = $__m.RECORD_TYPE_SELF;
       RECORD_TYPE_PROPERTY = $__m.RECORD_TYPE_PROPERTY;
+      RECORD_TYPE_LOCAL = $__m.RECORD_TYPE_LOCAL;
       RECORD_TYPE_INVOKE_METHOD = $__m.RECORD_TYPE_INVOKE_METHOD;
       RECORD_TYPE_CONST = $__m.RECORD_TYPE_CONST;
       RECORD_TYPE_INVOKE_CLOSURE = $__m.RECORD_TYPE_INVOKE_CLOSURE;
@@ -267,7 +270,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           addAst: function(ast, bindingMemento) {
             var directiveMemento = arguments[2] !== (void 0) ? arguments[2] : null;
           },
-          instantiate: function(dispatcher) {
+          instantiate: function(dispatcher, bindingRecords, variableBindings) {
             return null;
           }
         }, {});
@@ -276,28 +279,36 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[AST], [assert.type.any], [assert.type.any]];
         }});
       Object.defineProperty(ProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any]];
+          return [[assert.type.any], [List], [List]];
+        }});
+      BindingRecord = $__export("BindingRecord", (function() {
+        var BindingRecord = function BindingRecord(ast, bindingMemento, directiveMemento) {
+          this.ast = ast;
+          this.bindingMemento = bindingMemento;
+          this.directiveMemento = directiveMemento;
+        };
+        return ($traceurRuntime.createClass)(BindingRecord, {}, {});
+      }()));
+      Object.defineProperty(BindingRecord, "parameters", {get: function() {
+          return [[AST], [assert.type.any], [assert.type.any]];
         }});
       DynamicProtoChangeDetector = $__export("DynamicProtoChangeDetector", (function($__super) {
         var DynamicProtoChangeDetector = function DynamicProtoChangeDetector(pipeRegistry) {
           $traceurRuntime.superConstructor(DynamicProtoChangeDetector).call(this);
           this._pipeRegistry = pipeRegistry;
-          this._records = null;
-          this._recordBuilder = new ProtoRecordBuilder();
         };
         return ($traceurRuntime.createClass)(DynamicProtoChangeDetector, {
-          addAst: function(ast, bindingMemento) {
-            var directiveMemento = arguments[2] !== (void 0) ? arguments[2] : null;
-            this._recordBuilder.addAst(ast, bindingMemento, directiveMemento);
-          },
-          instantiate: function(dispatcher) {
-            this._createRecordsIfNecessary();
+          instantiate: function(dispatcher, bindingRecords, variableBindings) {
+            this._createRecordsIfNecessary(bindingRecords, variableBindings);
             return new DynamicChangeDetector(dispatcher, this._pipeRegistry, this._records);
           },
-          _createRecordsIfNecessary: function() {
+          _createRecordsIfNecessary: function(bindingRecords, variableBindings) {
             if (isBlank(this._records)) {
-              var records = this._recordBuilder.records;
-              this._records = coalesce(records);
+              var recordBuilder = new ProtoRecordBuilder();
+              ListWrapper.forEach(bindingRecords, (function(r) {
+                recordBuilder.addAst(r.ast, r.bindingMemento, r.directiveMemento, variableBindings);
+              }));
+              this._records = coalesce(recordBuilder.records);
             }
           }
         }, {}, $__super);
@@ -305,11 +316,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(DynamicProtoChangeDetector, "parameters", {get: function() {
           return [[PipeRegistry]];
         }});
-      Object.defineProperty(DynamicProtoChangeDetector.prototype.addAst, "parameters", {get: function() {
-          return [[AST], [assert.type.any], [assert.type.any]];
-        }});
       Object.defineProperty(DynamicProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any]];
+          return [[assert.type.any], [List], [List]];
+        }});
+      Object.defineProperty(DynamicProtoChangeDetector.prototype._createRecordsIfNecessary, "parameters", {get: function() {
+          return [[List], [List]];
         }});
       _jitProtoChangeDetectorClassCounter = 0;
       JitProtoChangeDetector = $__export("JitProtoChangeDetector", (function($__super) {
@@ -317,32 +328,31 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           $traceurRuntime.superConstructor(JitProtoChangeDetector).call(this);
           this._pipeRegistry = pipeRegistry;
           this._factory = null;
-          this._recordBuilder = new ProtoRecordBuilder();
         };
         return ($traceurRuntime.createClass)(JitProtoChangeDetector, {
-          addAst: function(ast, bindingMemento) {
-            var directiveMemento = arguments[2] !== (void 0) ? arguments[2] : null;
-            this._recordBuilder.addAst(ast, bindingMemento, directiveMemento);
-          },
-          instantiate: function(dispatcher) {
-            this._createFactoryIfNecessary();
+          instantiate: function(dispatcher, bindingRecords, variableBindings) {
+            this._createFactoryIfNecessary(bindingRecords, variableBindings);
             return this._factory(dispatcher, this._pipeRegistry);
           },
-          _createFactoryIfNecessary: function() {
+          _createFactoryIfNecessary: function(bindingRecords, variableBindings) {
             if (isBlank(this._factory)) {
+              var recordBuilder = new ProtoRecordBuilder();
+              ListWrapper.forEach(bindingRecords, (function(r) {
+                recordBuilder.addAst(r.ast, r.bindingMemento, r.directiveMemento, variableBindings);
+              }));
               var c = _jitProtoChangeDetectorClassCounter++;
-              var records = coalesce(this._recordBuilder.records);
+              var records = coalesce(recordBuilder.records);
               var typeName = ("ChangeDetector" + c);
               this._factory = new ChangeDetectorJITGenerator(typeName, records).generate();
             }
           }
         }, {}, $__super);
       }(ProtoChangeDetector)));
-      Object.defineProperty(JitProtoChangeDetector.prototype.addAst, "parameters", {get: function() {
-          return [[AST], [assert.type.any], [assert.type.any]];
-        }});
       Object.defineProperty(JitProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any]];
+          return [[assert.type.any], [List], [List]];
+        }});
+      Object.defineProperty(JitProtoChangeDetector.prototype._createFactoryIfNecessary, "parameters", {get: function() {
+          return [[List], [List]];
         }});
       ProtoRecordBuilder = (function() {
         var ProtoRecordBuilder = function ProtoRecordBuilder() {
@@ -350,11 +360,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         };
         return ($traceurRuntime.createClass)(ProtoRecordBuilder, {addAst: function(ast, bindingMemento) {
             var directiveMemento = arguments[2] !== (void 0) ? arguments[2] : null;
+            var variableBindings = arguments[3] !== (void 0) ? arguments[3] : null;
             var last = ListWrapper.last(this.records);
             if (isPresent(last) && last.directiveMemento == directiveMemento) {
               last.lastInDirective = false;
             }
-            var pr = _ConvertAstIntoProtoRecords.convert(ast, bindingMemento, directiveMemento, this.records.length);
+            var pr = _ConvertAstIntoProtoRecords.convert(ast, bindingMemento, directiveMemento, this.records.length, variableBindings);
             if (!ListWrapper.isEmpty(pr)) {
               var last = ListWrapper.last(pr);
               last.lastInBinding = true;
@@ -364,15 +375,16 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           }}, {});
       }());
       Object.defineProperty(ProtoRecordBuilder.prototype.addAst, "parameters", {get: function() {
-          return [[AST], [assert.type.any], [assert.type.any]];
+          return [[AST], [assert.type.any], [assert.type.any], [List]];
         }});
       _ConvertAstIntoProtoRecords = (function() {
-        var _ConvertAstIntoProtoRecords = function _ConvertAstIntoProtoRecords(bindingMemento, directiveMemento, contextIndex, expressionAsString) {
+        var _ConvertAstIntoProtoRecords = function _ConvertAstIntoProtoRecords(bindingMemento, directiveMemento, contextIndex, expressionAsString, variableBindings) {
           this.protoRecords = [];
           this.bindingMemento = bindingMemento;
           this.directiveMemento = directiveMemento;
           this.contextIndex = contextIndex;
           this.expressionAsString = expressionAsString;
+          this.variableBindings = variableBindings;
         };
         return ($traceurRuntime.createClass)(_ConvertAstIntoProtoRecords, {
           visitImplicitReceiver: function(ast) {
@@ -387,12 +399,22 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           },
           visitAccessMember: function(ast) {
             var receiver = ast.receiver.visit(this);
-            return this._addRecord(RECORD_TYPE_PROPERTY, ast.name, ast.getter, [], null, receiver);
+            if (isPresent(this.variableBindings) && ListWrapper.contains(this.variableBindings, ast.name)) {
+              return this._addRecord(RECORD_TYPE_LOCAL, ast.name, ast.name, [], null, receiver);
+            } else {
+              return this._addRecord(RECORD_TYPE_PROPERTY, ast.name, ast.getter, [], null, receiver);
+            }
           },
           visitMethodCall: function(ast) {
+            ;
             var receiver = ast.receiver.visit(this);
             var args = this._visitAll(ast.args);
-            return this._addRecord(RECORD_TYPE_INVOKE_METHOD, ast.name, ast.fn, args, null, receiver);
+            if (isPresent(this.variableBindings) && ListWrapper.contains(this.variableBindings, ast.name)) {
+              var target = this._addRecord(RECORD_TYPE_LOCAL, ast.name, ast.name, [], null, receiver);
+              return this._addRecord(RECORD_TYPE_INVOKE_CLOSURE, "closure", null, args, null, target);
+            } else {
+              return this._addRecord(RECORD_TYPE_INVOKE_METHOD, ast.name, ast.fn, args, null, receiver);
+            }
           },
           visitFunctionCall: function(ast) {
             var target = ast.target.visit(this);
@@ -442,17 +464,17 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             ListWrapper.push(this.protoRecords, new ProtoRecord(type, name, funcOrValue, args, fixedArgs, context, selfIndex, this.bindingMemento, this.directiveMemento, this.expressionAsString, false, false));
             return selfIndex;
           }
-        }, {convert: function(ast, bindingMemento, directiveMemento, contextIndex) {
-            var c = new _ConvertAstIntoProtoRecords(bindingMemento, directiveMemento, contextIndex, ast.toString());
+        }, {convert: function(ast, bindingMemento, directiveMemento, contextIndex, variableBindings) {
+            var c = new _ConvertAstIntoProtoRecords(bindingMemento, directiveMemento, contextIndex, ast.toString(), variableBindings);
             ast.visit(c);
             return c.protoRecords;
           }});
       }());
       Object.defineProperty(_ConvertAstIntoProtoRecords, "parameters", {get: function() {
-          return [[assert.type.any], [assert.type.any], [assert.type.number], [assert.type.string]];
+          return [[assert.type.any], [assert.type.any], [assert.type.number], [assert.type.string], [List]];
         }});
       Object.defineProperty(_ConvertAstIntoProtoRecords.convert, "parameters", {get: function() {
-          return [[AST], [assert.type.any], [assert.type.any], [assert.type.number]];
+          return [[AST], [assert.type.any], [assert.type.any], [assert.type.number], [List]];
         }});
       Object.defineProperty(_ConvertAstIntoProtoRecords.prototype.visitImplicitReceiver, "parameters", {get: function() {
           return [[ImplicitReceiver]];

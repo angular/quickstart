@@ -12,8 +12,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       looseIdentical,
       NO_CHANGE,
       Pipe,
-      ArrayChangesFactory,
-      ArrayChanges,
+      IterableChangesFactory,
+      IterableChanges,
       CollectionChangeRecord,
       _DuplicateItemRecordList,
       _DuplicateMap;
@@ -35,20 +35,20 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       Pipe = $__m.Pipe;
     }],
     execute: function() {
-      ArrayChangesFactory = $__export("ArrayChangesFactory", (function() {
-        var ArrayChangesFactory = function ArrayChangesFactory() {};
-        return ($traceurRuntime.createClass)(ArrayChangesFactory, {
+      IterableChangesFactory = $__export("IterableChangesFactory", (function() {
+        var IterableChangesFactory = function IterableChangesFactory() {};
+        return ($traceurRuntime.createClass)(IterableChangesFactory, {
           supports: function(obj) {
-            return ArrayChanges.supportsObj(obj);
+            return IterableChanges.supportsObj(obj);
           },
           create: function() {
-            return new ArrayChanges();
+            return new IterableChanges();
           }
         }, {});
       }()));
-      ArrayChanges = $__export("ArrayChanges", (function($__super) {
-        var ArrayChanges = function ArrayChanges() {
-          $traceurRuntime.superConstructor(ArrayChanges).call(this);
+      IterableChanges = $__export("IterableChanges", (function($__super) {
+        var IterableChanges = function IterableChanges() {
+          $traceurRuntime.superConstructor(IterableChanges).call(this);
           this._collection = null;
           this._length = null;
           this._linkedRecords = null;
@@ -63,9 +63,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
           this._removalsHead = null;
           this._removalsTail = null;
         };
-        return ($traceurRuntime.createClass)(ArrayChanges, {
+        return ($traceurRuntime.createClass)(IterableChanges, {
           supports: function(obj) {
-            return ArrayChanges.supportsObj(obj);
+            return IterableChanges.supportsObj(obj);
           },
           get collection() {
             return this._collection;
@@ -355,52 +355,52 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             return isListLikeIterable(obj);
           }}, $__super);
       }(Pipe)));
-      Object.defineProperty(ArrayChanges.prototype.forEachItem, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype.forEachItem, "parameters", {get: function() {
           return [[Function]];
         }});
-      Object.defineProperty(ArrayChanges.prototype.forEachPreviousItem, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype.forEachPreviousItem, "parameters", {get: function() {
           return [[Function]];
         }});
-      Object.defineProperty(ArrayChanges.prototype.forEachAddedItem, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype.forEachAddedItem, "parameters", {get: function() {
           return [[Function]];
         }});
-      Object.defineProperty(ArrayChanges.prototype.forEachMovedItem, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype.forEachMovedItem, "parameters", {get: function() {
           return [[Function]];
         }});
-      Object.defineProperty(ArrayChanges.prototype.forEachRemovedItem, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype.forEachRemovedItem, "parameters", {get: function() {
           return [[Function]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._mismatch, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._mismatch, "parameters", {get: function() {
           return [[CollectionChangeRecord], [], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._verifyReinsertion, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._verifyReinsertion, "parameters", {get: function() {
           return [[CollectionChangeRecord], [], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._truncate, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._truncate, "parameters", {get: function() {
           return [[CollectionChangeRecord]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._reinsertAfter, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._reinsertAfter, "parameters", {get: function() {
           return [[CollectionChangeRecord], [CollectionChangeRecord], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._moveAfter, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._moveAfter, "parameters", {get: function() {
           return [[CollectionChangeRecord], [CollectionChangeRecord], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._addAfter, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._addAfter, "parameters", {get: function() {
           return [[CollectionChangeRecord], [CollectionChangeRecord], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._insertAfter, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._insertAfter, "parameters", {get: function() {
           return [[CollectionChangeRecord], [CollectionChangeRecord], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._remove, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._remove, "parameters", {get: function() {
           return [[CollectionChangeRecord]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._unlink, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._unlink, "parameters", {get: function() {
           return [[CollectionChangeRecord]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._addToMoves, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._addToMoves, "parameters", {get: function() {
           return [[CollectionChangeRecord], [int]];
         }});
-      Object.defineProperty(ArrayChanges.prototype._addToRemovals, "parameters", {get: function() {
+      Object.defineProperty(IterableChanges.prototype._addToRemovals, "parameters", {get: function() {
           return [[CollectionChangeRecord]];
         }});
       CollectionChangeRecord = $__export("CollectionChangeRecord", (function() {
@@ -524,6 +524,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
   };
 });
 
-//# sourceMappingURL=src/change_detection/pipes/array_changes.map
+//# sourceMappingURL=src/change_detection/pipes/iterable_changes.map
 
-//# sourceMappingURL=../../../src/change_detection/pipes/array_changes.js.map
+//# sourceMappingURL=../../../src/change_detection/pipes/iterable_changes.js.map

@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./parser/context_with_variable_bindings", "./proto_record", "./exceptions", "./pipes/pipe", "./interfaces"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./proto_record", "./exceptions", "./pipes/pipe", "./interfaces"], function($__export) {
   "use strict";
   var isPresent,
       isBlank,
@@ -8,7 +8,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ListWrapper,
       MapWrapper,
       StringMapWrapper,
-      ContextWithVariableBindings,
       ProtoRecord,
       ExpressionChangedAfterItHasBeenChecked,
       NO_CHANGE,
@@ -51,8 +50,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ListWrapper = $__m.ListWrapper;
       MapWrapper = $__m.MapWrapper;
       StringMapWrapper = $__m.StringMapWrapper;
-    }, function($__m) {
-      ContextWithVariableBindings = $__m.ContextWithVariableBindings;
     }, function($__m) {
       ProtoRecord = $__m.ProtoRecord;
     }, function($__m) {
@@ -221,15 +218,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           keyedAccess: function(obj, args) {
             return obj[args[0]];
           },
-          findContext: function(name, c) {
-            while (c instanceof ContextWithVariableBindings) {
-              if (c.hasBinding(name)) {
-                return c;
-              }
-              c = c.parent;
-            }
-            return c;
-          },
           noChangeMarker: function(value) {
             return value === NO_CHANGE;
           },
@@ -260,9 +248,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       }()));
       Object.defineProperty(ChangeDetectionUtil.mapFn, "parameters", {get: function() {
           return [[List]];
-        }});
-      Object.defineProperty(ChangeDetectionUtil.findContext, "parameters", {get: function() {
-          return [[assert.type.string], []];
         }});
       Object.defineProperty(ChangeDetectionUtil.throwOnChange, "parameters", {get: function() {
           return [[ProtoRecord], []];

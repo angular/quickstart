@@ -1,48 +1,40 @@
-System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model", "./validators"], function($__export) {
+System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang", "angular2/src/facade/collection", "./model", "./validators"], function($__export) {
   "use strict";
   var Template,
       Component,
       Decorator,
-      NgElement,
       Ancestor,
       onChange,
-      DOM,
+      PropertySetter,
+      Optional,
       isBlank,
       isPresent,
+      isString,
       CONST,
       StringMapWrapper,
       ListWrapper,
       ControlGroup,
       Control,
-      validators,
-      ControlValueAccessor,
-      DefaultControlValueAccessor,
+      Validators,
+      DefaultValueAccessor,
       CheckboxControlValueAccessor,
-      controlValueAccessors,
       ControlDirective,
       ControlGroupDirective,
       FormDirectives;
-  function controlValueAccessorFor(controlType) {
-    var accessor = StringMapWrapper.get(controlValueAccessors, controlType);
-    if (isPresent(accessor)) {
-      return accessor;
-    } else {
-      return StringMapWrapper.get(controlValueAccessors, "text");
-    }
-  }
   return {
     setters: [function($__m) {
       Template = $__m.Template;
       Component = $__m.Component;
       Decorator = $__m.Decorator;
-      NgElement = $__m.NgElement;
       Ancestor = $__m.Ancestor;
       onChange = $__m.onChange;
+      PropertySetter = $__m.PropertySetter;
     }, function($__m) {
-      DOM = $__m.DOM;
+      Optional = $__m.Optional;
     }, function($__m) {
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
+      isString = $__m.isString;
       CONST = $__m.CONST;
     }, function($__m) {
       StringMapWrapper = $__m.StringMapWrapper;
@@ -51,92 +43,80 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
       ControlGroup = $__m.ControlGroup;
       Control = $__m.Control;
     }, function($__m) {
-      validators = $__m;
+      Validators = $__m.Validators;
     }],
     execute: function() {
-      ControlValueAccessor = $__export("ControlValueAccessor", (function() {
-        var ControlValueAccessor = function ControlValueAccessor() {};
-        return ($traceurRuntime.createClass)(ControlValueAccessor, {
-          readValue: function(el) {},
-          writeValue: function(el, value) {}
-        }, {});
+      DefaultValueAccessor = $__export("DefaultValueAccessor", (function() {
+        var DefaultValueAccessor = function DefaultValueAccessor(setValueProperty) {
+          $traceurRuntime.superConstructor(DefaultValueAccessor).call(this);
+          this._setValueProperty = setValueProperty;
+          this.onChange = (function(_) {});
+        };
+        return ($traceurRuntime.createClass)(DefaultValueAccessor, {writeValue: function(value) {
+            this._setValueProperty(value);
+          }}, {});
       }()));
-      Object.defineProperty(ControlValueAccessor, "annotations", {get: function() {
-          return [new CONST()];
+      Object.defineProperty(DefaultValueAccessor, "annotations", {get: function() {
+          return [new Decorator({
+            selector: '[control]',
+            events: {
+              'change': 'onChange($event.target.value)',
+              'input': 'onChange($event.target.value)'
+            }
+          })];
         }});
-      DefaultControlValueAccessor = (function($__super) {
-        var DefaultControlValueAccessor = function DefaultControlValueAccessor() {
-          $traceurRuntime.superConstructor(DefaultControlValueAccessor).call(this);
-        };
-        return ($traceurRuntime.createClass)(DefaultControlValueAccessor, {
-          readValue: function(el) {
-            return DOM.getValue(el);
-          },
-          writeValue: function(el, value) {
-            DOM.setValue(el, value);
-          }
-        }, {}, $__super);
-      }(ControlValueAccessor));
-      Object.defineProperty(DefaultControlValueAccessor, "annotations", {get: function() {
-          return [new CONST()];
+      Object.defineProperty(DefaultValueAccessor, "parameters", {get: function() {
+          return [[Function, new PropertySetter('value')]];
         }});
-      CheckboxControlValueAccessor = (function($__super) {
-        var CheckboxControlValueAccessor = function CheckboxControlValueAccessor() {
+      CheckboxControlValueAccessor = $__export("CheckboxControlValueAccessor", (function() {
+        var CheckboxControlValueAccessor = function CheckboxControlValueAccessor(cd, setCheckedProperty) {
           $traceurRuntime.superConstructor(CheckboxControlValueAccessor).call(this);
+          this._setCheckedProperty = setCheckedProperty;
+          this.onChange = (function(_) {});
+          cd.valueAccessor = this;
         };
-        return ($traceurRuntime.createClass)(CheckboxControlValueAccessor, {
-          readValue: function(el) {
-            return DOM.getChecked(el);
-          },
-          writeValue: function(el, value) {
-            DOM.setChecked(el, value);
-          }
-        }, {}, $__super);
-      }(ControlValueAccessor));
+        return ($traceurRuntime.createClass)(CheckboxControlValueAccessor, {writeValue: function(value) {
+            this._setCheckedProperty(value);
+          }}, {});
+      }()));
       Object.defineProperty(CheckboxControlValueAccessor, "annotations", {get: function() {
-          return [new CONST()];
+          return [new Decorator({
+            selector: 'input[type=checkbox]',
+            events: {'change': 'onChange($event.target.checked)'}
+          })];
         }});
-      Object.defineProperty(CheckboxControlValueAccessor.prototype.writeValue, "parameters", {get: function() {
-          return [[], [assert.type.boolean]];
-        }});
-      controlValueAccessors = {
-        "checkbox": new CheckboxControlValueAccessor(),
-        "text": new DefaultControlValueAccessor()
-      };
-      Object.defineProperty(controlValueAccessorFor, "parameters", {get: function() {
-          return [[assert.type.string]];
+      Object.defineProperty(CheckboxControlValueAccessor, "parameters", {get: function() {
+          return [[ControlDirective], [Function, new PropertySetter('checked')]];
         }});
       ControlDirective = $__export("ControlDirective", (function() {
-        var ControlDirective = function ControlDirective(groupDecorator, el) {
-          this._groupDecorator = groupDecorator;
-          this._el = el;
-          this.validator = validators.nullValidator;
+        var ControlDirective = function ControlDirective(groupDirective, valueAccessor) {
+          this._groupDirective = groupDirective;
+          this.controlName = null;
+          this.valueAccessor = valueAccessor;
+          this.validator = Validators.nullValidator;
         };
         return ($traceurRuntime.createClass)(ControlDirective, {
           onChange: function(_) {
             this._initialize();
           },
           _initialize: function() {
-            var $__0 = this;
-            this._groupDecorator.addDirective(this);
+            this._groupDirective.addDirective(this);
             var c = this._control();
-            c.validator = validators.compose([c.validator, this.validator]);
-            if (isBlank(this.valueAccessor)) {
-              this.valueAccessor = controlValueAccessorFor(this.type);
-            }
+            c.validator = Validators.compose([c.validator, this.validator]);
             this._updateDomValue();
-            DOM.on(this._el.domElement, "change", (function(_) {
-              return $__0._updateControlValue();
-            }));
+            this._setUpUpdateControlValue();
           },
           _updateDomValue: function() {
-            this.valueAccessor.writeValue(this._el.domElement, this._control().value);
+            this.valueAccessor.writeValue(this._control().value);
           },
-          _updateControlValue: function() {
-            this._control().updateValue(this.valueAccessor.readValue(this._el.domElement));
+          _setUpUpdateControlValue: function() {
+            var $__0 = this;
+            this.valueAccessor.onChange = (function(newValue) {
+              return $__0._control().updateValue(newValue);
+            });
           },
           _control: function() {
-            return this._groupDecorator.findControl(this.controlName);
+            return this._groupDirective.findControl(this.controlName);
           }
         }, {});
       }()));
@@ -144,23 +124,28 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
           return [new Decorator({
             lifecycle: [onChange],
             selector: '[control]',
-            bind: {
-              'controlName': 'control',
-              'type': 'type'
-            }
+            bind: {'controlName': 'control'}
           })];
         }});
       Object.defineProperty(ControlDirective, "parameters", {get: function() {
-          return [[ControlGroupDirective, new Ancestor()], [NgElement]];
+          return [[ControlGroupDirective, new Ancestor()], [DefaultValueAccessor]];
         }});
       ControlGroupDirective = $__export("ControlGroupDirective", (function() {
-        var ControlGroupDirective = function ControlGroupDirective() {
+        var ControlGroupDirective = function ControlGroupDirective(groupDirective) {
           $traceurRuntime.superConstructor(ControlGroupDirective).call(this);
+          this._groupDirective = groupDirective;
           this._directives = ListWrapper.create();
         };
         return ($traceurRuntime.createClass)(ControlGroupDirective, {
           set controlGroup(controlGroup) {
-            this._controlGroup = controlGroup;
+            if (isString(controlGroup)) {
+              this._controlGroupName = controlGroup;
+            } else {
+              this._controlGroup = controlGroup;
+            }
+            this._updateDomValue();
+          },
+          _updateDomValue: function() {
             ListWrapper.forEach(this._directives, (function(cd) {
               return cd._updateDomValue();
             }));
@@ -169,7 +154,14 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
             ListWrapper.push(this._directives, c);
           },
           findControl: function(name) {
-            return this._controlGroup.controls[name];
+            return this._getControlGroup().controls[name];
+          },
+          _getControlGroup: function() {
+            if (isPresent(this._controlGroupName)) {
+              return this._groupDirective.findControl(this._controlGroupName);
+            } else {
+              return this._controlGroup;
+            }
           }
         }, {});
       }()));
@@ -179,8 +171,8 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
             bind: {'controlGroup': 'control-group'}
           })];
         }});
-      Object.defineProperty(Object.getOwnPropertyDescriptor(ControlGroupDirective.prototype, "controlGroup").set, "parameters", {get: function() {
-          return [[ControlGroup]];
+      Object.defineProperty(ControlGroupDirective, "parameters", {get: function() {
+          return [[ControlGroupDirective, new Optional(), new Ancestor()]];
         }});
       Object.defineProperty(ControlGroupDirective.prototype.addDirective, "parameters", {get: function() {
           return [[ControlDirective]];
@@ -188,7 +180,7 @@ System.register(["angular2/core", "angular2/src/dom/dom_adapter", "angular2/src/
       Object.defineProperty(ControlGroupDirective.prototype.findControl, "parameters", {get: function() {
           return [[assert.type.string]];
         }});
-      FormDirectives = $__export("FormDirectives", [ControlGroupDirective, ControlDirective]);
+      FormDirectives = $__export("FormDirectives", [ControlGroupDirective, ControlDirective, CheckboxControlValueAccessor, DefaultValueAccessor]);
     }
   };
 });

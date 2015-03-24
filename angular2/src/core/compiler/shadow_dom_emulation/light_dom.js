@@ -1,15 +1,12 @@
-System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "../view", "../element_injector", "../view_container", "./content_tag"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection", "angular2/src/facade/lang", "../view", "./content_tag"], function($__export) {
   "use strict";
   var DOM,
       List,
       ListWrapper,
       isBlank,
       isPresent,
-      View,
-      ElementInjector,
-      ViewContainer,
+      viewModule,
       Content,
-      SourceLightDom,
       DestinationLightDom,
       _Root,
       LightDom;
@@ -20,7 +17,7 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       var matchSelector = (function(n) {
         return DOM.elementMatches(n, select);
       });
-      if (isBlank(select)) {
+      if (select.length === 0) {
         content.insert(nodes);
         ListWrapper.clear(nodes);
       } else {
@@ -40,27 +37,20 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
       isBlank = $__m.isBlank;
       isPresent = $__m.isPresent;
     }, function($__m) {
-      View = $__m.View;
-    }, function($__m) {
-      ElementInjector = $__m.ElementInjector;
-    }, function($__m) {
-      ViewContainer = $__m.ViewContainer;
+      viewModule = $__m;
     }, function($__m) {
       Content = $__m.Content;
     }],
     execute: function() {
-      SourceLightDom = $__export("SourceLightDom", (function() {
-        var SourceLightDom = function SourceLightDom() {};
-        return ($traceurRuntime.createClass)(SourceLightDom, {}, {});
-      }()));
       DestinationLightDom = $__export("DestinationLightDom", (function() {
         var DestinationLightDom = function DestinationLightDom() {};
         return ($traceurRuntime.createClass)(DestinationLightDom, {}, {});
       }()));
       _Root = (function() {
-        var _Root = function _Root(node, injector) {
+        var _Root = function _Root(node, viewContainer, content) {
           this.node = node;
-          this.injector = injector;
+          this.viewContainer = viewContainer;
+          this.content = content;
         };
         return ($traceurRuntime.createClass)(_Root, {}, {});
       }());
@@ -83,15 +73,15 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
           },
           _collectAllContentTags: function(view, acc) {
             var $__0 = this;
-            var eis = view.elementInjectors;
-            for (var i = 0; i < eis.length; ++i) {
-              var ei = eis[i];
-              if (isBlank(ei))
-                continue;
-              if (ei.hasDirective(Content)) {
-                ListWrapper.push(acc, ei.get(Content));
-              } else if (ei.hasPreBuiltObject(ViewContainer)) {
-                var vc = ei.get(ViewContainer);
+            var contentTags = view.contentTags;
+            var vcs = view.viewContainers;
+            for (var i = 0; i < vcs.length; i++) {
+              var vc = vcs[i];
+              var contentTag = contentTags[i];
+              if (isPresent(contentTag)) {
+                ListWrapper.push(acc, contentTag);
+              }
+              if (isPresent(vc)) {
                 ListWrapper.forEach(vc.contentTagContainers(), (function(view) {
                   $__0._collectAllContentTags(view, acc);
                 }));
@@ -104,13 +94,10 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
             var roots = this._roots();
             for (var i = 0; i < roots.length; ++i) {
               var root = roots[i];
-              var ei = root.injector;
-              if (isPresent(ei) && ei.hasPreBuiltObject(ViewContainer)) {
-                var vc = root.injector.get(ViewContainer);
-                res = ListWrapper.concat(res, vc.nodes());
-              } else if (isPresent(ei) && ei.hasDirective(Content)) {
-                var content = root.injector.get(Content);
-                res = ListWrapper.concat(res, content.nodes());
+              if (isPresent(root.viewContainer)) {
+                res = ListWrapper.concat(res, root.viewContainer.nodes());
+              } else if (isPresent(root.content)) {
+                res = ListWrapper.concat(res, root.content.nodes());
               } else {
                 ListWrapper.push(res, root.node);
               }
@@ -120,21 +107,32 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
           _roots: function() {
             if (isPresent(this.roots))
               return this.roots;
-            var viewInj = this.lightDomView.elementInjectors;
+            var viewContainers = this.lightDomView.viewContainers;
+            var contentTags = this.lightDomView.contentTags;
             this.roots = ListWrapper.map(this.nodes, (function(n) {
-              return new _Root(n, ListWrapper.find(viewInj, (function(inj) {
-                return isPresent(inj) ? inj.forElement(n) : false;
-              })));
+              var foundVc = null;
+              var foundContentTag = null;
+              for (var i = 0; i < viewContainers.length; i++) {
+                var vc = viewContainers[i];
+                var contentTag = contentTags[i];
+                if (isPresent(vc) && vc.templateElement === n) {
+                  foundVc = vc;
+                }
+                if (isPresent(contentTag) && contentTag.contentStartElement === n) {
+                  foundContentTag = contentTag;
+                }
+              }
+              return new _Root(n, foundVc, foundContentTag);
             }));
             return this.roots;
           }
         }, {});
       }()));
       Object.defineProperty(LightDom, "parameters", {get: function() {
-          return [[View], [View], []];
+          return [[viewModule.View], [viewModule.View], []];
         }});
       Object.defineProperty(LightDom.prototype._collectAllContentTags, "parameters", {get: function() {
-          return [[View], [assert.genericType(List, Content)]];
+          return [[viewModule.View], [assert.genericType(List, Content)]];
         }});
       Object.defineProperty(redistributeNodes, "parameters", {get: function() {
           return [[assert.genericType(List, Content)], [List]];

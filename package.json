@@ -30,8 +30,8 @@
     "run-sequence": "^1.0.2"
   },
   "dependencies": {
-    "angular2": "^2.0.0-alpha.11",
-    "rtts_assert": "^2.0.0-alpha.11",
+    "angular2": "^2.0.0-alpha.14",
+    "rtts_assert": "^2.0.0-alpha.14",
     "systemjs": "^0.14.1",
     "zone.js": "^0.4.1"
   }

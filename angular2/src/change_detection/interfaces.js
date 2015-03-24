@@ -1,6 +1,7 @@
-System.register(["angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/src/facade/collection", "./parser/locals"], function($__export) {
   "use strict";
   var List,
+      Locals,
       ChangeRecord,
       CHECK_ONCE,
       CHECKED,
@@ -11,6 +12,8 @@ System.register(["angular2/src/facade/collection"], function($__export) {
   return {
     setters: [function($__m) {
       List = $__m.List;
+    }, function($__m) {
+      Locals = $__m.Locals;
     }],
     execute: function() {
       ChangeRecord = $__export("ChangeRecord", (function() {
@@ -44,7 +47,8 @@ System.register(["angular2/src/facade/collection"], function($__export) {
           addChild: function(cd) {},
           removeChild: function(cd) {},
           remove: function() {},
-          setContext: function(context) {},
+          hydrate: function(context, locals) {},
+          dehydrate: function() {},
           markPathToRootAsCheckOnce: function() {},
           detectChanges: function() {},
           checkNoChanges: function() {}
@@ -56,8 +60,8 @@ System.register(["angular2/src/facade/collection"], function($__export) {
       Object.defineProperty(ChangeDetector.prototype.removeChild, "parameters", {get: function() {
           return [[ChangeDetector]];
         }});
-      Object.defineProperty(ChangeDetector.prototype.setContext, "parameters", {get: function() {
-          return [[assert.type.any]];
+      Object.defineProperty(ChangeDetector.prototype.hydrate, "parameters", {get: function() {
+          return [[assert.type.any], [Locals]];
         }});
     }
   };

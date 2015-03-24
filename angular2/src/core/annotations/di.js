@@ -2,7 +2,8 @@ System.register(["angular2/src/facade/lang", "angular2/di"], function($__export)
   "use strict";
   var CONST,
       DependencyAnnotation,
-      EventEmitter;
+      EventEmitter,
+      PropertySetter;
   return {
     setters: [function($__m) {
       CONST = $__m.CONST;
@@ -20,10 +21,20 @@ System.register(["angular2/src/facade/lang", "angular2/di"], function($__export)
       Object.defineProperty(EventEmitter, "annotations", {get: function() {
           return [new CONST()];
         }});
+      PropertySetter = $__export("PropertySetter", (function($__super) {
+        var PropertySetter = function PropertySetter(propName) {
+          $traceurRuntime.superConstructor(PropertySetter).call(this);
+          this.propName = propName;
+        };
+        return ($traceurRuntime.createClass)(PropertySetter, {}, {}, $__super);
+      }(DependencyAnnotation)));
+      Object.defineProperty(PropertySetter, "annotations", {get: function() {
+          return [new CONST()];
+        }});
     }
   };
 });
 
-//# sourceMappingURL=src/core/annotations/events.map
+//# sourceMappingURL=src/core/annotations/di.map
 
-//# sourceMappingURL=../../../src/core/annotations/events.js.map
+//# sourceMappingURL=../../../src/core/annotations/di.js.map

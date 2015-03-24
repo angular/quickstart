@@ -1,20 +1,20 @@
-System.register(["angular2/core", "angular2/forms"], function($__export) {
+System.register(["angular2/angular2", "angular2/forms"], function($__export) {
   "use strict";
   var Decorator,
       ControlDirective,
-      validators,
+      Validators,
       RequiredValidatorDirective;
   return {
     setters: [function($__m) {
       Decorator = $__m.Decorator;
     }, function($__m) {
       ControlDirective = $__m.ControlDirective;
-      validators = $__m;
+      Validators = $__m.Validators;
     }],
     execute: function() {
       RequiredValidatorDirective = $__export("RequiredValidatorDirective", (function() {
         var RequiredValidatorDirective = function RequiredValidatorDirective(c) {
-          c.validator = validators.compose([c.validator, validators.required]);
+          c.validator = Validators.compose([c.validator, Validators.required]);
         };
         return ($traceurRuntime.createClass)(RequiredValidatorDirective, {}, {});
       }()));

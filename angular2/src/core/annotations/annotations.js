@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/di"], function($__export) {
   "use strict";
   var ABSTRACT,
       CONST,
@@ -6,8 +6,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
       isPresent,
       ListWrapper,
       List,
+      Injectable,
       Directive,
       Component,
+      DynamicComponent,
       Decorator,
       Viewport,
       onDestroy,
@@ -21,26 +23,27 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
     }, function($__m) {
       ListWrapper = $__m.ListWrapper;
       List = $__m.List;
+    }, function($__m) {
+      Injectable = $__m.Injectable;
     }],
     execute: function() {
-      Directive = $__export("Directive", (function() {
+      Directive = $__export("Directive", (function($__super) {
         var Directive = function Directive() {
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
-              implementsTypes = $__1.implementsTypes,
+              events = $__1.events,
               lifecycle = $__1.lifecycle;
+          $traceurRuntime.superConstructor(Directive).call(this);
           this.selector = selector;
-          this.lightDomServices = lightDomServices;
-          this.implementsTypes = implementsTypes;
           this.bind = bind;
+          this.events = events;
           this.lifecycle = lifecycle;
         };
         return ($traceurRuntime.createClass)(Directive, {hasLifecycleHook: function(hook) {
             return isPresent(this.lifecycle) ? ListWrapper.contains(this.lifecycle, hook) : false;
-          }}, {});
-      }()));
+          }}, {}, $__super);
+      }(Injectable)));
       Object.defineProperty(Directive, "annotations", {get: function() {
           return [new ABSTRACT(), new CONST()];
         }});
@@ -52,26 +55,41 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
-              shadowDomServices = $__1.shadowDomServices,
-              componentServices = $__1.componentServices,
-              implementsTypes = $__1.implementsTypes,
+              events = $__1.events,
+              services = $__1.services,
               lifecycle = $__1.lifecycle;
           $traceurRuntime.superConstructor(Component).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
-            implementsTypes: implementsTypes,
+            events: events,
             lifecycle: lifecycle
           });
-          this.lightDomServices = lightDomServices;
-          this.shadowDomServices = shadowDomServices;
-          this.componentServices = componentServices;
-          this.lifecycle = lifecycle;
+          this.services = services;
         };
         return ($traceurRuntime.createClass)(Component, {}, {}, $__super);
       }(Directive)));
       Object.defineProperty(Component, "annotations", {get: function() {
+          return [new CONST()];
+        }});
+      DynamicComponent = $__export("DynamicComponent", (function($__super) {
+        var DynamicComponent = function DynamicComponent() {
+          var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
+              selector = $__1.selector,
+              bind = $__1.bind,
+              events = $__1.events,
+              services = $__1.services,
+              lifecycle = $__1.lifecycle;
+          $traceurRuntime.superConstructor(DynamicComponent).call(this, {
+            selector: selector,
+            bind: bind,
+            events: events,
+            lifecycle: lifecycle
+          });
+          this.services = services;
+        };
+        return ($traceurRuntime.createClass)(DynamicComponent, {}, {}, $__super);
+      }(Directive)));
+      Object.defineProperty(DynamicComponent, "annotations", {get: function() {
           return [new CONST()];
         }});
       Decorator = $__export("Decorator", (function($__super) {
@@ -80,16 +98,14 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
-              implementsTypes = $__1.implementsTypes,
+              events = $__1.events,
               lifecycle = $__1.lifecycle,
               compileChildren = ($__2 = $__1.compileChildren) === void 0 ? true : $__2;
           this.compileChildren = compileChildren;
           $traceurRuntime.superConstructor(Decorator).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
-            implementsTypes: implementsTypes,
+            events: events,
             lifecycle: lifecycle
           });
         };
@@ -103,14 +119,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           var $__1 = arguments[0] !== (void 0) ? arguments[0] : {},
               selector = $__1.selector,
               bind = $__1.bind,
-              lightDomServices = $__1.lightDomServices,
-              implementsTypes = $__1.implementsTypes,
+              events = $__1.events,
               lifecycle = $__1.lifecycle;
           $traceurRuntime.superConstructor(Viewport).call(this, {
             selector: selector,
             bind: bind,
-            lightDomServices: lightDomServices,
-            implementsTypes: implementsTypes,
+            events: events,
             lifecycle: lifecycle
           });
         };

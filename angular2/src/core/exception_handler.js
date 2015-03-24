@@ -1,12 +1,15 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
   "use strict";
-  var isPresent,
+  var Injectable,
+      isPresent,
       print,
       ListWrapper,
       isListLikeIterable,
       ExceptionHandler;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       isPresent = $__m.isPresent;
       print = $__m.print;
     }, function($__m) {
@@ -24,6 +27,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
             print(("" + error + reasonStr + "\nSTACKTRACE:\n" + longStackTrace));
           }}, {});
       }()));
+      Object.defineProperty(ExceptionHandler, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
     }
   };
 });

@@ -1,12 +1,15 @@
-System.register(["angular2/change_detection", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/exception_handler", "angular2/src/facade/lang"], function($__export) {
+System.register(["angular2/di", "angular2/change_detection", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/exception_handler", "angular2/src/facade/lang"], function($__export) {
   "use strict";
-  var ChangeDetector,
+  var Injectable,
+      ChangeDetector,
       VmTurnZone,
       ExceptionHandler,
       isPresent,
       LifeCycle;
   return {
     setters: [function($__m) {
+      Injectable = $__m.Injectable;
+    }, function($__m) {
       ChangeDetector = $__m.ChangeDetector;
     }, function($__m) {
       VmTurnZone = $__m.VmTurnZone;
@@ -49,6 +52,9 @@ System.register(["angular2/change_detection", "angular2/src/core/zone/vm_turn_zo
           }
         }, {});
       }()));
+      Object.defineProperty(LifeCycle, "annotations", {get: function() {
+          return [new Injectable()];
+        }});
       Object.defineProperty(LifeCycle, "parameters", {get: function() {
           return [[ExceptionHandler], [ChangeDetector], [assert.type.boolean]];
         }});

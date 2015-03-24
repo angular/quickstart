@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./parser/context_with_variable_bindings", "./abstract_change_detector", "./change_detection_util", "./proto_record"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./abstract_change_detector", "./change_detection_util", "./proto_record"], function($__export) {
   "use strict";
   var isPresent,
       isBlank,
@@ -8,12 +8,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ListWrapper,
       MapWrapper,
       StringMapWrapper,
-      ContextWithVariableBindings,
       AbstractChangeDetector,
       ChangeDetectionUtil,
       ProtoRecord,
       RECORD_TYPE_SELF,
       RECORD_TYPE_PROPERTY,
+      RECORD_TYPE_LOCAL,
       RECORD_TYPE_INVOKE_METHOD,
       RECORD_TYPE_CONST,
       RECORD_TYPE_INVOKE_CLOSURE,
@@ -26,8 +26,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       DISPATCHER_ACCESSOR,
       PIPE_REGISTRY_ACCESSOR,
       PROTOS_ACCESSOR,
+      CONTEXT_ACCESSOR,
       CHANGE_LOCAL,
       CHANGES_LOCAL,
+      LOCALS_ACCESSOR,
       TEMP_LOCAL,
       ChangeDetectorJITGenerator;
   function typeTemplate(type, cons, detectChanges, setContext) {
@@ -36,32 +38,31 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
   function constructorTemplate(type, fieldsDefinitions) {
     return ("\nvar " + type + " = function " + type + "(dispatcher, pipeRegistry, protos) {\n" + ABSTRACT_CHANGE_DETECTOR + ".call(this);\n" + DISPATCHER_ACCESSOR + " = dispatcher;\n" + PIPE_REGISTRY_ACCESSOR + " = pipeRegistry;\n" + PROTOS_ACCESSOR + " = protos;\n" + fieldsDefinitions + "\n}\n\n" + type + ".prototype = Object.create(" + ABSTRACT_CHANGE_DETECTOR + ".prototype);\n");
   }
-  function setContextTemplate(type) {
-    return ("\n" + type + ".prototype.setContext = function(context) {\n  this.context = context;\n}\n");
+  function pipeOnDestroyTemplate(pipeNames) {
+    return pipeNames.map((function(p) {
+      return (p + ".onDestroy()");
+    })).join("\n");
+  }
+  function hydrateTemplate(type, fieldsDefinitions, pipeOnDestroy) {
+    return ("\n" + type + ".prototype.hydrate = function(context, locals) {\n  " + CONTEXT_ACCESSOR + " = context;\n  " + LOCALS_ACCESSOR + " = locals;\n}\n" + type + ".prototype.dehydrate = function() {\n  " + pipeOnDestroy + "\n  " + fieldsDefinitions + "\n  " + LOCALS_ACCESSOR + " = null;\n}\n" + type + ".prototype.hydrated = function() {\n  return " + CONTEXT_ACCESSOR + " !== " + UTIL + ".unitialized();\n}\n");
   }
   function detectChangesTemplate(type, body) {
     return ("\n" + type + ".prototype.detectChangesInRecords = function(throwOnChange) {\n  " + body + "\n}\n");
   }
   function bodyTemplate(localDefinitions, changeDefinitions, records) {
-    return ("\n" + localDefinitions + "\n" + changeDefinitions + "\nvar " + TEMP_LOCAL + ";\nvar " + CHANGE_LOCAL + ";\nvar " + CHANGES_LOCAL + " = null;\n\ncontext = this.context;\n" + records + "\n");
+    return ("\n" + localDefinitions + "\n" + changeDefinitions + "\nvar " + TEMP_LOCAL + ";\nvar " + CHANGE_LOCAL + ";\nvar " + CHANGES_LOCAL + " = null;\n\ncontext = " + CONTEXT_ACCESSOR + ";\n" + records + "\n");
   }
   function notifyTemplate(index) {
     return ("\nif (" + CHANGES_LOCAL + " && " + CHANGES_LOCAL + ".length > 0) {\n  if(throwOnChange) " + UTIL + ".throwOnChange(" + PROTOS_ACCESSOR + "[" + index + "], " + CHANGES_LOCAL + "[0]);\n  " + DISPATCHER_ACCESSOR + ".onRecordChange(" + PROTOS_ACCESSOR + "[" + index + "].directiveMemento, " + CHANGES_LOCAL + ");\n  " + CHANGES_LOCAL + " = null;\n}\n");
   }
   function pipeCheckTemplate(context, pipe, pipeType, value, change, addRecord, notify) {
-    return ("\nif (" + pipe + " === " + UTIL + ".unitialized() || !" + pipe + ".supports(" + context + ")) {\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ");\n}\n\n" + CHANGE_LOCAL + " = " + pipe + ".transform(" + context + ");\nif (! " + UTIL + ".noChangeMarker(" + CHANGE_LOCAL + ")) {\n  " + value + " = " + CHANGE_LOCAL + ";\n  " + change + " = true;\n  " + addRecord + "\n}\n" + notify + "\n");
+    return ("\nif (" + pipe + " === " + UTIL + ".unitialized()) {\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ");\n} else if (!" + pipe + ".supports(" + context + ")) {\n  " + pipe + ".onDestroy();\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ");\n}\n\n" + CHANGE_LOCAL + " = " + pipe + ".transform(" + context + ");\nif (! " + UTIL + ".noChangeMarker(" + CHANGE_LOCAL + ")) {\n  " + value + " = " + CHANGE_LOCAL + ";\n  " + change + " = true;\n  " + addRecord + "\n}\n" + notify + "\n");
   }
   function referenceCheckTemplate(assignment, newValue, oldValue, change, addRecord, notify) {
     return ("\n" + assignment + "\nif (" + newValue + " !== " + oldValue + " || (" + newValue + " !== " + newValue + ") && (" + oldValue + " !== " + oldValue + ")) {\n  " + change + " = true;\n  " + addRecord + "\n  " + oldValue + " = " + newValue + ";\n}\n" + notify + "\n");
   }
   function assignmentTemplate(field, value) {
     return (field + " = " + value + ";");
-  }
-  function propertyReadTemplate(name, context, newValue) {
-    return ("\n" + TEMP_LOCAL + " = " + UTIL + ".findContext(\"" + name + "\", " + context + ");\nif (" + TEMP_LOCAL + " instanceof ContextWithVariableBindings) {\n  " + newValue + " = " + TEMP_LOCAL + ".get('" + name + "');\n} else {\n  " + newValue + " = " + TEMP_LOCAL + "." + name + ";\n}\n");
-  }
-  function invokeMethodTemplate(name, args, context, newValue) {
-    return ("\n" + TEMP_LOCAL + " = " + UTIL + ".findContext(\"" + name + "\", " + context + ");\nif (" + TEMP_LOCAL + " instanceof ContextWithVariableBindings) {\n  " + newValue + " = " + TEMP_LOCAL + ".get('" + name + "').apply(null, [" + args + "]);\n} else {\n  " + newValue + " = " + context + "." + name + "(" + args + ");\n}\n");
   }
   function localDefinitionsTemplate(names) {
     return names.map((function(n) {
@@ -97,8 +98,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       MapWrapper = $__m.MapWrapper;
       StringMapWrapper = $__m.StringMapWrapper;
     }, function($__m) {
-      ContextWithVariableBindings = $__m.ContextWithVariableBindings;
-    }, function($__m) {
       AbstractChangeDetector = $__m.AbstractChangeDetector;
     }, function($__m) {
       ChangeDetectionUtil = $__m.ChangeDetectionUtil;
@@ -106,6 +105,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ProtoRecord = $__m.ProtoRecord;
       RECORD_TYPE_SELF = $__m.RECORD_TYPE_SELF;
       RECORD_TYPE_PROPERTY = $__m.RECORD_TYPE_PROPERTY;
+      RECORD_TYPE_LOCAL = $__m.RECORD_TYPE_LOCAL;
       RECORD_TYPE_INVOKE_METHOD = $__m.RECORD_TYPE_INVOKE_METHOD;
       RECORD_TYPE_CONST = $__m.RECORD_TYPE_CONST;
       RECORD_TYPE_INVOKE_CLOSURE = $__m.RECORD_TYPE_INVOKE_CLOSURE;
@@ -120,8 +120,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       DISPATCHER_ACCESSOR = "this.dispatcher";
       PIPE_REGISTRY_ACCESSOR = "this.pipeRegistry";
       PROTOS_ACCESSOR = "this.protos";
+      CONTEXT_ACCESSOR = "this.context";
       CHANGE_LOCAL = "change";
       CHANGES_LOCAL = "changes";
+      LOCALS_ACCESSOR = "this.locals";
       TEMP_LOCAL = "temp";
       Object.defineProperty(typeTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
@@ -129,8 +131,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(constructorTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
         }});
-      Object.defineProperty(setContextTemplate, "parameters", {get: function() {
-          return [[assert.type.string]];
+      Object.defineProperty(pipeOnDestroyTemplate, "parameters", {get: function() {
+          return [[List]];
+        }});
+      Object.defineProperty(hydrateTemplate, "parameters", {get: function() {
+          return [[assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(detectChangesTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
@@ -146,12 +151,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         }});
       Object.defineProperty(assignmentTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
-        }});
-      Object.defineProperty(propertyReadTemplate, "parameters", {get: function() {
-          return [[assert.type.string], [assert.type.string], [assert.type.string]];
-        }});
-      Object.defineProperty(invokeMethodTemplate, "parameters", {get: function() {
-          return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(localDefinitionsTemplate, "parameters", {get: function() {
           return [[List]];
@@ -202,22 +201,30 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             }));
           },
           generate: function() {
-            var text = typeTemplate(this.typeName, this.genConstructor(), this.genDetectChanges(), this.genSetContext());
-            return new Function('AbstractChangeDetector', 'ChangeDetectionUtil', 'ContextWithVariableBindings', 'protos', text)(AbstractChangeDetector, ChangeDetectionUtil, ContextWithVariableBindings, this.records);
+            var text = typeTemplate(this.typeName, this.genConstructor(), this.genDetectChanges(), this.genHydrate());
+            return new Function('AbstractChangeDetector', 'ChangeDetectionUtil', 'protos', text)(AbstractChangeDetector, ChangeDetectionUtil, this.records);
           },
           genConstructor: function() {
-            var $__0 = this;
+            return constructorTemplate(this.typeName, this.genFieldDefinitions());
+          },
+          genHydrate: function() {
+            return hydrateTemplate(this.typeName, this.genFieldDefinitions(), pipeOnDestroyTemplate(this.getnonNullPipeNames()));
+          },
+          genFieldDefinitions: function() {
             var fields = [];
             fields = fields.concat(this.fieldNames);
+            fields = fields.concat(this.getnonNullPipeNames());
+            return fieldDefinitionsTemplate(fields);
+          },
+          getnonNullPipeNames: function() {
+            var $__0 = this;
+            var pipes = [];
             this.records.forEach((function(r) {
               if (r.mode === RECORD_TYPE_PIPE) {
-                fields.push($__0.pipeNames[r.selfIndex]);
+                pipes.push($__0.pipeNames[r.selfIndex]);
               }
             }));
-            return constructorTemplate(this.typeName, fieldDefinitionsTemplate(fields));
-          },
-          genSetContext: function() {
-            return setContextTemplate(this.typeName);
+            return pipes;
           },
           genDetectChanges: function() {
             var body = this.genBody();
@@ -278,17 +285,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               case RECORD_TYPE_CONST:
                 return (newValue + " = " + this.genLiteral(r.funcOrValue));
               case RECORD_TYPE_PROPERTY:
-                if (r.contextIndex == 0) {
-                  return propertyReadTemplate(r.name, context, newValue);
-                } else {
-                  return assignmentTemplate(newValue, (context + "." + r.name));
-                }
+                return assignmentTemplate(newValue, (context + "." + r.name));
+              case RECORD_TYPE_LOCAL:
+                return assignmentTemplate(newValue, (LOCALS_ACCESSOR + ".get('" + r.name + "')"));
               case RECORD_TYPE_INVOKE_METHOD:
-                if (r.contextIndex == 0) {
-                  return invokeMethodTemplate(r.name, args, context, newValue);
-                } else {
-                  return assignmentTemplate(newValue, (context + "." + r.name + "(" + args + ")"));
-                }
+                return assignmentTemplate(newValue, (context + "." + r.name + "(" + args + ")"));
               case RECORD_TYPE_INVOKE_CLOSURE:
                 return assignmentTemplate(newValue, (context + "(" + args + ")"));
               case RECORD_TYPE_PRIMITIVE_OP:
