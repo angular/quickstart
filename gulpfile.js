@@ -4,14 +4,26 @@ var del = require('del');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 
-// static dependencies for Angular2
+// static dependencies for Angular 2
+
+// 1. Reflect
+// 2. Use only traceurRuntime
+// 3. Module Loader ts
+// 4. Latest system.js
+// 5. System.transpiler = 'typescript'
+// 6. typeScriptServices
+// 7. zone
+// 8. long-stack-trace-zone.js
+
 var deps = [
-  'node_modules/systemjs/node_modules/es6-module-loader/node_modules/traceur/bin/traceur.js',
-  'node_modules/systemjs/node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
+  './reflect.js',
+  'node_modules/systemjs/node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
+  './es6-module-loader-sans-promises-ts.js',
   'node_modules/systemjs/dist/system.js',
+  './typeScriptOptions.js',
+  './typeScriptServices.js',
   'node_modules/zone.js/zone.js',
   'node_modules/zone.js/long-stack-trace-zone.js',
-  './traceurOptions.js'
 ];
 
 // Angular2 AtScript to ES5
@@ -23,7 +35,7 @@ gulp.task('build:strip_maps', shell.task(["sh strip_maps.sh"]));
 // Concat all static dependencies for Angular2
 gulp.task('build:shim', function() {
   return gulp.src(deps)
-    .pipe(concat('es6-shim.js'))
+    .pipe(concat('quick-setup.js'))
     .pipe(gulp.dest('./dist/'));
 });
 

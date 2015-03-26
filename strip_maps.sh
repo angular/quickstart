@@ -1,1 +1,1 @@
-sed -e '/^\/\/\# source/d' -i '' dist/es6-shim.js 
+sed -e '/^\/\/\# source/d' -i '' dist/quick-setup.js 

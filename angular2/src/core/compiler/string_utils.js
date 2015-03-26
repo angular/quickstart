@@ -34,6 +34,6 @@ System.register(["angular2/src/facade/lang"], function($__export) {
   };
 });
 
-//# sourceMappingURL=src/core/compiler/pipeline/util.map
+//# sourceMappingURL=src/core/compiler/string_utils.map
 
-//# sourceMappingURL=../../../../src/core/compiler/pipeline/util.js.map
+//# sourceMappingURL=../../../src/core/compiler/string_utils.js.map

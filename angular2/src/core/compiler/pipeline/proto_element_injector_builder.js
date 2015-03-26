@@ -58,6 +58,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
                   current.inheritedProtoElementInjector.exportImplicitName = exportImplicitName;
                 }
               }
+              current.inheritedProtoElementInjector.attributes = current.attributes;
             } else {
               current.inheritedProtoElementInjector = parentProtoElementInjector;
               current.distanceToParentInjector = distanceToParentInjector;

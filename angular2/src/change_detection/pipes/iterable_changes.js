@@ -115,8 +115,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             this._reset();
             var record = this._itHead;
             var mayBeDirty = false;
-            var index,
-                item;
+            var index;
+            var item;
             if (ListWrapper.isList(collection)) {
               var list = collection;
               this._length = collection.length;

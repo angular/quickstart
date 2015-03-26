@@ -1,0 +1,1 @@
+System.transpiler = 'typescript';

@@ -431,7 +431,7 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
                 changeDetector.addChild(childView.changeDetector);
                 lightDom = strategy.constructLightDom(view, childView, element);
                 strategy.attachTemplate(element, childView);
-                bindingPropagationConfig = new BindingPropagationConfig(changeDetector);
+                bindingPropagationConfig = new BindingPropagationConfig(childView.changeDetector);
                 ListWrapper.push(componentChildViews, childView);
               }
               lightDoms[binderIdx] = lightDom;

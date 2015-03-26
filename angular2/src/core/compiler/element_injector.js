@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/di", "angular2/src/core/compiler/view", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/binding_propagation_config", "angular2/src/core/compiler/private_component_location", "angular2/src/reflection/reflection"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/di", "angular2/src/core/compiler/view", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/binding_propagation_config", "angular2/src/core/compiler/private_component_location", "./property_setter_factory"], function($__export) {
   "use strict";
   var isPresent,
       isBlank,
@@ -21,6 +21,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       Ancestor,
       EventEmitter,
       PropertySetter,
+      Attribute,
       viewModule,
       ViewContainer,
       NgElement,
@@ -29,7 +30,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       onDestroy,
       BindingPropagationConfig,
       pclModule,
-      reflector,
+      setterFactory,
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER,
       MAX_DEPTH,
       _undefined,
@@ -70,6 +71,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
     }, function($__m) {
       EventEmitter = $__m.EventEmitter;
       PropertySetter = $__m.PropertySetter;
+      Attribute = $__m.Attribute;
     }, function($__m) {
       viewModule = $__m;
     }, function($__m) {
@@ -85,7 +87,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
     }, function($__m) {
       pclModule = $__m;
     }, function($__m) {
-      reflector = $__m.reflector;
+      setterFactory = $__m.setterFactory;
     }],
     execute: function() {
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER = 10;
@@ -150,16 +152,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           return [[TreeNode]];
         }});
       DirectiveDependency = $__export("DirectiveDependency", (function($__super) {
-        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, optional, properties, depth, eventEmitterName, propSetterName) {
+        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, optional, properties, depth, eventEmitterName, propSetterName, attributeName) {
           $traceurRuntime.superConstructor(DirectiveDependency).call(this, key, asPromise, lazy, optional, properties);
           this.depth = depth;
           this.eventEmitterName = eventEmitterName;
           this.propSetterName = propSetterName;
+          this.attributeName = attributeName;
         };
         return ($traceurRuntime.createClass)(DirectiveDependency, {}, {createFrom: function(d) {
             var depth = 0;
             var eventName = null;
             var propName = null;
+            var attributeName = null;
             var properties = d.properties;
             for (var i = 0; i < properties.length; i++) {
               var property = properties[i];
@@ -171,13 +175,15 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
                 eventName = property.eventName;
               } else if (property instanceof PropertySetter) {
                 propName = property.propName;
+              } else if (property instanceof Attribute) {
+                attributeName = property.attributeName;
               }
             }
-            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.optional, d.properties, depth, eventName, propName);
+            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.optional, d.properties, depth, eventName, propName, attributeName);
           }}, $__super);
       }(Dependency)));
       Object.defineProperty(DirectiveDependency, "parameters", {get: function() {
-          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string], [assert.type.string]];
+          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(DirectiveDependency.createFrom, "parameters", {get: function() {
           return [[Dependency]];
@@ -594,6 +600,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
               return this._buildEventEmitter(dep);
             if (isPresent(dep.propSetterName))
               return this._buildPropSetter(dep);
+            if (isPresent(dep.attributeName))
+              return this._buildAttribute(dep);
             return this._getByKey(dep.key, dep.depth, dep.optional, requestor);
           },
           _buildEventEmitter: function(dep) {
@@ -606,10 +614,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           _buildPropSetter: function(dep) {
             var ngElement = this._getPreBuiltObjectByKeyId(StaticKeys.instance().ngElementId);
             var domElement = ngElement.domElement;
-            var setter = reflector.setter(dep.propSetterName);
+            var setter = setterFactory(dep.propSetterName);
             return function(v) {
               setter(domElement, v);
             };
+          },
+          _buildAttribute: function(dep) {
+            var attributes = this._proto.attributes;
+            if (isPresent(attributes) && MapWrapper.contains(attributes, dep.attributeName)) {
+              return MapWrapper.get(attributes, dep.attributeName);
+            } else {
+              return null;
+            }
           },
           _getByKey: function(key, depth, optional, requestor) {
             var ei = this;
