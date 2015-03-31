@@ -13,7 +13,6 @@ System.register(["angular2/src/facade/lang"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/facade/math.map
+//# sourceMappingURL=math.js.map
 
 //# sourceMappingURL=../../src/facade/math.js.map

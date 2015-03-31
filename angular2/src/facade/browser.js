@@ -19,7 +19,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/facade/browser.map
+//# sourceMappingURL=browser.js.map
 
 //# sourceMappingURL=../../src/facade/browser.js.map

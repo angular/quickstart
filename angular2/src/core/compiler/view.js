@@ -1,4 +1,4 @@
-System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/change_detection", "./element_injector", "./binding_propagation_config", "./element_binder", "./directive_metadata", "angular2/src/reflection/types", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/dom/element", "./view_container", "./shadow_dom_emulation/light_dom", "./shadow_dom_emulation/content_tag", "./shadow_dom_strategy", "./view_pool", "angular2/src/core/events/event_manager"], function($__export) {
+System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/change_detection", "./element_injector", "./element_binder", "./directive_metadata", "angular2/src/reflection/types", "angular2/src/facade/lang", "angular2/di", "angular2/src/core/dom/element", "./view_container", "./shadow_dom_emulation/light_dom", "./shadow_dom_emulation/content_tag", "./shadow_dom_strategy", "./view_pool", "angular2/src/core/events/event_manager"], function($__export) {
   "use strict";
   var DOM,
       Promise,
@@ -14,11 +14,11 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
       ChangeDetector,
       ChangeRecord,
       BindingRecord,
+      BindingPropagationConfig,
       uninitialized,
       ProtoElementInjector,
       ElementInjector,
       PreBuiltObjects,
-      BindingPropagationConfig,
       ElementBinder,
       DirectiveMetadata,
       SetterFn,
@@ -43,7 +43,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
       ProtoView,
       ElementBindingMemento,
       DirectiveBindingMemento,
-      _directiveMementos,
       DirectiveMemento,
       PropertyUpdate;
   return {
@@ -65,13 +64,12 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
       ChangeDetector = $__m.ChangeDetector;
       ChangeRecord = $__m.ChangeRecord;
       BindingRecord = $__m.BindingRecord;
+      BindingPropagationConfig = $__m.BindingPropagationConfig;
       uninitialized = $__m.uninitialized;
     }, function($__m) {
       ProtoElementInjector = $__m.ProtoElementInjector;
       ElementInjector = $__m.ElementInjector;
       PreBuiltObjects = $__m.PreBuiltObjects;
-    }, function($__m) {
-      BindingPropagationConfig = $__m.BindingPropagationConfig;
     }, function($__m) {
       ElementBinder = $__m.ElementBinder;
     }, function($__m) {
@@ -240,6 +238,10 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
               this._notifyDirectiveAboutChanges(directiveMemento, records);
             }
           },
+          onAllChangesDone: function(directiveMemento) {
+            var dir = directiveMemento.directive(this.elementInjectors);
+            dir.onAllChangesDone();
+          },
           _invokeMementos: function(records) {
             for (var i = 0; i < records.length; ++i) {
               this._invokeMementoFor(records[i]);
@@ -328,7 +330,9 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
           this.stylePromises = [];
           this.eventHandlers = [];
           this.bindingRecords = [];
+          this._directiveMementosMap = MapWrapper.create();
           this._variableBindings = null;
+          this._directiveMementos = null;
         };
         return ($traceurRuntime.createClass)(ProtoView, {
           instantiate: function(hostElementInjector, eventManager) {
@@ -352,6 +356,21 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
               ListWrapper.push($__0._variableBindings, local);
             }));
             return this._variableBindings;
+          },
+          _getDirectiveMementos: function() {
+            if (isPresent(this._directiveMementos)) {
+              return this._directiveMementos;
+            }
+            this._directiveMementos = [];
+            for (var injectorIndex = 0; injectorIndex < this.elementBinders.length; ++injectorIndex) {
+              var pei = this.elementBinders[injectorIndex].protoElementInjector;
+              if (isPresent(pei)) {
+                for (var directiveIndex = 0; directiveIndex < pei.numberOfDirectives; ++directiveIndex) {
+                  ListWrapper.push(this._directiveMementos, this._getDirectiveMemento(injectorIndex, directiveIndex));
+                }
+              }
+            }
+            return this._directiveMementos;
           },
           _instantiate: function(hostElementInjector, eventManager) {
             var rootElementClone = this.instantiateInPlace ? this.element : DOM.importIntoDoc(this.element);
@@ -377,7 +396,7 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
               viewNodes = [rootElementClone];
             }
             var view = new View(this, viewNodes, this.protoLocals);
-            var changeDetector = this.protoChangeDetector.instantiate(view, this.bindingRecords, this._getVariableBindings());
+            var changeDetector = this.protoChangeDetector.instantiate(view, this.bindingRecords, this._getVariableBindings(), this._getDirectiveMementos());
             var binders = this.elementBinders;
             var elementInjectors = ListWrapper.createFixedSize(binders.length);
             var eventHandlers = ListWrapper.createFixedSize(binders.length);
@@ -431,7 +450,7 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
                 changeDetector.addChild(childView.changeDetector);
                 lightDom = strategy.constructLightDom(view, childView, element);
                 strategy.attachTemplate(element, childView);
-                bindingPropagationConfig = new BindingPropagationConfig(changeDetector);
+                bindingPropagationConfig = new BindingPropagationConfig(childView.changeDetector);
                 ListWrapper.push(componentChildViews, childView);
               }
               lightDoms[binderIdx] = lightDom;
@@ -517,9 +536,19 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
             MapWrapper.set(event, directiveIndex, expression);
           },
           bindDirectiveProperty: function(directiveIndex, expression, setterName, setter) {
-            var bindingMemento = new DirectiveBindingMemento(this.elementBinders.length - 1, directiveIndex, setterName, setter);
-            var directiveMemento = DirectiveMemento.get(bindingMemento);
+            var elementIndex = this.elementBinders.length - 1;
+            var bindingMemento = new DirectiveBindingMemento(elementIndex, directiveIndex, setterName, setter);
+            var directiveMemento = this._getDirectiveMemento(elementIndex, directiveIndex);
             ListWrapper.push(this.bindingRecords, new BindingRecord(expression, bindingMemento, directiveMemento));
+          },
+          _getDirectiveMemento: function(elementInjectorIndex, directiveIndex) {
+            var id = elementInjectorIndex * 100 + directiveIndex;
+            var protoElementInjector = this.elementBinders[elementInjectorIndex].protoElementInjector;
+            if (!MapWrapper.contains(this._directiveMementosMap, id)) {
+              var binding = protoElementInjector.getDirectiveBindingAtIndex(directiveIndex);
+              MapWrapper.set(this._directiveMementosMap, id, new DirectiveMemento(elementInjectorIndex, directiveIndex, binding.callOnAllChangesDone));
+            }
+            return MapWrapper.get(this._directiveMementosMap, id);
           }
         }, {
           buildEventHandler: function(eventMap, injectorIdx) {
@@ -588,6 +617,9 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
       Object.defineProperty(ProtoView.prototype.bindDirectiveProperty, "parameters", {get: function() {
           return [[assert.type.number], [AST], [assert.type.string], [SetterFn]];
         }});
+      Object.defineProperty(ProtoView.prototype._getDirectiveMemento, "parameters", {get: function() {
+          return [[assert.type.number], [assert.type.number]];
+        }});
       Object.defineProperty(ProtoView.createRootProtoView, "parameters", {get: function() {
           return [[ProtoView], [], [DirectiveMetadata], [ProtoChangeDetector], [ShadowDomStrategy]];
         }});
@@ -627,11 +659,11 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
       Object.defineProperty(DirectiveBindingMemento.prototype.invoke, "parameters", {get: function() {
           return [[ChangeRecord], [assert.genericType(List, ElementInjector)]];
         }});
-      _directiveMementos = MapWrapper.create();
       DirectiveMemento = (function() {
-        var DirectiveMemento = function DirectiveMemento(elementInjectorIndex, directiveIndex) {
+        var DirectiveMemento = function DirectiveMemento(elementInjectorIndex, directiveIndex, notifyOnAllChangesDone) {
           this._elementInjectorIndex = elementInjectorIndex;
           this._directiveIndex = directiveIndex;
+          this.notifyOnAllChangesDone = notifyOnAllChangesDone;
         };
         return ($traceurRuntime.createClass)(DirectiveMemento, {
           directive: function(elementInjectors) {
@@ -642,21 +674,10 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
             var elementInjector = elementInjectors[this._elementInjectorIndex];
             return elementInjector.getDirectiveBindingAtIndex(this._directiveIndex);
           }
-        }, {get: function(memento) {
-            var elementInjectorIndex = memento._elementInjectorIndex;
-            var directiveIndex = memento._directiveIndex;
-            var id = elementInjectorIndex * 100 + directiveIndex;
-            if (!MapWrapper.contains(_directiveMementos, id)) {
-              MapWrapper.set(_directiveMementos, id, new DirectiveMemento(elementInjectorIndex, directiveIndex));
-            }
-            return MapWrapper.get(_directiveMementos, id);
-          }});
+        }, {});
       }());
       Object.defineProperty(DirectiveMemento, "parameters", {get: function() {
-          return [[assert.type.number], [assert.type.number]];
-        }});
-      Object.defineProperty(DirectiveMemento.get, "parameters", {get: function() {
-          return [[DirectiveBindingMemento]];
+          return [[assert.type.number], [assert.type.number], [assert.type.boolean]];
         }});
       Object.defineProperty(DirectiveMemento.prototype.directive, "parameters", {get: function() {
           return [[assert.genericType(List, ElementInjector)]];
@@ -676,7 +697,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/async", "a
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/view.map
+//# sourceMappingURL=view.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/view.js.map

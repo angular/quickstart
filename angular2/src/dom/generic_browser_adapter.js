@@ -22,6 +22,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       GenericBrowserDomAdapter = $__export("GenericBrowserDomAdapter", (function($__super) {
         var GenericBrowserDomAdapter = function GenericBrowserDomAdapter() {
           $traceurRuntime.superConstructor(GenericBrowserDomAdapter).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(GenericBrowserDomAdapter, {
           getDistributedNodes: function(el) {
@@ -66,7 +67,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/dom/generic_browser_adapter.map
+//# sourceMappingURL=generic_browser_adapter.js.map
 
 //# sourceMappingURL=../../src/dom/generic_browser_adapter.js.map

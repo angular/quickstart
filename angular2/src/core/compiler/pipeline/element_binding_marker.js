@@ -27,6 +27,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       ElementBindingMarker = $__export("ElementBindingMarker", (function($__super) {
         var ElementBindingMarker = function ElementBindingMarker() {
           $traceurRuntime.superConstructor(ElementBindingMarker).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(ElementBindingMarker, {process: function(parent, current, control) {
             if (current.ignoreBindings) {
@@ -46,7 +47,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/element_binding_marker.map
+//# sourceMappingURL=element_binding_marker.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/element_binding_marker.js.map

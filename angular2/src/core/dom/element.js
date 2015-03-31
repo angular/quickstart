@@ -24,7 +24,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/lang"], fu
     }
   };
 });
-
-//# sourceMappingURL=src/core/dom/element.map
+//# sourceMappingURL=element.js.map
 
 //# sourceMappingURL=../../../src/core/dom/element.js.map

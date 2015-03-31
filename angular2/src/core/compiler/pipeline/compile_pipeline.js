@@ -68,7 +68,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/compile_pipeline.map
+//# sourceMappingURL=compile_pipeline.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/compile_pipeline.js.map

@@ -35,14 +35,18 @@ System.register(["angular2/src/facade/collection", "./parser/locals"], function(
       CHECK_ALWAYS = $__export("CHECK_ALWAYS", "ALWAYS_CHECK");
       DETACHED = $__export("DETACHED", "DETACHED");
       ChangeDispatcher = $__export("ChangeDispatcher", (function() {
-        var ChangeDispatcher = function ChangeDispatcher() {};
+        var ChangeDispatcher = function ChangeDispatcher() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ChangeDispatcher, {onRecordChange: function(directiveMemento, records) {}}, {});
       }()));
       Object.defineProperty(ChangeDispatcher.prototype.onRecordChange, "parameters", {get: function() {
           return [[], [assert.genericType(List, ChangeRecord)]];
         }});
       ChangeDetector = $__export("ChangeDetector", (function() {
-        var ChangeDetector = function ChangeDetector() {};
+        var ChangeDetector = function ChangeDetector() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ChangeDetector, {
           addChild: function(cd) {},
           removeChild: function(cd) {},
@@ -66,7 +70,6 @@ System.register(["angular2/src/facade/collection", "./parser/locals"], function(
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/interfaces.map
+//# sourceMappingURL=interfaces.js.map
 
 //# sourceMappingURL=../../src/change_detection/interfaces.js.map

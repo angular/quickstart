@@ -8,7 +8,9 @@ System.register(["angular2/src/dom/dom_adapter"], function($__export) {
     }],
     execute: function() {
       Title = $__export("Title", (function() {
-        var Title = function Title() {};
+        var Title = function Title() {
+          ;
+        };
         return ($traceurRuntime.createClass)(Title, {
           getTitle: function() {
             return DOM.getTitle();
@@ -24,7 +26,6 @@ System.register(["angular2/src/dom/dom_adapter"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/services/title.map
+//# sourceMappingURL=title.js.map
 
 //# sourceMappingURL=../../src/services/title.js.map

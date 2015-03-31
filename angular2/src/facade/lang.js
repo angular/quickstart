@@ -97,19 +97,27 @@ System.register([], function($__export) {
       }
       $__export("int", int);
       CONST = $__export("CONST", (function() {
-        var CONST = function CONST() {};
+        var CONST = function CONST() {
+          ;
+        };
         return ($traceurRuntime.createClass)(CONST, {}, {});
       }()));
       ABSTRACT = $__export("ABSTRACT", (function() {
-        var ABSTRACT = function ABSTRACT() {};
+        var ABSTRACT = function ABSTRACT() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ABSTRACT, {}, {});
       }()));
       IMPLEMENTS = $__export("IMPLEMENTS", (function() {
-        var IMPLEMENTS = function IMPLEMENTS() {};
+        var IMPLEMENTS = function IMPLEMENTS() {
+          ;
+        };
         return ($traceurRuntime.createClass)(IMPLEMENTS, {}, {});
       }()));
       StringWrapper = $__export("StringWrapper", (function() {
-        var StringWrapper = function StringWrapper() {};
+        var StringWrapper = function StringWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(StringWrapper, {}, {
           fromCharCode: function(code) {
             return String.fromCharCode(code);
@@ -210,7 +218,9 @@ System.register([], function($__export) {
           }}, {}, $__super);
       }(Error)));
       NumberWrapper = $__export("NumberWrapper", (function() {
-        var NumberWrapper = function NumberWrapper() {};
+        var NumberWrapper = function NumberWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(NumberWrapper, {}, {
           toFixed: function(n, fractionDigits) {
             return n.toFixed(fractionDigits);
@@ -280,7 +290,9 @@ System.register([], function($__export) {
         $__export("RegExp", RegExp = {});
       }
       RegExpWrapper = $__export("RegExpWrapper", (function() {
-        var RegExpWrapper = function RegExpWrapper() {};
+        var RegExpWrapper = function RegExpWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(RegExpWrapper, {}, {
           create: function(regExpStr) {
             var flags = arguments[1] !== (void 0) ? arguments[1] : '';
@@ -306,13 +318,17 @@ System.register([], function($__export) {
           return [[], [assert.type.string]];
         }});
       RegExpMatcherWrapper = $__export("RegExpMatcherWrapper", (function() {
-        var RegExpMatcherWrapper = function RegExpMatcherWrapper() {};
+        var RegExpMatcherWrapper = function RegExpMatcherWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(RegExpMatcherWrapper, {}, {next: function(matcher) {
             return matcher.re.exec(matcher.input);
           }});
       }()));
       FunctionWrapper = $__export("FunctionWrapper", (function() {
-        var FunctionWrapper = function FunctionWrapper() {};
+        var FunctionWrapper = function FunctionWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(FunctionWrapper, {}, {apply: function(fn, posArgs) {
             return fn.apply(null, posArgs);
           }});
@@ -323,7 +339,9 @@ System.register([], function($__export) {
       BaseException = $__export("BaseException", Error);
       Json = $__export("Json", _global.JSON);
       DateWrapper = $__export("DateWrapper", (function() {
-        var DateWrapper = function DateWrapper() {};
+        var DateWrapper = function DateWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(DateWrapper, {}, {
           fromMillis: function(ms) {
             return new Date(ms);
@@ -345,7 +363,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/facade/lang.map
+//# sourceMappingURL=lang.js.map
 
 //# sourceMappingURL=../../src/facade/lang.js.map

@@ -55,7 +55,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
     }
   };
 });
-
-//# sourceMappingURL=src/test_lib/utils.map
+//# sourceMappingURL=utils.js.map
 
 //# sourceMappingURL=../../src/test_lib/utils.js.map

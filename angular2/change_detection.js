@@ -1,4 +1,4 @@
-System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/locals", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/change_detection_util", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/iterable_changes", "./src/change_detection/pipes/keyvalue_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
+System.register(["./src/change_detection/parser/ast", "./src/change_detection/parser/lexer", "./src/change_detection/parser/parser", "./src/change_detection/parser/locals", "./src/change_detection/exceptions", "./src/change_detection/interfaces", "./src/change_detection/proto_change_detector", "./src/change_detection/dynamic_change_detector", "./src/change_detection/binding_propagation_config", "./src/change_detection/pipes/pipe_registry", "./src/change_detection/change_detection_util", "./src/change_detection/pipes/pipe", "./src/change_detection/pipes/iterable_changes", "./src/change_detection/pipes/keyvalue_changes", "./src/change_detection/pipes/null_pipe"], function($__export) {
   "use strict";
   var ProtoChangeDetector,
       DynamicProtoChangeDetector,
@@ -63,6 +63,8 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
     }, function($__m) {
       $__export("DynamicChangeDetector", $__m.DynamicChangeDetector);
     }, function($__m) {
+      $__export("BindingPropagationConfig", $__m.BindingPropagationConfig);
+    }, function($__m) {
       PipeRegistry = $__m.PipeRegistry;
       Object.keys($__m).forEach(function(p) {
         if (!$__exportNames[p])
@@ -84,7 +86,9 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
     }],
     execute: function() {
       ChangeDetection = $__export("ChangeDetection", (function() {
-        var ChangeDetection = function ChangeDetection() {};
+        var ChangeDetection = function ChangeDetection() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ChangeDetection, {createProtoChangeDetector: function(name) {
             return null;
           }}, {});
@@ -132,7 +136,6 @@ System.register(["./src/change_detection/parser/ast", "./src/change_detection/pa
     }
   };
 });
-
-//# sourceMappingURL=change_detection.map
+//# sourceMappingURL=change_detection.js.map
 
 //# sourceMappingURL=change_detection.js.map

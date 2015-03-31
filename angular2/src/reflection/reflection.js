@@ -25,7 +25,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/reflection/reflection.map
+//# sourceMappingURL=reflection.js.map
 
 //# sourceMappingURL=../../src/reflection/reflection.js.map

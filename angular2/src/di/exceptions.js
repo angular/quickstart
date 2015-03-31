@@ -51,6 +51,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
       KeyMetadataError = $__export("KeyMetadataError", (function($__super) {
         var KeyMetadataError = function KeyMetadataError() {
           $traceurRuntime.superConstructor(KeyMetadataError).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(KeyMetadataError, {}, {}, $__super);
       }(Error)));
@@ -130,7 +131,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
     }
   };
 });
-
-//# sourceMappingURL=src/di/exceptions.map
+//# sourceMappingURL=exceptions.js.map
 
 //# sourceMappingURL=../../src/di/exceptions.js.map

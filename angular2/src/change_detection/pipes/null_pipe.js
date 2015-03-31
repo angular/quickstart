@@ -14,12 +14,14 @@ System.register(["angular2/src/facade/lang", "./pipe"], function($__export) {
     }],
     execute: function() {
       NullPipeFactory = $__export("NullPipeFactory", (function() {
-        var NullPipeFactory = function NullPipeFactory() {};
+        var NullPipeFactory = function NullPipeFactory() {
+          ;
+        };
         return ($traceurRuntime.createClass)(NullPipeFactory, {
           supports: function(obj) {
             return NullPipe.supportsObj(obj);
           },
-          create: function() {
+          create: function(bpc) {
             return new NullPipe();
           }
         }, {});
@@ -48,7 +50,6 @@ System.register(["angular2/src/facade/lang", "./pipe"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/pipes/null_pipe.map
+//# sourceMappingURL=null_pipe.js.map
 
 //# sourceMappingURL=../../../src/change_detection/pipes/null_pipe.js.map

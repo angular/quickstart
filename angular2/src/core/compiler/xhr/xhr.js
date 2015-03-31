@@ -8,7 +8,9 @@ System.register(["angular2/src/facade/async"], function($__export) {
     }],
     execute: function() {
       XHR = $__export("XHR", (function() {
-        var XHR = function XHR() {};
+        var XHR = function XHR() {
+          ;
+        };
         return ($traceurRuntime.createClass)(XHR, {get: function(url) {
             return null;
           }}, {});
@@ -19,7 +21,6 @@ System.register(["angular2/src/facade/async"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/xhr/xhr.map
+//# sourceMappingURL=xhr.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/xhr/xhr.js.map

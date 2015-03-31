@@ -45,6 +45,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP,
       RECORD_TYPE_KEYED_ACCESS,
       RECORD_TYPE_PIPE,
+      RECORD_TYPE_BINDING_PIPE,
       RECORD_TYPE_INTERPOLATE,
       ProtoChangeDetector,
       BindingRecord,
@@ -261,16 +262,19 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP = $__m.RECORD_TYPE_PRIMITIVE_OP;
       RECORD_TYPE_KEYED_ACCESS = $__m.RECORD_TYPE_KEYED_ACCESS;
       RECORD_TYPE_PIPE = $__m.RECORD_TYPE_PIPE;
+      RECORD_TYPE_BINDING_PIPE = $__m.RECORD_TYPE_BINDING_PIPE;
       RECORD_TYPE_INTERPOLATE = $__m.RECORD_TYPE_INTERPOLATE;
     }],
     execute: function() {
       ProtoChangeDetector = $__export("ProtoChangeDetector", (function() {
-        var ProtoChangeDetector = function ProtoChangeDetector() {};
+        var ProtoChangeDetector = function ProtoChangeDetector() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ProtoChangeDetector, {
           addAst: function(ast, bindingMemento) {
             var directiveMemento = arguments[2] !== (void 0) ? arguments[2] : null;
           },
-          instantiate: function(dispatcher, bindingRecords, variableBindings) {
+          instantiate: function(dispatcher, bindingRecords, variableBindings, directiveMemento) {
             return null;
           }
         }, {});
@@ -279,7 +283,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[AST], [assert.type.any], [assert.type.any]];
         }});
       Object.defineProperty(ProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any], [List], [List]];
+          return [[assert.type.any], [List], [List], [List]];
         }});
       BindingRecord = $__export("BindingRecord", (function() {
         var BindingRecord = function BindingRecord(ast, bindingMemento, directiveMemento) {
@@ -298,9 +302,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           this._pipeRegistry = pipeRegistry;
         };
         return ($traceurRuntime.createClass)(DynamicProtoChangeDetector, {
-          instantiate: function(dispatcher, bindingRecords, variableBindings) {
+          instantiate: function(dispatcher, bindingRecords, variableBindings, directiveMementos) {
             this._createRecordsIfNecessary(bindingRecords, variableBindings);
-            return new DynamicChangeDetector(dispatcher, this._pipeRegistry, this._records);
+            return new DynamicChangeDetector(dispatcher, this._pipeRegistry, this._records, directiveMementos);
           },
           _createRecordsIfNecessary: function(bindingRecords, variableBindings) {
             if (isBlank(this._records)) {
@@ -317,7 +321,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[PipeRegistry]];
         }});
       Object.defineProperty(DynamicProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any], [List], [List]];
+          return [[assert.type.any], [List], [List], [List]];
         }});
       Object.defineProperty(DynamicProtoChangeDetector.prototype._createRecordsIfNecessary, "parameters", {get: function() {
           return [[List], [List]];
@@ -330,11 +334,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           this._factory = null;
         };
         return ($traceurRuntime.createClass)(JitProtoChangeDetector, {
-          instantiate: function(dispatcher, bindingRecords, variableBindings) {
-            this._createFactoryIfNecessary(bindingRecords, variableBindings);
+          instantiate: function(dispatcher, bindingRecords, variableBindings, directiveMementos) {
+            this._createFactoryIfNecessary(bindingRecords, variableBindings, directiveMementos);
             return this._factory(dispatcher, this._pipeRegistry);
           },
-          _createFactoryIfNecessary: function(bindingRecords, variableBindings) {
+          _createFactoryIfNecessary: function(bindingRecords, variableBindings, directiveMementos) {
             if (isBlank(this._factory)) {
               var recordBuilder = new ProtoRecordBuilder();
               ListWrapper.forEach(bindingRecords, (function(r) {
@@ -343,16 +347,16 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               var c = _jitProtoChangeDetectorClassCounter++;
               var records = coalesce(recordBuilder.records);
               var typeName = ("ChangeDetector" + c);
-              this._factory = new ChangeDetectorJITGenerator(typeName, records).generate();
+              this._factory = new ChangeDetectorJITGenerator(typeName, records, directiveMementos).generate();
             }
           }
         }, {}, $__super);
       }(ProtoChangeDetector)));
       Object.defineProperty(JitProtoChangeDetector.prototype.instantiate, "parameters", {get: function() {
-          return [[assert.type.any], [List], [List]];
+          return [[assert.type.any], [List], [List], [List]];
         }});
       Object.defineProperty(JitProtoChangeDetector.prototype._createFactoryIfNecessary, "parameters", {get: function() {
-          return [[List], [List]];
+          return [[List], [List], [List]];
         }});
       ProtoRecordBuilder = (function() {
         var ProtoRecordBuilder = function ProtoRecordBuilder() {
@@ -445,7 +449,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           },
           visitPipe: function(ast) {
             var value = ast.exp.visit(this);
-            return this._addRecord(RECORD_TYPE_PIPE, ast.name, ast.name, [], null, value);
+            var type = ast.inBinding ? RECORD_TYPE_BINDING_PIPE : RECORD_TYPE_PIPE;
+            return this._addRecord(type, ast.name, ast.name, [], null, value);
           },
           visitKeyedAccess: function(ast) {
             var obj = ast.obj.visit(this);
@@ -536,7 +541,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/proto_change_detector.map
+//# sourceMappingURL=proto_change_detector.js.map
 
 //# sourceMappingURL=../../src/change_detection/proto_change_detector.js.map

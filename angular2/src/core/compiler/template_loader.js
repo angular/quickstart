@@ -104,7 +104,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/template_loader.map
+//# sourceMappingURL=template_loader.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/template_loader.js.map

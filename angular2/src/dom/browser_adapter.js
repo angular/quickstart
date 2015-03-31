@@ -29,6 +29,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       BrowserDomAdapter = $__export("BrowserDomAdapter", (function($__super) {
         var BrowserDomAdapter = function BrowserDomAdapter() {
           $traceurRuntime.superConstructor(BrowserDomAdapter).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(BrowserDomAdapter, {
           get attrToPropMap() {
@@ -401,7 +402,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }
   };
 });
-
-//# sourceMappingURL=src/dom/browser_adapter.map
+//# sourceMappingURL=browser_adapter.js.map
 
 //# sourceMappingURL=../../src/dom/browser_adapter.js.map

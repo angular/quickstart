@@ -128,7 +128,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
             if (ListWrapper.isEmpty(pipes))
               return bindingAst;
             var res = ListWrapper.reduce(pipes, (function(result, currentPipeName) {
-              return new Pipe(result, currentPipeName, []);
+              return new Pipe(result, currentPipeName, [], false);
             }), bindingAst.ast);
             return new ASTWithSource(res, bindingAst.source, bindingAst.location);
           },
@@ -291,7 +291,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
               while (this.optionalCharacter($COLON)) {
                 ListWrapper.push(args, this.parseExpression());
               }
-              result = new Pipe(result, name, args);
+              result = new Pipe(result, name, args, true);
             }
             return result;
           },
@@ -585,7 +585,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/parser/parser.map
+//# sourceMappingURL=parser.js.map
 
 //# sourceMappingURL=../../../src/change_detection/parser/parser.js.map

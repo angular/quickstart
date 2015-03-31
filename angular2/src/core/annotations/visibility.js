@@ -32,7 +32,6 @@ System.register(["angular2/src/facade/lang", "angular2/di"], function($__export)
     }
   };
 });
-
-//# sourceMappingURL=src/core/annotations/visibility.map
+//# sourceMappingURL=visibility.js.map
 
 //# sourceMappingURL=../../../src/core/annotations/visibility.js.map

@@ -149,7 +149,6 @@ System.register(["angular2/di", "angular2/src/core/compiler/xhr/xhr", "angular2/
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/style_inliner.map
+//# sourceMappingURL=style_inliner.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/style_inliner.js.map

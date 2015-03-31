@@ -18,7 +18,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/di/opaque_token.map
+//# sourceMappingURL=opaque_token.js.map
 
 //# sourceMappingURL=../../src/di/opaque_token.js.map

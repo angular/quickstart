@@ -68,7 +68,6 @@ System.register(["angular2/di", "angular2/src/core/annotations/template", "angul
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/template_resolver.map
+//# sourceMappingURL=template_resolver.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/template_resolver.js.map

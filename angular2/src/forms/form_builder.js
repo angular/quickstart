@@ -2,6 +2,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
   "use strict";
   var StringMapWrapper,
       ListWrapper,
+      List,
       isPresent,
       modelModule,
       FormBuilder;
@@ -9,6 +10,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     setters: [function($__m) {
       StringMapWrapper = $__m.StringMapWrapper;
       ListWrapper = $__m.ListWrapper;
+      List = $__m.List;
     }, function($__m) {
       isPresent = $__m.isPresent;
     }, function($__m) {
@@ -16,7 +18,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }],
     execute: function() {
       FormBuilder = $__export("FormBuilder", (function() {
-        var FormBuilder = function FormBuilder() {};
+        var FormBuilder = function FormBuilder() {
+          ;
+        };
         return ($traceurRuntime.createClass)(FormBuilder, {
           group: function(controlsConfig) {
             var extra = arguments[1] !== (void 0) ? arguments[1] : null;
@@ -37,6 +41,18 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
               return new modelModule.Control(value);
             }
           },
+          array: function(controlsConfig) {
+            var validator = arguments[1] !== (void 0) ? arguments[1] : null;
+            var $__0 = this;
+            var controls = ListWrapper.map(controlsConfig, (function(c) {
+              return $__0._createControl(c);
+            }));
+            if (isPresent(validator)) {
+              return new modelModule.ControlArray(controls, validator);
+            } else {
+              return new modelModule.ControlArray(controls);
+            }
+          },
           _reduceControls: function(controlsConfig) {
             var $__0 = this;
             var controls = {};
@@ -46,7 +62,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             return controls;
           },
           _createControl: function(controlConfig) {
-            if (controlConfig instanceof modelModule.Control || controlConfig instanceof modelModule.ControlGroup) {
+            if (controlConfig instanceof modelModule.Control || controlConfig instanceof modelModule.ControlGroup || controlConfig instanceof modelModule.ControlArray) {
               return controlConfig;
             } else if (ListWrapper.isList(controlConfig)) {
               var value = ListWrapper.get(controlConfig, 0);
@@ -61,10 +77,12 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       Object.defineProperty(FormBuilder.prototype.control, "parameters", {get: function() {
           return [[], [Function]];
         }});
+      Object.defineProperty(FormBuilder.prototype.array, "parameters", {get: function() {
+          return [[List], [Function]];
+        }});
     }
   };
 });
-
-//# sourceMappingURL=src/forms/form_builder.map
+//# sourceMappingURL=form_builder.js.map
 
 //# sourceMappingURL=../../src/forms/form_builder.js.map

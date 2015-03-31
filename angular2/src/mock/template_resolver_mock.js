@@ -49,7 +49,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }
   };
 });
-
-//# sourceMappingURL=src/mock/template_resolver_mock.map
+//# sourceMappingURL=template_resolver_mock.js.map
 
 //# sourceMappingURL=../../src/mock/template_resolver_mock.js.map

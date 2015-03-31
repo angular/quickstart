@@ -1,4 +1,4 @@
-System.register(["angular2/change_detection"], function($__export) {
+System.register(["./interfaces"], function($__export) {
   "use strict";
   var ChangeDetector,
       CHECK_ONCE,
@@ -38,7 +38,6 @@ System.register(["angular2/change_detection"], function($__export) {
     }
   };
 });
+//# sourceMappingURL=binding_propagation_config.js.map
 
-//# sourceMappingURL=src/core/compiler/binding_propagation_config.map
-
-//# sourceMappingURL=../../../src/core/compiler/binding_propagation_config.js.map
+//# sourceMappingURL=../../src/change_detection/binding_propagation_config.js.map

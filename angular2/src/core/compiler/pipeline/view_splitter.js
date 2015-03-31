@@ -120,7 +120,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/view_splitter.map
+//# sourceMappingURL=view_splitter.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/view_splitter.js.map

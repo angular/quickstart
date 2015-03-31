@@ -118,7 +118,6 @@ System.register(["angular2/di", "angular2/src/core/compiler/compiler", "angular2
     }
   };
 });
-
-//# sourceMappingURL=src/test_lib/test_injector.map
+//# sourceMappingURL=test_injector.js.map
 
 //# sourceMappingURL=../../src/test_lib/test_injector.js.map

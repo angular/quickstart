@@ -23,7 +23,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/core/annotations/anno
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/directive_metadata.map
+//# sourceMappingURL=directive_metadata.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/directive_metadata.js.map

@@ -82,7 +82,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       _changeRecords = [new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null), new ChangeRecord(null, null)];
       _singleElementList = [null];
       ChangeDetectionUtil = $__export("ChangeDetectionUtil", (function() {
-        var ChangeDetectionUtil = function ChangeDetectionUtil() {};
+        var ChangeDetectionUtil = function ChangeDetectionUtil() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ChangeDetectionUtil, {}, {
           unitialized: function() {
             return uninitialized;
@@ -267,7 +269,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/change_detection_util.map
+//# sourceMappingURL=change_detection_util.js.map
 
 //# sourceMappingURL=../../src/change_detection/change_detection_util.js.map

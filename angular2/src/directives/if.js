@@ -40,7 +40,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
     }
   };
 });
-
-//# sourceMappingURL=src/directives/if.map
+//# sourceMappingURL=if.js.map
 
 //# sourceMappingURL=../../src/directives/if.js.map

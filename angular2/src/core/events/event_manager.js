@@ -72,7 +72,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
           return [[assert.type.string]];
         }});
       EventManagerPlugin = $__export("EventManagerPlugin", (function() {
-        var EventManagerPlugin = function EventManagerPlugin() {};
+        var EventManagerPlugin = function EventManagerPlugin() {
+          ;
+        };
         return ($traceurRuntime.createClass)(EventManagerPlugin, {
           supports: function(eventName) {
             return false;
@@ -91,6 +93,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
       DomEventsPlugin = $__export("DomEventsPlugin", (function($__super) {
         var DomEventsPlugin = function DomEventsPlugin() {
           $traceurRuntime.superConstructor(DomEventsPlugin).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(DomEventsPlugin, {
           supports: function(eventName) {
@@ -130,7 +133,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
     }
   };
 });
-
-//# sourceMappingURL=src/core/events/event_manager.map
+//# sourceMappingURL=event_manager.js.map
 
 //# sourceMappingURL=../../../src/core/events/event_manager.js.map

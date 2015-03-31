@@ -52,7 +52,9 @@ System.register(["angular2/di", "angular2/src/dom/dom_adapter", "angular2/src/fa
           return [[DirectiveMetadata], [ShadowDomStrategy], [assert.type.string]];
         }});
       CssTransformer = $__export("CssTransformer", (function() {
-        var CssTransformer = function CssTransformer() {};
+        var CssTransformer = function CssTransformer() {
+          ;
+        };
         return ($traceurRuntime.createClass)(CssTransformer, {transform: function(styleElement) {}}, {});
       }()));
       _CssProcessorStep = (function($__super) {
@@ -85,7 +87,6 @@ System.register(["angular2/di", "angular2/src/dom/dom_adapter", "angular2/src/fa
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/css_processor.map
+//# sourceMappingURL=css_processor.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/css_processor.js.map

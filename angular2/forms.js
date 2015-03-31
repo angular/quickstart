@@ -35,7 +35,6 @@ System.register(["./src/forms/model", "./src/forms/directives", "./src/forms/val
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=forms.map
+//# sourceMappingURL=forms.js.map
 
 //# sourceMappingURL=forms.js.map

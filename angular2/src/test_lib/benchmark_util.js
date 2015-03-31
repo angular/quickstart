@@ -2,6 +2,7 @@ System.register(["angular2/src/dom/browser_adapter", "angular2/src/facade/browse
   "use strict";
   var BrowserDomAdapter,
       document,
+      window,
       NumberWrapper,
       BaseException,
       isBlank,
@@ -32,14 +33,22 @@ System.register(["angular2/src/dom/browser_adapter", "angular2/src/facade/browse
       callback();
     });
   }
+  function microBenchmark(name, iterationCount, callback) {
+    var durationName = (name + "/" + iterationCount);
+    window.console.time(durationName);
+    callback();
+    window.console.timeEnd(durationName);
+  }
   $__export("getIntParameter", getIntParameter);
   $__export("getStringParameter", getStringParameter);
   $__export("bindAction", bindAction);
+  $__export("microBenchmark", microBenchmark);
   return {
     setters: [function($__m) {
       BrowserDomAdapter = $__m.BrowserDomAdapter;
     }, function($__m) {
       document = $__m.document;
+      window = $__m.window;
     }, function($__m) {
       NumberWrapper = $__m.NumberWrapper;
       BaseException = $__m.BaseException;
@@ -59,7 +68,6 @@ System.register(["angular2/src/dom/browser_adapter", "angular2/src/facade/browse
     }
   };
 });
-
-//# sourceMappingURL=src/test_lib/benchmark_util.map
+//# sourceMappingURL=benchmark_util.js.map
 
 //# sourceMappingURL=../../src/test_lib/benchmark_util.js.map

@@ -64,7 +64,6 @@ System.register(["angular2/di", "angular2/change_detection", "angular2/src/core/
     }
   };
 });
-
-//# sourceMappingURL=src/core/life_cycle/life_cycle.map
+//# sourceMappingURL=life_cycle.js.map
 
 //# sourceMappingURL=../../../src/core/life_cycle/life_cycle.js.map

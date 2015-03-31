@@ -1,21 +1,31 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "rx/dist/rx.all"], function($__export) {
   "use strict";
   var int,
       global,
+      isPresent,
       List,
+      Rx,
       Promise,
-      PromiseWrapper;
+      PromiseWrapper,
+      Observable,
+      ObservableController,
+      ObservableWrapper;
   return {
     setters: [function($__m) {
       int = $__m.int;
       global = $__m.global;
+      isPresent = $__m.isPresent;
     }, function($__m) {
       List = $__m.List;
+    }, function($__m) {
+      Rx = $__m.default;
     }],
     execute: function() {
       Promise = $__export("Promise", global.Promise);
       PromiseWrapper = $__export("PromiseWrapper", (function() {
-        var PromiseWrapper = function PromiseWrapper() {};
+        var PromiseWrapper = function PromiseWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(PromiseWrapper, {}, {
           resolve: function(obj) {
             return Promise.resolve(obj);
@@ -67,10 +77,63 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
       Object.defineProperty(PromiseWrapper.setTimeout, "parameters", {get: function() {
           return [[Function], [int]];
         }});
+      Observable = $__export("Observable", Rx.Observable);
+      ObservableController = $__export("ObservableController", Rx.Subject);
+      ObservableWrapper = $__export("ObservableWrapper", (function() {
+        var ObservableWrapper = function ObservableWrapper() {
+          ;
+        };
+        return ($traceurRuntime.createClass)(ObservableWrapper, {}, {
+          createController: function() {
+            return new Rx.Subject();
+          },
+          createObservable: function(subject) {
+            return subject;
+          },
+          subscribe: function(observable, generatorOrOnNext) {
+            var onThrow = arguments[2] !== (void 0) ? arguments[2] : null;
+            var onReturn = arguments[3] !== (void 0) ? arguments[3] : null;
+            if (isPresent(generatorOrOnNext.next)) {
+              return observable.observeOn(Rx.Scheduler.timeout).subscribe((function(value) {
+                return generatorOrOnNext.next(value);
+              }), (function(error) {
+                return generatorOrOnNext.throw(error);
+              }), (function() {
+                return generatorOrOnNext.return();
+              }));
+            } else {
+              return observable.observeOn(Rx.Scheduler.timeout).subscribe(generatorOrOnNext, onThrow, onReturn);
+            }
+          },
+          callNext: function(subject, value) {
+            subject.onNext(value);
+          },
+          callThrow: function(subject, error) {
+            subject.onError(error);
+          },
+          callReturn: function(subject) {
+            subject.onCompleted();
+          }
+        });
+      }()));
+      Object.defineProperty(ObservableWrapper.createObservable, "parameters", {get: function() {
+          return [[Rx.Subject]];
+        }});
+      Object.defineProperty(ObservableWrapper.subscribe, "parameters", {get: function() {
+          return [[Observable], [], [], []];
+        }});
+      Object.defineProperty(ObservableWrapper.callNext, "parameters", {get: function() {
+          return [[Rx.Subject], [assert.type.any]];
+        }});
+      Object.defineProperty(ObservableWrapper.callThrow, "parameters", {get: function() {
+          return [[Rx.Subject], [assert.type.any]];
+        }});
+      Object.defineProperty(ObservableWrapper.callReturn, "parameters", {get: function() {
+          return [[Rx.Subject]];
+        }});
     }
   };
 });
-
-//# sourceMappingURL=src/facade/async.map
+//# sourceMappingURL=async.js.map
 
 //# sourceMappingURL=../../src/facade/async.js.map
