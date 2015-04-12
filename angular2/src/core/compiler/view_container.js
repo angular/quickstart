@@ -185,7 +185,6 @@ System.register(["./view", "angular2/src/dom/dom_adapter", "angular2/src/facade/
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/view_container.map
+//# sourceMappingURL=view_container.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/view_container.js.map

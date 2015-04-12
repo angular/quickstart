@@ -57,7 +57,6 @@ System.register(["./event_manager", "angular2/src/facade/collection"], function(
     }
   };
 });
-
-//# sourceMappingURL=src/core/events/hammer_common.map
+//# sourceMappingURL=hammer_common.js.map
 
 //# sourceMappingURL=../../../src/core/events/hammer_common.js.map

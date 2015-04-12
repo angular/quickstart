@@ -77,7 +77,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/coalesce.map
+//# sourceMappingURL=coalesce.js.map
 
 //# sourceMappingURL=../../src/change_detection/coalesce.js.map

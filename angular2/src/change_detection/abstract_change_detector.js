@@ -1,8 +1,9 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./interfaces"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "./binding_propagation_config", "./interfaces"], function($__export) {
   "use strict";
   var isPresent,
       List,
       ListWrapper,
+      BindingPropagationConfig,
       ChangeDetector,
       CHECK_ALWAYS,
       CHECK_ONCE,
@@ -16,6 +17,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       List = $__m.List;
       ListWrapper = $__m.ListWrapper;
     }, function($__m) {
+      BindingPropagationConfig = $__m.BindingPropagationConfig;
+    }, function($__m) {
       ChangeDetector = $__m.ChangeDetector;
       CHECK_ALWAYS = $__m.CHECK_ALWAYS;
       CHECK_ONCE = $__m.CHECK_ONCE;
@@ -26,16 +29,22 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       AbstractChangeDetector = $__export("AbstractChangeDetector", (function($__super) {
         var AbstractChangeDetector = function AbstractChangeDetector() {
           $traceurRuntime.superConstructor(AbstractChangeDetector).call(this);
-          this.children = [];
+          this.lightDomChildren = [];
+          this.shadowDomChildren = [];
+          this.bindingPropagationConfig = new BindingPropagationConfig(this);
           this.mode = CHECK_ALWAYS;
         };
         return ($traceurRuntime.createClass)(AbstractChangeDetector, {
           addChild: function(cd) {
-            ListWrapper.push(this.children, cd);
+            ListWrapper.push(this.lightDomChildren, cd);
             cd.parent = this;
           },
           removeChild: function(cd) {
-            ListWrapper.remove(this.children, cd);
+            ListWrapper.remove(this.lightDomChildren, cd);
+          },
+          addShadowDomChild: function(cd) {
+            ListWrapper.push(this.shadowDomChildren, cd);
+            cd.parent = this;
           },
           remove: function() {
             this.parent.removeChild(this);
@@ -50,15 +59,24 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             if (this.mode === DETACHED || this.mode === CHECKED)
               return ;
             this.detectChangesInRecords(throwOnChange);
-            this._detectChangesInChildren(throwOnChange);
+            this._detectChangesInLightDomChildren(throwOnChange);
+            this.notifyOnAllChangesDone();
+            this._detectChangesInShadowDomChildren(throwOnChange);
             if (this.mode === CHECK_ONCE)
               this.mode = CHECKED;
           },
           detectChangesInRecords: function(throwOnChange) {},
-          _detectChangesInChildren: function(throwOnChange) {
-            var children = this.children;
-            for (var i = 0; i < children.length; ++i) {
-              children[i]._detectChanges(throwOnChange);
+          notifyOnAllChangesDone: function() {},
+          _detectChangesInLightDomChildren: function(throwOnChange) {
+            var c = this.lightDomChildren;
+            for (var i = 0; i < c.length; ++i) {
+              c[i]._detectChanges(throwOnChange);
+            }
+          },
+          _detectChangesInShadowDomChildren: function(throwOnChange) {
+            var c = this.shadowDomChildren;
+            for (var i = 0; i < c.length; ++i) {
+              c[i]._detectChanges(throwOnChange);
             }
           },
           markPathToRootAsCheckOnce: function() {
@@ -77,19 +95,24 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(AbstractChangeDetector.prototype.removeChild, "parameters", {get: function() {
           return [[ChangeDetector]];
         }});
+      Object.defineProperty(AbstractChangeDetector.prototype.addShadowDomChild, "parameters", {get: function() {
+          return [[ChangeDetector]];
+        }});
       Object.defineProperty(AbstractChangeDetector.prototype._detectChanges, "parameters", {get: function() {
           return [[assert.type.boolean]];
         }});
       Object.defineProperty(AbstractChangeDetector.prototype.detectChangesInRecords, "parameters", {get: function() {
           return [[assert.type.boolean]];
         }});
-      Object.defineProperty(AbstractChangeDetector.prototype._detectChangesInChildren, "parameters", {get: function() {
+      Object.defineProperty(AbstractChangeDetector.prototype._detectChangesInLightDomChildren, "parameters", {get: function() {
+          return [[assert.type.boolean]];
+        }});
+      Object.defineProperty(AbstractChangeDetector.prototype._detectChangesInShadowDomChildren, "parameters", {get: function() {
           return [[assert.type.boolean]];
         }});
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/abstract_change_detector.map
+//# sourceMappingURL=abstract_change_detector.js.map
 
 //# sourceMappingURL=../../src/change_detection/abstract_change_detector.js.map

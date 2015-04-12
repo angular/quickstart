@@ -54,7 +54,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/do
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/url_resolver.map
+//# sourceMappingURL=url_resolver.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/url_resolver.js.map

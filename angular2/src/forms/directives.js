@@ -48,7 +48,6 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
     execute: function() {
       DefaultValueAccessor = $__export("DefaultValueAccessor", (function() {
         var DefaultValueAccessor = function DefaultValueAccessor(setValueProperty) {
-          $traceurRuntime.superConstructor(DefaultValueAccessor).call(this);
           this._setValueProperty = setValueProperty;
           this.onChange = (function(_) {});
         };
@@ -70,7 +69,6 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
         }});
       CheckboxControlValueAccessor = $__export("CheckboxControlValueAccessor", (function() {
         var CheckboxControlValueAccessor = function CheckboxControlValueAccessor(cd, setCheckedProperty) {
-          $traceurRuntime.superConstructor(CheckboxControlValueAccessor).call(this);
           this._setCheckedProperty = setCheckedProperty;
           this.onChange = (function(_) {});
           cd.valueAccessor = this;
@@ -91,7 +89,7 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
       ControlDirective = $__export("ControlDirective", (function() {
         var ControlDirective = function ControlDirective(groupDirective, valueAccessor) {
           this._groupDirective = groupDirective;
-          this.controlName = null;
+          this.controlOrName = null;
           this.valueAccessor = valueAccessor;
           this.validator = Validators.nullValidator;
         };
@@ -100,7 +98,9 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
             this._initialize();
           },
           _initialize: function() {
-            this._groupDirective.addDirective(this);
+            if (isPresent(this._groupDirective)) {
+              this._groupDirective.addDirective(this);
+            }
             var c = this._control();
             c.validator = Validators.compose([c.validator, this.validator]);
             this._updateDomValue();
@@ -116,7 +116,11 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
             });
           },
           _control: function() {
-            return this._groupDirective.findControl(this.controlName);
+            if (isString(this.controlOrName)) {
+              return this._groupDirective.findControl(this.controlOrName);
+            } else {
+              return this.controlOrName;
+            }
           }
         }, {});
       }()));
@@ -124,15 +128,14 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
           return [new Decorator({
             lifecycle: [onChange],
             selector: '[control]',
-            bind: {'controlName': 'control'}
+            bind: {'controlOrName': 'control'}
           })];
         }});
       Object.defineProperty(ControlDirective, "parameters", {get: function() {
-          return [[ControlGroupDirective, new Ancestor()], [DefaultValueAccessor]];
+          return [[ControlGroupDirective, new Optional(), new Ancestor()], [DefaultValueAccessor]];
         }});
       ControlGroupDirective = $__export("ControlGroupDirective", (function() {
         var ControlGroupDirective = function ControlGroupDirective(groupDirective) {
-          $traceurRuntime.superConstructor(ControlGroupDirective).call(this);
           this._groupDirective = groupDirective;
           this._directives = ListWrapper.create();
         };
@@ -184,7 +187,6 @@ System.register(["angular2/angular2", "angular2/di", "angular2/src/facade/lang",
     }
   };
 });
-
-//# sourceMappingURL=src/forms/directives.map
+//# sourceMappingURL=directives.js.map
 
 //# sourceMappingURL=../../src/forms/directives.js.map

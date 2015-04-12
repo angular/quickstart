@@ -11,7 +11,9 @@ System.register(["./compile_element", "./compile_control"], function($__export) 
     }],
     execute: function() {
       CompileStep = $__export("CompileStep", (function() {
-        var CompileStep = function CompileStep() {};
+        var CompileStep = function CompileStep() {
+          ;
+        };
         return ($traceurRuntime.createClass)(CompileStep, {process: function(parent, current, control) {}}, {});
       }()));
       Object.defineProperty(CompileStep.prototype.process, "parameters", {get: function() {
@@ -20,7 +22,6 @@ System.register(["./compile_element", "./compile_control"], function($__export) 
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/compile_step.map
+//# sourceMappingURL=compile_step.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/compile_step.js.map

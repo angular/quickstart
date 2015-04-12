@@ -163,7 +163,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
     }
   };
 });
-
-//# sourceMappingURL=src/directives/switch.map
+//# sourceMappingURL=switch.js.map
 
 //# sourceMappingURL=../../src/directives/switch.js.map

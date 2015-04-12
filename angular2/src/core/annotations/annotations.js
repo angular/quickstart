@@ -13,7 +13,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Decorator,
       Viewport,
       onDestroy,
-      onChange;
+      onChange,
+      onAllChangesDone;
   return {
     setters: [function($__m) {
       ABSTRACT = $__m.ABSTRACT;
@@ -101,13 +102,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               events = $__1.events,
               lifecycle = $__1.lifecycle,
               compileChildren = ($__2 = $__1.compileChildren) === void 0 ? true : $__2;
-          this.compileChildren = compileChildren;
           $traceurRuntime.superConstructor(Decorator).call(this, {
             selector: selector,
             bind: bind,
             events: events,
             lifecycle: lifecycle
           });
+          this.compileChildren = compileChildren;
         };
         return ($traceurRuntime.createClass)(Decorator, {}, {}, $__super);
       }(Directive)));
@@ -135,10 +136,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         }});
       onDestroy = $__export("onDestroy", "onDestroy");
       onChange = $__export("onChange", "onChange");
+      onAllChangesDone = $__export("onAllChangesDone", "onAllChangesDone");
     }
   };
 });
-
-//# sourceMappingURL=src/core/annotations/annotations.map
+//# sourceMappingURL=annotations.js.map
 
 //# sourceMappingURL=../../../src/core/annotations/annotations.js.map

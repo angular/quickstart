@@ -345,7 +345,6 @@ System.register(["angular2/src/facade/collection", "./binding", "./exceptions", 
     }
   };
 });
-
-//# sourceMappingURL=src/di/injector.map
+//# sourceMappingURL=injector.js.map
 
 //# sourceMappingURL=../../src/di/injector.js.map

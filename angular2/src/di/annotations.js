@@ -63,7 +63,6 @@ System.register(["angular2/src/facade/lang"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/di/annotations.map
+//# sourceMappingURL=annotations.js.map
 
 //# sourceMappingURL=../../src/di/annotations.js.map

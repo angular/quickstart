@@ -12,7 +12,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/reflection/types.map
+//# sourceMappingURL=types.js.map
 
 //# sourceMappingURL=../../src/reflection/types.js.map

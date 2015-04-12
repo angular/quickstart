@@ -59,7 +59,6 @@ System.register(["angular2/change_detection", "angular2/src/facade/collection", 
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/default_steps.map
+//# sourceMappingURL=default_steps.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/default_steps.js.map

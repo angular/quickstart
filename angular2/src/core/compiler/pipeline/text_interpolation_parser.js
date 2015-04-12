@@ -63,7 +63,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/dom/dom_adapter", "an
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/text_interpolation_parser.map
+//# sourceMappingURL=text_interpolation_parser.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/text_interpolation_parser.js.map

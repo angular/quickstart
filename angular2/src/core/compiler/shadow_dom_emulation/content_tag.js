@@ -27,7 +27,9 @@ System.register(["./light_dom", "angular2/di", "angular2/src/dom/dom_adapter", "
     }],
     execute: function() {
       ContentStrategy = (function() {
-        var ContentStrategy = function ContentStrategy() {};
+        var ContentStrategy = function ContentStrategy() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ContentStrategy, {insert: function(nodes) {}}, {});
       }());
       Object.defineProperty(ContentStrategy.prototype.insert, "parameters", {get: function() {
@@ -101,7 +103,6 @@ System.register(["./light_dom", "angular2/di", "angular2/src/dom/dom_adapter", "
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/shadow_dom_emulation/content_tag.map
+//# sourceMappingURL=content_tag.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/shadow_dom_emulation/content_tag.js.map

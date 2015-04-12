@@ -36,12 +36,14 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }],
     execute: function() {
       IterableChangesFactory = $__export("IterableChangesFactory", (function() {
-        var IterableChangesFactory = function IterableChangesFactory() {};
+        var IterableChangesFactory = function IterableChangesFactory() {
+          ;
+        };
         return ($traceurRuntime.createClass)(IterableChangesFactory, {
           supports: function(obj) {
             return IterableChanges.supportsObj(obj);
           },
-          create: function() {
+          create: function(bpc) {
             return new IterableChanges();
           }
         }, {});
@@ -115,8 +117,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             this._reset();
             var record = this._itHead;
             var mayBeDirty = false;
-            var index,
-                item;
+            var index;
+            var item;
             if (ListWrapper.isList(collection)) {
               var list = collection;
               this._length = collection.length;
@@ -523,7 +525,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/pipes/iterable_changes.map
+//# sourceMappingURL=iterable_changes.js.map
 
 //# sourceMappingURL=../../../src/change_detection/pipes/iterable_changes.js.map

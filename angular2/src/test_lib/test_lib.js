@@ -289,7 +289,9 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/di", "./test_injector
         });
       });
       SpyObject = $__export("SpyObject", (function() {
-        var SpyObject = function SpyObject() {};
+        var SpyObject = function SpyObject() {
+          ;
+        };
         return ($traceurRuntime.createClass)(SpyObject, {
           spy: function(name) {
             if (!this[name]) {
@@ -310,7 +312,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/di", "./test_injector
     }
   };
 });
-
-//# sourceMappingURL=src/test_lib/test_lib.map
+//# sourceMappingURL=test_lib.js.map
 
 //# sourceMappingURL=../../src/test_lib/test_lib.js.map

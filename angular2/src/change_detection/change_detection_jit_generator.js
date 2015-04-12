@@ -20,23 +20,25 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP,
       RECORD_TYPE_KEYED_ACCESS,
       RECORD_TYPE_PIPE,
+      RECORD_TYPE_BINDING_PIPE,
       RECORD_TYPE_INTERPOLATE,
       ABSTRACT_CHANGE_DETECTOR,
       UTIL,
       DISPATCHER_ACCESSOR,
       PIPE_REGISTRY_ACCESSOR,
       PROTOS_ACCESSOR,
+      MEMENTOS_ACCESSOR,
       CONTEXT_ACCESSOR,
       CHANGE_LOCAL,
       CHANGES_LOCAL,
       LOCALS_ACCESSOR,
       TEMP_LOCAL,
       ChangeDetectorJITGenerator;
-  function typeTemplate(type, cons, detectChanges, setContext) {
-    return ("\n" + cons + "\n" + detectChanges + "\n" + setContext + ";\n\nreturn function(dispatcher, pipeRegistry) {\n  return new " + type + "(dispatcher, pipeRegistry, protos);\n}\n");
+  function typeTemplate(type, cons, detectChanges, notifyOnAllChangesDone, setContext) {
+    return ("\n" + cons + "\n" + detectChanges + "\n" + notifyOnAllChangesDone + "\n" + setContext + ";\n\nreturn function(dispatcher, pipeRegistry) {\n  return new " + type + "(dispatcher, pipeRegistry, protos, directiveMementos);\n}\n");
   }
   function constructorTemplate(type, fieldsDefinitions) {
-    return ("\nvar " + type + " = function " + type + "(dispatcher, pipeRegistry, protos) {\n" + ABSTRACT_CHANGE_DETECTOR + ".call(this);\n" + DISPATCHER_ACCESSOR + " = dispatcher;\n" + PIPE_REGISTRY_ACCESSOR + " = pipeRegistry;\n" + PROTOS_ACCESSOR + " = protos;\n" + fieldsDefinitions + "\n}\n\n" + type + ".prototype = Object.create(" + ABSTRACT_CHANGE_DETECTOR + ".prototype);\n");
+    return ("\nvar " + type + " = function " + type + "(dispatcher, pipeRegistry, protos, directiveMementos) {\n" + ABSTRACT_CHANGE_DETECTOR + ".call(this);\n" + DISPATCHER_ACCESSOR + " = dispatcher;\n" + PIPE_REGISTRY_ACCESSOR + " = pipeRegistry;\n" + PROTOS_ACCESSOR + " = protos;\n" + MEMENTOS_ACCESSOR + " = directiveMementos;\n" + fieldsDefinitions + "\n}\n\n" + type + ".prototype = Object.create(" + ABSTRACT_CHANGE_DETECTOR + ".prototype);\n");
   }
   function pipeOnDestroyTemplate(pipeNames) {
     return pipeNames.map((function(p) {
@@ -49,14 +51,20 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
   function detectChangesTemplate(type, body) {
     return ("\n" + type + ".prototype.detectChangesInRecords = function(throwOnChange) {\n  " + body + "\n}\n");
   }
+  function notifyOnAllChangesDoneTemplate(type, body) {
+    return ("\n" + type + ".prototype.notifyOnAllChangesDone = function() {\n  " + body + "\n}\n");
+  }
+  function onAllChangesDoneTemplate(index) {
+    return (DISPATCHER_ACCESSOR + ".onAllChangesDone(" + MEMENTOS_ACCESSOR + "[" + index + "]);");
+  }
   function bodyTemplate(localDefinitions, changeDefinitions, records) {
     return ("\n" + localDefinitions + "\n" + changeDefinitions + "\nvar " + TEMP_LOCAL + ";\nvar " + CHANGE_LOCAL + ";\nvar " + CHANGES_LOCAL + " = null;\n\ncontext = " + CONTEXT_ACCESSOR + ";\n" + records + "\n");
   }
   function notifyTemplate(index) {
     return ("\nif (" + CHANGES_LOCAL + " && " + CHANGES_LOCAL + ".length > 0) {\n  if(throwOnChange) " + UTIL + ".throwOnChange(" + PROTOS_ACCESSOR + "[" + index + "], " + CHANGES_LOCAL + "[0]);\n  " + DISPATCHER_ACCESSOR + ".onRecordChange(" + PROTOS_ACCESSOR + "[" + index + "].directiveMemento, " + CHANGES_LOCAL + ");\n  " + CHANGES_LOCAL + " = null;\n}\n");
   }
-  function pipeCheckTemplate(context, pipe, pipeType, value, change, addRecord, notify) {
-    return ("\nif (" + pipe + " === " + UTIL + ".unitialized()) {\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ");\n} else if (!" + pipe + ".supports(" + context + ")) {\n  " + pipe + ".onDestroy();\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ");\n}\n\n" + CHANGE_LOCAL + " = " + pipe + ".transform(" + context + ");\nif (! " + UTIL + ".noChangeMarker(" + CHANGE_LOCAL + ")) {\n  " + value + " = " + CHANGE_LOCAL + ";\n  " + change + " = true;\n  " + addRecord + "\n}\n" + notify + "\n");
+  function pipeCheckTemplate(context, bindingPropagationConfig, pipe, pipeType, value, change, addRecord, notify) {
+    return ("\nif (" + pipe + " === " + UTIL + ".unitialized()) {\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ", " + bindingPropagationConfig + ");\n} else if (!" + pipe + ".supports(" + context + ")) {\n  " + pipe + ".onDestroy();\n  " + pipe + " = " + PIPE_REGISTRY_ACCESSOR + ".get('" + pipeType + "', " + context + ", " + bindingPropagationConfig + ");\n}\n\n" + CHANGE_LOCAL + " = " + pipe + ".transform(" + context + ");\nif (! " + UTIL + ".noChangeMarker(" + CHANGE_LOCAL + ")) {\n  " + value + " = " + CHANGE_LOCAL + ";\n  " + change + " = true;\n  " + addRecord + "\n}\n" + notify + "\n");
   }
   function referenceCheckTemplate(assignment, newValue, oldValue, change, addRecord, notify) {
     return ("\n" + assignment + "\nif (" + newValue + " !== " + oldValue + " || (" + newValue + " !== " + newValue + ") && (" + oldValue + " !== " + oldValue + ")) {\n  " + change + " = true;\n  " + addRecord + "\n  " + oldValue + " = " + newValue + ";\n}\n" + notify + "\n");
@@ -112,6 +120,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP = $__m.RECORD_TYPE_PRIMITIVE_OP;
       RECORD_TYPE_KEYED_ACCESS = $__m.RECORD_TYPE_KEYED_ACCESS;
       RECORD_TYPE_PIPE = $__m.RECORD_TYPE_PIPE;
+      RECORD_TYPE_BINDING_PIPE = $__m.RECORD_TYPE_BINDING_PIPE;
       RECORD_TYPE_INTERPOLATE = $__m.RECORD_TYPE_INTERPOLATE;
     }],
     execute: function() {
@@ -120,13 +129,14 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       DISPATCHER_ACCESSOR = "this.dispatcher";
       PIPE_REGISTRY_ACCESSOR = "this.pipeRegistry";
       PROTOS_ACCESSOR = "this.protos";
+      MEMENTOS_ACCESSOR = "this.directiveMementos";
       CONTEXT_ACCESSOR = "this.context";
       CHANGE_LOCAL = "change";
       CHANGES_LOCAL = "changes";
       LOCALS_ACCESSOR = "this.locals";
       TEMP_LOCAL = "temp";
       Object.defineProperty(typeTemplate, "parameters", {get: function() {
-          return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
+          return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(constructorTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
@@ -140,6 +150,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(detectChangesTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
         }});
+      Object.defineProperty(notifyOnAllChangesDoneTemplate, "parameters", {get: function() {
+          return [[assert.type.string], [assert.type.string]];
+        }});
+      Object.defineProperty(onAllChangesDoneTemplate, "parameters", {get: function() {
+          return [[assert.type.number]];
+        }});
       Object.defineProperty(bodyTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string], [assert.type.string]];
         }});
@@ -147,7 +163,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[assert.type.number]];
         }});
       Object.defineProperty(pipeCheckTemplate, "parameters", {get: function() {
-          return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
+          return [[assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(assignmentTemplate, "parameters", {get: function() {
           return [[assert.type.string], [assert.type.string]];
@@ -168,9 +184,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[assert.type.number], [assert.type.string], [assert.type.string]];
         }});
       ChangeDetectorJITGenerator = $__export("ChangeDetectorJITGenerator", (function() {
-        var ChangeDetectorJITGenerator = function ChangeDetectorJITGenerator(typeName, records) {
+        var ChangeDetectorJITGenerator = function ChangeDetectorJITGenerator(typeName, records, directiveMementos) {
           this.typeName = typeName;
           this.records = records;
+          this.directiveMementos = directiveMementos;
           this.localNames = this.getLocalNames(records);
           this.changeNames = this.getChangeNames(this.localNames);
           this.fieldNames = this.getFieldNames(this.localNames);
@@ -201,26 +218,26 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             }));
           },
           generate: function() {
-            var text = typeTemplate(this.typeName, this.genConstructor(), this.genDetectChanges(), this.genHydrate());
-            return new Function('AbstractChangeDetector', 'ChangeDetectionUtil', 'protos', text)(AbstractChangeDetector, ChangeDetectionUtil, this.records);
+            var text = typeTemplate(this.typeName, this.genConstructor(), this.genDetectChanges(), this.genNotifyOnAllChangesDone(), this.genHydrate());
+            return new Function('AbstractChangeDetector', 'ChangeDetectionUtil', 'protos', 'directiveMementos', text)(AbstractChangeDetector, ChangeDetectionUtil, this.records, this.directiveMementos);
           },
           genConstructor: function() {
             return constructorTemplate(this.typeName, this.genFieldDefinitions());
           },
           genHydrate: function() {
-            return hydrateTemplate(this.typeName, this.genFieldDefinitions(), pipeOnDestroyTemplate(this.getnonNullPipeNames()));
+            return hydrateTemplate(this.typeName, this.genFieldDefinitions(), pipeOnDestroyTemplate(this.getNonNullPipeNames()));
           },
           genFieldDefinitions: function() {
             var fields = [];
             fields = fields.concat(this.fieldNames);
-            fields = fields.concat(this.getnonNullPipeNames());
+            fields = fields.concat(this.getNonNullPipeNames());
             return fieldDefinitionsTemplate(fields);
           },
-          getnonNullPipeNames: function() {
+          getNonNullPipeNames: function() {
             var $__0 = this;
             var pipes = [];
             this.records.forEach((function(r) {
-              if (r.mode === RECORD_TYPE_PIPE) {
+              if (r.mode === RECORD_TYPE_PIPE || r.mode === RECORD_TYPE_BINDING_PIPE) {
                 pipes.push($__0.pipeNames[r.selfIndex]);
               }
             }));
@@ -229,6 +246,17 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           genDetectChanges: function() {
             var body = this.genBody();
             return detectChangesTemplate(this.typeName, body);
+          },
+          genNotifyOnAllChangesDone: function() {
+            var notifications = [];
+            var mementos = this.directiveMementos;
+            for (var i = mementos.length - 1; i >= 0; --i) {
+              var memento = mementos[i];
+              if (memento.notifyOnAllChangesDone) {
+                notifications.push(onAllChangesDoneTemplate(i));
+              }
+            }
+            return notifyOnAllChangesDoneTemplate(this.typeName, notifications.join(";\n"));
           },
           genBody: function() {
             var $__0 = this;
@@ -244,7 +272,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             return changeDefinitionsTemplate(this.changeNames);
           },
           genRecord: function(r) {
-            if (r.mode === RECORD_TYPE_PIPE) {
+            if (r.mode === RECORD_TYPE_PIPE || r.mode === RECORD_TYPE_BINDING_PIPE) {
               return this.genPipeCheck(r);
             } else {
               return this.genReferenceCheck(r);
@@ -256,9 +284,10 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             var newValue = this.localNames[r.selfIndex];
             var oldValue = this.fieldNames[r.selfIndex];
             var change = this.changeNames[r.selfIndex];
+            var bpc = r.mode === RECORD_TYPE_BINDING_PIPE ? "this.bindingPropagationConfig" : "null";
             var addRecord = addSimpleChangeRecordTemplate(r.selfIndex - 1, oldValue, newValue);
             var notify = this.genNotify(r);
-            return pipeCheckTemplate(context, pipe, r.name, newValue, change, addRecord, notify);
+            return pipeCheckTemplate(context, bpc, pipe, r.name, newValue, change, addRecord, notify);
           },
           genReferenceCheck: function(r) {
             var newValue = this.localNames[r.selfIndex];
@@ -268,7 +297,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             var addRecord = addSimpleChangeRecordTemplate(r.selfIndex - 1, oldValue, newValue);
             var notify = this.genNotify(r);
             var check = referenceCheckTemplate(assignment, newValue, oldValue, change, r.lastInBinding ? addRecord : '', notify);
-            ;
             if (r.isPureFunction()) {
               return this.ifChangedGuard(r, check);
             } else {
@@ -335,7 +363,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         }, {});
       }()));
       Object.defineProperty(ChangeDetectorJITGenerator, "parameters", {get: function() {
-          return [[assert.type.string], [assert.genericType(List, ProtoRecord)]];
+          return [[assert.type.string], [assert.genericType(List, ProtoRecord)], [List]];
         }});
       Object.defineProperty(ChangeDetectorJITGenerator.prototype.getLocalNames, "parameters", {get: function() {
           return [[assert.genericType(List, ProtoRecord)]];
@@ -373,7 +401,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/change_detection_jit_generator.map
+//# sourceMappingURL=change_detection_jit_generator.js.map
 
 //# sourceMappingURL=../../src/change_detection/change_detection_jit_generator.js.map

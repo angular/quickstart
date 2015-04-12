@@ -350,7 +350,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/shadow_dom_emulation/shadow_css.map
+//# sourceMappingURL=shadow_css.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/shadow_dom_emulation/shadow_css.js.map

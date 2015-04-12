@@ -29,7 +29,6 @@ System.register(["./src/directives/for", "./src/directives/if", "./src/directive
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=directives.map
+//# sourceMappingURL=directives.js.map
 
 //# sourceMappingURL=directives.js.map

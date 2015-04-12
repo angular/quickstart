@@ -43,7 +43,9 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
     }],
     execute: function() {
       DestinationLightDom = $__export("DestinationLightDom", (function() {
-        var DestinationLightDom = function DestinationLightDom() {};
+        var DestinationLightDom = function DestinationLightDom() {
+          ;
+        };
         return ($traceurRuntime.createClass)(DestinationLightDom, {}, {});
       }()));
       _Root = (function() {
@@ -140,7 +142,6 @@ System.register(["angular2/src/dom/dom_adapter", "angular2/src/facade/collection
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/shadow_dom_emulation/light_dom.map
+//# sourceMappingURL=light_dom.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/shadow_dom_emulation/light_dom.js.map

@@ -96,7 +96,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang"], 
     }
   };
 });
-
-//# sourceMappingURL=src/core/zone/vm_turn_zone.map
+//# sourceMappingURL=vm_turn_zone.js.map
 
 //# sourceMappingURL=../../../src/core/zone/vm_turn_zone.js.map

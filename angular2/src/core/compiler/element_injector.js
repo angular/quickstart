@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/di", "angular2/src/core/compiler/view", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/binding_propagation_config", "angular2/src/core/compiler/private_component_location", "angular2/src/reflection/reflection"], function($__export) {
+System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angular2/src/facade/collection", "angular2/di", "angular2/src/core/annotations/visibility", "angular2/src/core/annotations/di", "angular2/src/core/compiler/view", "angular2/src/core/compiler/view_container", "angular2/src/core/dom/element", "angular2/src/core/annotations/annotations", "angular2/change_detection", "angular2/src/core/compiler/private_component_location", "./property_setter_factory"], function($__export) {
   "use strict";
   var isPresent,
       isBlank,
@@ -21,15 +21,17 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       Ancestor,
       EventEmitter,
       PropertySetter,
+      Attribute,
       viewModule,
       ViewContainer,
       NgElement,
       Directive,
       onChange,
       onDestroy,
+      onAllChangesDone,
       BindingPropagationConfig,
       pclModule,
-      reflector,
+      setterFactory,
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER,
       MAX_DEPTH,
       _undefined,
@@ -70,6 +72,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
     }, function($__m) {
       EventEmitter = $__m.EventEmitter;
       PropertySetter = $__m.PropertySetter;
+      Attribute = $__m.Attribute;
     }, function($__m) {
       viewModule = $__m;
     }, function($__m) {
@@ -80,12 +83,13 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
       Directive = $__m.Directive;
       onChange = $__m.onChange;
       onDestroy = $__m.onDestroy;
+      onAllChangesDone = $__m.onAllChangesDone;
     }, function($__m) {
       BindingPropagationConfig = $__m.BindingPropagationConfig;
     }, function($__m) {
       pclModule = $__m;
     }, function($__m) {
-      reflector = $__m.reflector;
+      setterFactory = $__m.setterFactory;
     }],
     execute: function() {
       _MAX_DIRECTIVE_CONSTRUCTION_COUNTER = 10;
@@ -150,16 +154,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           return [[TreeNode]];
         }});
       DirectiveDependency = $__export("DirectiveDependency", (function($__super) {
-        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, optional, properties, depth, eventEmitterName, propSetterName) {
+        var DirectiveDependency = function DirectiveDependency(key, asPromise, lazy, optional, properties, depth, eventEmitterName, propSetterName, attributeName) {
           $traceurRuntime.superConstructor(DirectiveDependency).call(this, key, asPromise, lazy, optional, properties);
           this.depth = depth;
           this.eventEmitterName = eventEmitterName;
           this.propSetterName = propSetterName;
+          this.attributeName = attributeName;
         };
         return ($traceurRuntime.createClass)(DirectiveDependency, {}, {createFrom: function(d) {
             var depth = 0;
             var eventName = null;
             var propName = null;
+            var attributeName = null;
             var properties = d.properties;
             for (var i = 0; i < properties.length; i++) {
               var property = properties[i];
@@ -171,13 +177,15 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
                 eventName = property.eventName;
               } else if (property instanceof PropertySetter) {
                 propName = property.propName;
+              } else if (property instanceof Attribute) {
+                attributeName = property.attributeName;
               }
             }
-            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.optional, d.properties, depth, eventName, propName);
+            return new DirectiveDependency(d.key, d.asPromise, d.lazy, d.optional, d.properties, depth, eventName, propName, attributeName);
           }}, $__super);
       }(Dependency)));
       Object.defineProperty(DirectiveDependency, "parameters", {get: function() {
-          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string], [assert.type.string]];
+          return [[Key], [assert.type.boolean], [assert.type.boolean], [assert.type.boolean], [List], [int], [assert.type.string], [assert.type.string], [assert.type.string]];
         }});
       Object.defineProperty(DirectiveDependency.createFrom, "parameters", {get: function() {
           return [[Dependency]];
@@ -187,6 +195,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           $traceurRuntime.superConstructor(DirectiveBinding).call(this, key, factory, dependencies, providedAsPromise);
           this.callOnDestroy = isPresent(annotation) && annotation.hasLifecycleHook(onDestroy);
           this.callOnChange = isPresent(annotation) && annotation.hasLifecycleHook(onChange);
+          this.callOnAllChangesDone = isPresent(annotation) && annotation.hasLifecycleHook(onAllChangesDone);
         };
         return ($traceurRuntime.createClass)(DirectiveBinding, {}, {
           createFromBinding: function(b, annotation) {
@@ -258,6 +267,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           this._keyId8 = null;
           this._binding9 = null;
           this._keyId9 = null;
+          this.numberOfDirectives = bindings.length;
           var length = bindings.length;
           if (length > 0) {
             this._binding0 = this._createBinding(bindings[0]);
@@ -321,6 +331,29 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           get hasBindings() {
             return isPresent(this._binding0);
           },
+          getDirectiveBindingAtIndex: function(index) {
+            if (index == 0)
+              return this._binding0;
+            if (index == 1)
+              return this._binding1;
+            if (index == 2)
+              return this._binding2;
+            if (index == 3)
+              return this._binding3;
+            if (index == 4)
+              return this._binding4;
+            if (index == 5)
+              return this._binding5;
+            if (index == 6)
+              return this._binding6;
+            if (index == 7)
+              return this._binding7;
+            if (index == 8)
+              return this._binding8;
+            if (index == 9)
+              return this._binding9;
+            throw new OutOfBoundsAccess(index);
+          },
           hasEventEmitter: function(eventName) {
             var p = this;
             if (isPresent(p._binding0) && DirectiveBinding._hasEventEmitter(eventName, p._binding0))
@@ -352,6 +385,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
         }});
       Object.defineProperty(ProtoElementInjector.prototype.instantiate, "parameters", {get: function() {
           return [[ElementInjector], [ElementInjector]];
+        }});
+      Object.defineProperty(ProtoElementInjector.prototype.getDirectiveBindingAtIndex, "parameters", {get: function() {
+          return [[int]];
         }});
       Object.defineProperty(ProtoElementInjector.prototype.hasEventEmitter, "parameters", {get: function() {
           return [[assert.type.string]];
@@ -594,6 +630,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
               return this._buildEventEmitter(dep);
             if (isPresent(dep.propSetterName))
               return this._buildPropSetter(dep);
+            if (isPresent(dep.attributeName))
+              return this._buildAttribute(dep);
             return this._getByKey(dep.key, dep.depth, dep.optional, requestor);
           },
           _buildEventEmitter: function(dep) {
@@ -606,10 +644,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
           _buildPropSetter: function(dep) {
             var ngElement = this._getPreBuiltObjectByKeyId(StaticKeys.instance().ngElementId);
             var domElement = ngElement.domElement;
-            var setter = reflector.setter(dep.propSetterName);
+            var setter = setterFactory(dep.propSetterName);
             return function(v) {
               setter(domElement, v);
             };
+          },
+          _buildAttribute: function(dep) {
+            var attributes = this._proto.attributes;
+            if (isPresent(attributes) && MapWrapper.contains(attributes, dep.attributeName)) {
+              return MapWrapper.get(attributes, dep.attributeName);
+            } else {
+              return null;
+            }
           },
           _getByKey: function(key, depth, optional, requestor) {
             var ei = this;
@@ -750,28 +796,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
             throw new OutOfBoundsAccess(index);
           },
           getDirectiveBindingAtIndex: function(index) {
-            var p = this._proto;
-            if (index == 0)
-              return p._binding0;
-            if (index == 1)
-              return p._binding1;
-            if (index == 2)
-              return p._binding2;
-            if (index == 3)
-              return p._binding3;
-            if (index == 4)
-              return p._binding4;
-            if (index == 5)
-              return p._binding5;
-            if (index == 6)
-              return p._binding6;
-            if (index == 7)
-              return p._binding7;
-            if (index == 8)
-              return p._binding8;
-            if (index == 9)
-              return p._binding9;
-            throw new OutOfBoundsAccess(index);
+            return this._proto.getDirectiveBindingAtIndex(index);
           },
           hasInstances: function() {
             return this._constructionCounter > 0;
@@ -856,7 +881,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/math", "angula
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/element_injector.map
+//# sourceMappingURL=element_injector.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/element_injector.js.map

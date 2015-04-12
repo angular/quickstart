@@ -35,7 +35,6 @@ System.register(["./change_detection", "./core", "./annotations", "./directives"
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=angular2.map
+//# sourceMappingURL=angular2.js.map
 
 //# sourceMappingURL=angular2.js.map

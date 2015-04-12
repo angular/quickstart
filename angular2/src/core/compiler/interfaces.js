@@ -5,7 +5,9 @@ System.register([], function($__export) {
     setters: [],
     execute: function() {
       OnChange = $__export("OnChange", (function() {
-        var OnChange = function OnChange() {};
+        var OnChange = function OnChange() {
+          ;
+        };
         return ($traceurRuntime.createClass)(OnChange, {onChange: function(changes) {
             throw "OnChange.onChange is not implemented";
           }}, {});
@@ -13,7 +15,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/interfaces.map
+//# sourceMappingURL=interfaces.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/interfaces.js.map

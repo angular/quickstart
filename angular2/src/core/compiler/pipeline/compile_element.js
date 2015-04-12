@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "./util", "angular2/change_detection"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter", "angular2/src/facade/lang", "../directive_metadata", "../../annotations/annotations", "../element_binder", "../element_injector", "../view", "../string_utils", "angular2/change_detection"], function($__export) {
   "use strict";
   var List,
       Map,
@@ -161,6 +161,12 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
             }
             MapWrapper.set(this.eventBindings, eventName, expression);
           },
+          addAttribute: function(attributeName, attributeValue) {
+            if (isBlank(this.attributes)) {
+              this.attributes = MapWrapper.create();
+            }
+            MapWrapper.set(this.attributes, attributeName, attributeValue);
+          },
           addDirective: function(directive) {
             var annotation = directive.annotation;
             this._allDirectives = null;
@@ -211,6 +217,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
       Object.defineProperty(CompileElement.prototype.addEventBinding, "parameters", {get: function() {
           return [[assert.type.string], [AST]];
         }});
+      Object.defineProperty(CompileElement.prototype.addAttribute, "parameters", {get: function() {
+          return [[assert.type.string], [assert.type.string]];
+        }});
       Object.defineProperty(CompileElement.prototype.addDirective, "parameters", {get: function() {
           return [[DirectiveMetadata]];
         }});
@@ -220,7 +229,6 @@ System.register(["angular2/src/facade/collection", "angular2/src/dom/dom_adapter
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/compile_element.map
+//# sourceMappingURL=compile_element.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/compile_element.js.map

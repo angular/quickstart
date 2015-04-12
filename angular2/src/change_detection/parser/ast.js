@@ -56,7 +56,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
     }],
     execute: function() {
       AST = $__export("AST", (function() {
-        var AST = function AST() {};
+        var AST = function AST() {
+          ;
+        };
         return ($traceurRuntime.createClass)(AST, {
           eval: function(context, locals) {
             throw new BaseException("Not supported");
@@ -76,6 +78,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
       EmptyExpr = $__export("EmptyExpr", (function($__super) {
         var EmptyExpr = function EmptyExpr() {
           $traceurRuntime.superConstructor(EmptyExpr).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(EmptyExpr, {
           eval: function(context, locals) {
@@ -87,6 +90,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
       ImplicitReceiver = $__export("ImplicitReceiver", (function($__super) {
         var ImplicitReceiver = function ImplicitReceiver() {
           $traceurRuntime.superConstructor(ImplicitReceiver).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(ImplicitReceiver, {
           eval: function(context, locals) {
@@ -209,18 +213,19 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           return [[AST], [AST]];
         }});
       Pipe = $__export("Pipe", (function($__super) {
-        var Pipe = function Pipe(exp, name, args) {
+        var Pipe = function Pipe(exp, name, args, inBinding) {
           $traceurRuntime.superConstructor(Pipe).call(this);
           this.exp = exp;
           this.name = name;
           this.args = args;
+          this.inBinding = inBinding;
         };
         return ($traceurRuntime.createClass)(Pipe, {visit: function(visitor) {
             return visitor.visitPipe(this);
           }}, {}, $__super);
       }(AST)));
       Object.defineProperty(Pipe, "parameters", {get: function() {
-          return [[AST], [assert.type.string], [List]];
+          return [[AST], [assert.type.string], [List], [assert.type.boolean]];
         }});
       LiteralPrimitive = $__export("LiteralPrimitive", (function($__super) {
         var LiteralPrimitive = function LiteralPrimitive(value) {
@@ -464,7 +469,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
         }});
       TemplateBinding = $__export("TemplateBinding", (function() {
         var TemplateBinding = function TemplateBinding(key, keyIsVar, name, expression) {
-          $traceurRuntime.superConstructor(TemplateBinding).call(this);
           this.key = key;
           this.keyIsVar = keyIsVar;
           this.name = name;
@@ -476,7 +480,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
           return [[assert.type.string], [assert.type.boolean], [assert.type.string], [ASTWithSource]];
         }});
       AstVisitor = $__export("AstVisitor", (function() {
-        var AstVisitor = function AstVisitor() {};
+        var AstVisitor = function AstVisitor() {
+          ;
+        };
         return ($traceurRuntime.createClass)(AstVisitor, {
           visitAccessMember: function(ast) {},
           visitAssignment: function(ast) {},
@@ -543,7 +549,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/parser/ast.map
+//# sourceMappingURL=ast.js.map
 
 //# sourceMappingURL=../../../src/change_detection/parser/ast.js.map

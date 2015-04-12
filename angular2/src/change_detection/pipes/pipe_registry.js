@@ -1,4 +1,4 @@
-System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./pipe"], function($__export) {
+System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "./pipe", "../binding_propagation_config"], function($__export) {
   "use strict";
   var List,
       ListWrapper,
@@ -7,6 +7,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       BaseException,
       CONST,
       Pipe,
+      BindingPropagationConfig,
       PipeRegistry;
   return {
     setters: [function($__m) {
@@ -19,13 +20,15 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       CONST = $__m.CONST;
     }, function($__m) {
       Pipe = $__m.Pipe;
+    }, function($__m) {
+      BindingPropagationConfig = $__m.BindingPropagationConfig;
     }],
     execute: function() {
       PipeRegistry = $__export("PipeRegistry", (function() {
         var PipeRegistry = function PipeRegistry(config) {
           this.config = config;
         };
-        return ($traceurRuntime.createClass)(PipeRegistry, {get: function(type, obj) {
+        return ($traceurRuntime.createClass)(PipeRegistry, {get: function(type, obj, bpc) {
             var listOfConfigs = this.config[type];
             if (isBlank(listOfConfigs)) {
               throw new BaseException(("Cannot find a pipe for type '" + type + "' object '" + obj + "'"));
@@ -36,16 +39,15 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
             if (isBlank(matchingConfig)) {
               throw new BaseException(("Cannot find a pipe for type '" + type + "' object '" + obj + "'"));
             }
-            return matchingConfig.create();
+            return matchingConfig.create(bpc);
           }}, {});
       }()));
       Object.defineProperty(PipeRegistry.prototype.get, "parameters", {get: function() {
-          return [[assert.type.string], []];
+          return [[assert.type.string], [], [BindingPropagationConfig]];
         }});
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/pipes/pipe_registry.map
+//# sourceMappingURL=pipe_registry.js.map
 
 //# sourceMappingURL=../../../src/change_detection/pipes/pipe_registry.js.map

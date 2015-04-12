@@ -137,7 +137,6 @@ System.register(["angular2/src/core/compiler/xhr/xhr", "angular2/src/facade/coll
     }
   };
 });
-
-//# sourceMappingURL=src/mock/xhr_mock.map
+//# sourceMappingURL=xhr_mock.js.map
 
 //# sourceMappingURL=../../src/mock/xhr_mock.js.map

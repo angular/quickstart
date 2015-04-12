@@ -252,7 +252,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/compiler.map
+//# sourceMappingURL=compiler.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/compiler.js.map

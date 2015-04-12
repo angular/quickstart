@@ -52,7 +52,6 @@ System.register(["./hammer_common", "angular2/src/facade/lang"], function($__exp
     }
   };
 });
-
-//# sourceMappingURL=src/core/events/hammer_gestures.map
+//# sourceMappingURL=hammer_gestures.js.map
 
 //# sourceMappingURL=../../../src/core/events/hammer_gestures.js.map

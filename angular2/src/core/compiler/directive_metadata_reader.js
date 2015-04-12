@@ -26,7 +26,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "../annotations/anno
     }],
     execute: function() {
       DirectiveMetadataReader = $__export("DirectiveMetadataReader", (function() {
-        var DirectiveMetadataReader = function DirectiveMetadataReader() {};
+        var DirectiveMetadataReader = function DirectiveMetadataReader() {
+          ;
+        };
         return ($traceurRuntime.createClass)(DirectiveMetadataReader, {read: function(type) {
             var annotations = reflector.annotations(type);
             if (isPresent(annotations)) {
@@ -49,7 +51,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "../annotations/anno
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/directive_metadata_reader.map
+//# sourceMappingURL=directive_metadata_reader.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/directive_metadata_reader.js.map

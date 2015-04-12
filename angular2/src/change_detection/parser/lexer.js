@@ -186,7 +186,9 @@ System.register(["angular2/di", "angular2/src/facade/collection", "angular2/src/
       TOKEN_TYPE_OPERATOR = $__export("TOKEN_TYPE_OPERATOR", 5);
       TOKEN_TYPE_NUMBER = $__export("TOKEN_TYPE_NUMBER", 6);
       Lexer = $__export("Lexer", (function() {
-        var Lexer = function Lexer() {};
+        var Lexer = function Lexer() {
+          ;
+        };
         return ($traceurRuntime.createClass)(Lexer, {tokenize: function(text) {
             var scanner = new _Scanner(text);
             var tokens = [];
@@ -574,7 +576,6 @@ System.register(["angular2/di", "angular2/src/facade/collection", "angular2/src/
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/parser/lexer.map
+//# sourceMappingURL=lexer.js.map
 
 //# sourceMappingURL=../../../src/change_detection/parser/lexer.js.map

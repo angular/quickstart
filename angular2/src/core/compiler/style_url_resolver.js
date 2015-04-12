@@ -60,7 +60,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "./url_resolver"], f
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/style_url_resolver.map
+//# sourceMappingURL=style_url_resolver.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/style_url_resolver.js.map

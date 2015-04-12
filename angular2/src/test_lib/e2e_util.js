@@ -29,7 +29,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/test_lib/e2e_util.map
+//# sourceMappingURL=e2e_util.js.map
 
 //# sourceMappingURL=../../src/test_lib/e2e_util.js.map

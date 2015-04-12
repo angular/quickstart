@@ -8,7 +8,9 @@ System.register(["angular2/src/core/annotations/annotations"], function($__expor
     }],
     execute: function() {
       NonBindable = $__export("NonBindable", (function() {
-        var NonBindable = function NonBindable() {};
+        var NonBindable = function NonBindable() {
+          ;
+        };
         return ($traceurRuntime.createClass)(NonBindable, {}, {});
       }()));
       Object.defineProperty(NonBindable, "annotations", {get: function() {
@@ -20,7 +22,6 @@ System.register(["angular2/src/core/annotations/annotations"], function($__expor
     }
   };
 });
-
-//# sourceMappingURL=src/directives/non_bindable.map
+//# sourceMappingURL=non_bindable.js.map
 
 //# sourceMappingURL=../../src/directives/non_bindable.js.map
