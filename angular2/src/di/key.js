@@ -71,7 +71,6 @@ System.register(["./exceptions", "angular2/src/facade/collection", "angular2/src
     }
   };
 });
-
-//# sourceMappingURL=src/di/key.map
+//# sourceMappingURL=key.js.map
 
 //# sourceMappingURL=../../src/di/key.js.map

@@ -24,7 +24,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
     execute: function() {
       For = $__export("For", (function() {
         var For = function For(viewContainer) {
-          $traceurRuntime.superConstructor(For).call(this);
           this.viewContainer = viewContainer;
         };
         return ($traceurRuntime.createClass)(For, {
@@ -105,7 +104,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
     }
   };
 });
-
-//# sourceMappingURL=src/directives/for.map
+//# sourceMappingURL=for.js.map
 
 //# sourceMappingURL=../../src/directives/for.js.map

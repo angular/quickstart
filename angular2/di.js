@@ -32,7 +32,6 @@ System.register(["./src/di/annotations", "./src/di/injector", "./src/di/binding"
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=di.map
+//# sourceMappingURL=di.js.map
 
 //# sourceMappingURL=di.js.map

@@ -11,7 +11,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       AbstractChangeDetector,
       PipeRegistry,
       ChangeDetectionUtil,
-      SimpleChange,
       uninitialized,
       ProtoRecord,
       RECORD_TYPE_SELF,
@@ -23,11 +22,11 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP,
       RECORD_TYPE_KEYED_ACCESS,
       RECORD_TYPE_PIPE,
+      RECORD_TYPE_BINDING_PIPE,
       RECORD_TYPE_INTERPOLATE,
       ExpressionChangedAfterItHasBeenChecked,
       ChangeDetectionError,
-      DynamicChangeDetector,
-      _singleElementList;
+      DynamicChangeDetector;
   function isSame(a, b) {
     if (a === b)
       return true;
@@ -54,7 +53,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       PipeRegistry = $__m.PipeRegistry;
     }, function($__m) {
       ChangeDetectionUtil = $__m.ChangeDetectionUtil;
-      SimpleChange = $__m.SimpleChange;
       uninitialized = $__m.uninitialized;
     }, function($__m) {
       ProtoRecord = $__m.ProtoRecord;
@@ -67,6 +65,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       RECORD_TYPE_PRIMITIVE_OP = $__m.RECORD_TYPE_PRIMITIVE_OP;
       RECORD_TYPE_KEYED_ACCESS = $__m.RECORD_TYPE_KEYED_ACCESS;
       RECORD_TYPE_PIPE = $__m.RECORD_TYPE_PIPE;
+      RECORD_TYPE_BINDING_PIPE = $__m.RECORD_TYPE_BINDING_PIPE;
       RECORD_TYPE_INTERPOLATE = $__m.RECORD_TYPE_INTERPOLATE;
     }, function($__m) {
       ExpressionChangedAfterItHasBeenChecked = $__m.ExpressionChangedAfterItHasBeenChecked;
@@ -74,7 +73,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }],
     execute: function() {
       DynamicChangeDetector = $__export("DynamicChangeDetector", (function($__super) {
-        var DynamicChangeDetector = function DynamicChangeDetector(dispatcher, pipeRegistry, protoRecords) {
+        var DynamicChangeDetector = function DynamicChangeDetector(dispatcher, pipeRegistry, protoRecords, directiveMementos) {
           $traceurRuntime.superConstructor(DynamicChangeDetector).call(this);
           this.dispatcher = dispatcher;
           this.pipeRegistry = pipeRegistry;
@@ -88,6 +87,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           ListWrapper.fill(this.changes, false);
           this.locals = null;
           this.protos = protoRecords;
+          this.directiveMementos = directiveMementos;
         };
         return ($traceurRuntime.createClass)(DynamicChangeDetector, {
           hydrate: function(context, locals) {
@@ -130,9 +130,18 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
               }
             }
           },
+          notifyOnAllChangesDone: function() {
+            var mementos = this.directiveMementos;
+            for (var i = mementos.length - 1; i >= 0; --i) {
+              var memento = mementos[i];
+              if (memento.notifyOnAllChangesDone) {
+                this.dispatcher.onAllChangesDone(memento);
+              }
+            }
+          },
           _check: function(proto) {
             try {
-              if (proto.mode == RECORD_TYPE_PIPE) {
+              if (proto.mode === RECORD_TYPE_PIPE || proto.mode === RECORD_TYPE_BINDING_PIPE) {
                 return this._pipeCheck(proto);
               } else {
                 return this._referenceCheck(proto);
@@ -214,7 +223,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             if (isPresent(storedPipe)) {
               storedPipe.onDestroy();
             }
-            var pipe = this.pipeRegistry.get(proto.name, context);
+            var bpc = proto.mode === RECORD_TYPE_BINDING_PIPE ? this.bindingPropagationConfig : null;
+            var pipe = this.pipeRegistry.get(proto.name, context, bpc);
             this._writePipe(proto, pipe);
             return pipe;
           },
@@ -259,7 +269,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         }, {}, $__super);
       }(AbstractChangeDetector)));
       Object.defineProperty(DynamicChangeDetector, "parameters", {get: function() {
-          return [[assert.type.any], [PipeRegistry], [assert.genericType(List, ProtoRecord)]];
+          return [[assert.type.any], [PipeRegistry], [assert.genericType(List, ProtoRecord)], [List]];
         }});
       Object.defineProperty(DynamicChangeDetector.prototype.hydrate, "parameters", {get: function() {
           return [[assert.type.any], [assert.type.any]];
@@ -309,11 +319,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(DynamicChangeDetector.prototype._readArgs, "parameters", {get: function() {
           return [[ProtoRecord]];
         }});
-      _singleElementList = [null];
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/dynamic_change_detector.map
+//# sourceMappingURL=dynamic_change_detector.js.map
 
 //# sourceMappingURL=../../src/change_detection/dynamic_change_detector.js.map

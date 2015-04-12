@@ -11,7 +11,6 @@ System.register(["./src/core/annotations/annotations"], function($__export) {
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=annotations.map
+//# sourceMappingURL=annotations.js.map
 
 //# sourceMappingURL=annotations.js.map

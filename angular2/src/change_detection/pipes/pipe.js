@@ -7,7 +7,9 @@ System.register([], function($__export) {
     execute: function() {
       NO_CHANGE = $__export("NO_CHANGE", new Object());
       Pipe = $__export("Pipe", (function() {
-        var Pipe = function Pipe() {};
+        var Pipe = function Pipe() {
+          ;
+        };
         return ($traceurRuntime.createClass)(Pipe, {
           supports: function(obj) {
             return false;
@@ -24,7 +26,6 @@ System.register([], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/pipes/pipe.map
+//# sourceMappingURL=pipe.js.map
 
 //# sourceMappingURL=../../../src/change_detection/pipes/pipe.js.map

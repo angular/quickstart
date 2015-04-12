@@ -71,6 +71,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
                 var ast = $__0._parseInterpolation(attrValue, desc);
                 if (isPresent(ast)) {
                   current.addPropertyBinding(attrName, ast);
+                } else {
+                  current.addAttribute(attrName, attrValue);
                 }
               }
             }));
@@ -107,7 +109,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/pipeline/property_binding_parser.map
+//# sourceMappingURL=property_binding_parser.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/pipeline/property_binding_parser.js.map

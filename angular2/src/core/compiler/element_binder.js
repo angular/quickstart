@@ -50,7 +50,6 @@ System.register(["angular2/src/facade/lang", "./element_injector", "./directive_
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/element_binder.map
+//# sourceMappingURL=element_binder.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/element_binder.js.map

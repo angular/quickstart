@@ -18,7 +18,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }],
     execute: function() {
       ExceptionHandler = $__export("ExceptionHandler", (function() {
-        var ExceptionHandler = function ExceptionHandler() {};
+        var ExceptionHandler = function ExceptionHandler() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ExceptionHandler, {call: function(error) {
             var stackTrace = arguments[1] !== (void 0) ? arguments[1] : null;
             var reason = arguments[2] !== (void 0) ? arguments[2] : null;
@@ -33,7 +35,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/core/exception_handler.map
+//# sourceMappingURL=exception_handler.js.map
 
 //# sourceMappingURL=../../src/core/exception_handler.js.map

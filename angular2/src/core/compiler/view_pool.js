@@ -44,7 +44,6 @@ System.register(["angular2/src/facade/collection", "./view"], function($__export
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/view_pool.map
+//# sourceMappingURL=view_pool.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/view_pool.js.map

@@ -10,6 +10,7 @@ System.register(["angular2/src/facade/collection"], function($__export) {
       RECORD_TYPE_INVOKE_CLOSURE,
       RECORD_TYPE_KEYED_ACCESS,
       RECORD_TYPE_PIPE,
+      RECORD_TYPE_BINDING_PIPE,
       RECORD_TYPE_INTERPOLATE,
       ProtoRecord;
   return {
@@ -26,7 +27,8 @@ System.register(["angular2/src/facade/collection"], function($__export) {
       RECORD_TYPE_INVOKE_CLOSURE = $__export("RECORD_TYPE_INVOKE_CLOSURE", 6);
       RECORD_TYPE_KEYED_ACCESS = $__export("RECORD_TYPE_KEYED_ACCESS", 7);
       RECORD_TYPE_PIPE = $__export("RECORD_TYPE_PIPE", 8);
-      RECORD_TYPE_INTERPOLATE = $__export("RECORD_TYPE_INTERPOLATE", 9);
+      RECORD_TYPE_BINDING_PIPE = $__export("RECORD_TYPE_BINDING_PIPE", 9);
+      RECORD_TYPE_INTERPOLATE = $__export("RECORD_TYPE_INTERPOLATE", 10);
       ProtoRecord = $__export("ProtoRecord", (function() {
         var ProtoRecord = function ProtoRecord(mode, name, funcOrValue, args, fixedArgs, contextIndex, selfIndex, bindingMemento, directiveMemento, expressionAsString, lastInBinding, lastInDirective) {
           this.mode = mode;
@@ -52,7 +54,6 @@ System.register(["angular2/src/facade/collection"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/proto_record.map
+//# sourceMappingURL=proto_record.js.map
 
 //# sourceMappingURL=../../src/change_detection/proto_record.js.map

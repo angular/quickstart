@@ -17,7 +17,6 @@ System.register(["./src/test_lib/test_lib", "./src/test_lib/utils"], function($_
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=test_lib.map
+//# sourceMappingURL=test_lib.js.map
 
 //# sourceMappingURL=test_lib.js.map

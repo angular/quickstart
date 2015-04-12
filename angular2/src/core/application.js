@@ -1,4 +1,4 @@
-System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/browser_adapter", "angular2/src/dom/dom_adapter", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding", "angular2/src/core/compiler/component_url_mapper", "angular2/src/core/compiler/url_resolver", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/style_inliner", "angular2/src/core/compiler/css_processor", "angular2/src/core/annotations/annotations"], function($__export) {
+System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/browser_adapter", "angular2/src/dom/dom_adapter", "./compiler/compiler", "./compiler/view", "angular2/src/reflection/reflection", "angular2/change_detection", "./exception_handler", "./compiler/template_loader", "./compiler/template_resolver", "./compiler/directive_metadata_reader", "angular2/src/facade/collection", "angular2/src/facade/async", "angular2/src/core/zone/vm_turn_zone", "angular2/src/core/life_cycle/life_cycle", "angular2/src/core/compiler/shadow_dom_strategy", "angular2/src/core/compiler/xhr/xhr", "angular2/src/core/compiler/xhr/xhr_impl", "angular2/src/core/events/event_manager", "angular2/src/core/events/hammer_gestures", "angular2/src/di/binding", "angular2/src/core/compiler/component_url_mapper", "angular2/src/core/compiler/url_resolver", "angular2/src/core/compiler/style_url_resolver", "angular2/src/core/compiler/style_inliner", "angular2/src/core/compiler/css_processor", "angular2/src/core/annotations/annotations", "angular2/src/core/compiler/private_component_loader"], function($__export) {
   "use strict";
   var Injector,
       bind,
@@ -47,6 +47,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       StyleInliner,
       CssProcessor,
       Component,
+      PrivateComponentLoader,
       _rootInjector,
       _rootBindings,
       appViewToken,
@@ -89,7 +90,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       return new EmulatedUnscopedShadowDomStrategy(styleUrlResolver, doc.head);
     }), [StyleUrlResolver, appDocumentToken]), Compiler, CompilerCache, TemplateResolver, bind(ChangeDetection).toValue(dynamicChangeDetection), TemplateLoader, DirectiveMetadataReader, Parser, Lexer, ExceptionHandler, bind(XHR).toValue(new XHRImpl()), ComponentUrlMapper, UrlResolver, StyleUrlResolver, StyleInliner, bind(CssProcessor).toFactory((function() {
       return new CssProcessor(null);
-    }), [])];
+    }), []), PrivateComponentLoader];
   }
   function _createVmZone(givenReporter) {
     var defaultErrorReporter = (function(exception, stackTrace) {
@@ -205,6 +206,8 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
       CssProcessor = $__m.CssProcessor;
     }, function($__m) {
       Component = $__m.Component;
+    }, function($__m) {
+      PrivateComponentLoader = $__m.PrivateComponentLoader;
     }],
     execute: function() {
       _rootBindings = [bind(Reflector).toValue(reflector)];
@@ -225,7 +228,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/dom/br
     }
   };
 });
-
-//# sourceMappingURL=src/core/application.map
+//# sourceMappingURL=application.js.map
 
 //# sourceMappingURL=../../src/core/application.js.map

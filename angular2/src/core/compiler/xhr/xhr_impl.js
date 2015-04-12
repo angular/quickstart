@@ -18,6 +18,7 @@ System.register(["angular2/di", "angular2/src/facade/async", "./xhr"], function(
       XHRImpl = $__export("XHRImpl", (function($__super) {
         var XHRImpl = function XHRImpl() {
           $traceurRuntime.superConstructor(XHRImpl).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(XHRImpl, {get: function(url) {
             var completer = PromiseWrapper.completer();
@@ -48,7 +49,6 @@ System.register(["angular2/di", "angular2/src/facade/async", "./xhr"], function(
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/xhr/xhr_impl.map
+//# sourceMappingURL=xhr_impl.js.map
 
 //# sourceMappingURL=../../../../src/core/compiler/xhr/xhr_impl.js.map

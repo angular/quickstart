@@ -52,7 +52,6 @@ System.register(["angular2/src/core/annotations/annotations", "angular2/src/core
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/private_component_location.map
+//# sourceMappingURL=private_component_location.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/private_component_location.js.map

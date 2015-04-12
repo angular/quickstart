@@ -54,6 +54,8 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
         optional = true;
       } else if (paramAnnotation instanceof DependencyAnnotation) {
         ListWrapper.push(depProps, paramAnnotation);
+      } else if (paramAnnotation.name === "string") {
+        token = paramAnnotation;
       }
     }
     if (isPresent(token)) {
@@ -167,7 +169,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/di/binding.map
+//# sourceMappingURL=binding.js.map
 
 //# sourceMappingURL=../../src/di/binding.js.map

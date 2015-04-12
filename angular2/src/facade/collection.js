@@ -43,7 +43,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
       Set = $__export("Set", global.Set);
       StringMap = $__export("StringMap", global.Object);
       MapWrapper = $__export("MapWrapper", (function() {
-        var MapWrapper = function MapWrapper() {};
+        var MapWrapper = function MapWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(MapWrapper, {}, {
           create: function() {
             return new Map();
@@ -53,7 +55,7 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           },
           createFromStringMap: function(stringMap) {
             var result = MapWrapper.create();
-            for (var prop = void 0 in stringMap) {
+            for (var prop in stringMap) {
               MapWrapper.set(result, prop, stringMap[prop]);
             }
             return result;
@@ -107,7 +109,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           return [[List]];
         }});
       StringMapWrapper = $__export("StringMapWrapper", (function() {
-        var StringMapWrapper = function StringMapWrapper() {};
+        var StringMapWrapper = function StringMapWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(StringMapWrapper, {}, {
           create: function() {
             return {};
@@ -122,13 +126,13 @@ System.register(["angular2/src/facade/lang"], function($__export) {
             map[key] = value;
           },
           isEmpty: function(map) {
-            for (var prop = void 0 in map) {
+            for (var prop in map) {
               return false;
             }
             return true;
           },
           forEach: function(map, callback) {
-            for (var prop = void 0 in map) {
+            for (var prop in map) {
               if (map.hasOwnProperty(prop)) {
                 callback(map[prop], prop);
               }
@@ -136,12 +140,12 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           },
           merge: function(m1, m2) {
             var m = {};
-            for (var attr = void 0 in m1) {
+            for (var attr in m1) {
               if (m1.hasOwnProperty(attr)) {
                 m[attr] = m1[attr];
               }
             }
-            for (var attr = void 0 in m2) {
+            for (var attr in m2) {
               if (m2.hasOwnProperty(attr)) {
                 m[attr] = m2[attr];
               }
@@ -151,7 +155,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
         });
       }()));
       ListWrapper = $__export("ListWrapper", (function() {
-        var ListWrapper = function ListWrapper() {};
+        var ListWrapper = function ListWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ListWrapper, {}, {
           create: function() {
             return new List();
@@ -324,7 +330,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           return [[], [Function]];
         }});
       SetWrapper = $__export("SetWrapper", (function() {
-        var SetWrapper = function SetWrapper() {};
+        var SetWrapper = function SetWrapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(SetWrapper, {}, {
           createFromList: function(lst) {
             return new Set(lst);
@@ -343,7 +351,6 @@ System.register(["angular2/src/facade/lang"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/facade/collection.map
+//# sourceMappingURL=collection.js.map
 
 //# sourceMappingURL=../../src/facade/collection.js.map

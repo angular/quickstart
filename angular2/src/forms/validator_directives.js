@@ -27,7 +27,6 @@ System.register(["angular2/angular2", "angular2/forms"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/forms/validator_directives.map
+//# sourceMappingURL=validator_directives.js.map
 
 //# sourceMappingURL=../../src/forms/validator_directives.js.map

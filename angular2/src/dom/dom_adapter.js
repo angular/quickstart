@@ -22,7 +22,9 @@ System.register(["angular2/src/facade/lang"], function($__export) {
           return [[DomAdapter]];
         }});
       DomAdapter = $__export("DomAdapter", (function() {
-        var DomAdapter = function DomAdapter() {};
+        var DomAdapter = function DomAdapter() {
+          ;
+        };
         return ($traceurRuntime.createClass)(DomAdapter, {
           get attrToPropMap() {
             throw _abstract();
@@ -354,7 +356,6 @@ System.register(["angular2/src/facade/lang"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/dom/dom_adapter.map
+//# sourceMappingURL=dom_adapter.js.map
 
 //# sourceMappingURL=../../src/dom/dom_adapter.js.map

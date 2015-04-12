@@ -20,7 +20,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }],
     execute: function() {
       Validators = $__export("Validators", (function() {
-        var Validators = function Validators() {};
+        var Validators = function Validators() {
+          ;
+        };
         return ($traceurRuntime.createClass)(Validators, {}, {
           required: function(c) {
             return isBlank(c.value) || c.value == "" ? {"required": true} : null;
@@ -41,15 +43,27 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
             var res = {};
             StringMapWrapper.forEach(c.controls, (function(control, name) {
               if (c.contains(name) && isPresent(control.errors)) {
-                StringMapWrapper.forEach(control.errors, (function(value, error) {
-                  if (!StringMapWrapper.contains(res, error)) {
-                    res[error] = [];
-                  }
-                  ListWrapper.push(res[error], control);
-                }));
+                Validators._mergeErrors(control, res);
               }
             }));
             return StringMapWrapper.isEmpty(res) ? null : res;
+          },
+          array: function(c) {
+            var res = {};
+            ListWrapper.forEach(c.controls, (function(control) {
+              if (isPresent(control.errors)) {
+                Validators._mergeErrors(control, res);
+              }
+            }));
+            return StringMapWrapper.isEmpty(res) ? null : res;
+          },
+          _mergeErrors: function(control, res) {
+            StringMapWrapper.forEach(control.errors, (function(value, error) {
+              if (!StringMapWrapper.contains(res, error)) {
+                res[error] = [];
+              }
+              ListWrapper.push(res[error], control);
+            }));
           }
         });
       }()));
@@ -57,7 +71,7 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
           return [[modelModule.Control]];
         }});
       Object.defineProperty(Validators.nullValidator, "parameters", {get: function() {
-          return [[modelModule.Control]];
+          return [[assert.type.any]];
         }});
       Object.defineProperty(Validators.compose, "parameters", {get: function() {
           return [[assert.genericType(List, Function)]];
@@ -65,10 +79,12 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
       Object.defineProperty(Validators.group, "parameters", {get: function() {
           return [[modelModule.ControlGroup]];
         }});
+      Object.defineProperty(Validators.array, "parameters", {get: function() {
+          return [[modelModule.ControlArray]];
+        }});
     }
   };
 });
-
-//# sourceMappingURL=src/forms/validators.map
+//# sourceMappingURL=validators.js.map
 
 //# sourceMappingURL=../../src/forms/validators.js.map

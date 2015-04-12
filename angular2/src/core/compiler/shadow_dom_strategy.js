@@ -127,7 +127,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }],
     execute: function() {
       ShadowDomStrategy = $__export("ShadowDomStrategy", (function() {
-        var ShadowDomStrategy = function ShadowDomStrategy() {};
+        var ShadowDomStrategy = function ShadowDomStrategy() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ShadowDomStrategy, {
           attachTemplate: function(el, view) {},
           constructLightDom: function(lightDomView, shadowDomView, el) {
@@ -260,6 +262,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       _BaseEmulatedShadowDomStep = (function($__super) {
         var _BaseEmulatedShadowDomStep = function _BaseEmulatedShadowDomStep() {
           $traceurRuntime.superConstructor(_BaseEmulatedShadowDomStep).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(_BaseEmulatedShadowDomStep, {process: function(parent, current, control) {
             if (current.ignoreBindings) {
@@ -288,6 +291,7 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
       _EmptyCompileStep = (function($__super) {
         var _EmptyCompileStep = function _EmptyCompileStep() {
           $traceurRuntime.superConstructor(_EmptyCompileStep).apply(this, arguments);
+          ;
         };
         return ($traceurRuntime.createClass)(_EmptyCompileStep, {process: function(parent, current, control) {}}, {}, $__super);
       }(NS.CompileStep));
@@ -418,7 +422,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/shadow_dom_strategy.map
+//# sourceMappingURL=shadow_dom_strategy.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/shadow_dom_strategy.js.map

@@ -19,7 +19,9 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }],
     execute: function() {
       ComponentUrlMapper = $__export("ComponentUrlMapper", (function() {
-        var ComponentUrlMapper = function ComponentUrlMapper() {};
+        var ComponentUrlMapper = function ComponentUrlMapper() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ComponentUrlMapper, {getUrl: function(component) {
             return './';
           }}, {});
@@ -56,7 +58,6 @@ System.register(["angular2/di", "angular2/src/facade/lang", "angular2/src/facade
     }
   };
 });
-
-//# sourceMappingURL=src/core/compiler/component_url_mapper.map
+//# sourceMappingURL=component_url_mapper.js.map
 
 //# sourceMappingURL=../../../src/core/compiler/component_url_mapper.js.map

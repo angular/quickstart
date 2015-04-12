@@ -37,7 +37,6 @@ System.register(["./proto_record"], function($__export) {
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/exceptions.map
+//# sourceMappingURL=exceptions.js.map
 
 //# sourceMappingURL=../../src/change_detection/exceptions.js.map

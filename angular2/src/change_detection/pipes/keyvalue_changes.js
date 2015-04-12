@@ -26,12 +26,14 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
     }],
     execute: function() {
       KeyValueChangesFactory = $__export("KeyValueChangesFactory", (function() {
-        var KeyValueChangesFactory = function KeyValueChangesFactory() {};
+        var KeyValueChangesFactory = function KeyValueChangesFactory() {
+          ;
+        };
         return ($traceurRuntime.createClass)(KeyValueChangesFactory, {
           supports: function(obj) {
             return KeyValueChanges.supportsObj(obj);
           },
-          create: function() {
+          create: function(bpc) {
             return new KeyValueChanges();
           }
         }, {});
@@ -105,9 +107,9 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
               var newSeqRecord;
               if (oldSeqRecord !== null && key === oldSeqRecord.key) {
                 newSeqRecord = oldSeqRecord;
-                if (!looseIdentical(value, oldSeqRecord._currentValue)) {
-                  oldSeqRecord._previousValue = oldSeqRecord._currentValue;
-                  oldSeqRecord._currentValue = value;
+                if (!looseIdentical(value, oldSeqRecord.currentValue)) {
+                  oldSeqRecord.previousValue = oldSeqRecord.currentValue;
+                  oldSeqRecord.currentValue = value;
                   $__0._addToChanges(oldSeqRecord);
                 }
               } else {
@@ -122,7 +124,7 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
                 } else {
                   newSeqRecord = new KVChangeRecord(key);
                   MapWrapper.set(records, key, newSeqRecord);
-                  newSeqRecord._currentValue = value;
+                  newSeqRecord.currentValue = value;
                   $__0._addToAdditions(newSeqRecord);
                 }
               }
@@ -150,10 +152,10 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
                 record._nextPrevious = record._next;
               }
               for (record = this._changesHead; record !== null; record = record._nextChanged) {
-                record._previousValue = record._currentValue;
+                record.previousValue = record.currentValue;
               }
               for (record = this._additionsHead; record != null; record = record._nextAdded) {
-                record._previousValue = record._currentValue;
+                record.previousValue = record.currentValue;
               }
               this._changesHead = this._changesTail = null;
               this._additionsHead = this._additionsTail = null;
@@ -173,8 +175,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
               record = nextRecord;
             }
             for (var rec = this._removalsHead; rec !== null; rec = rec._nextRemoved) {
-              rec._previousValue = rec._currentValue;
-              rec._currentValue = null;
+              rec.previousValue = rec.currentValue;
+              rec.currentValue = null;
               MapWrapper.delete(this._records, rec.key);
             }
           },
@@ -306,8 +308,8 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
       KVChangeRecord = $__export("KVChangeRecord", (function() {
         var KVChangeRecord = function KVChangeRecord(key) {
           this.key = key;
-          this._previousValue = null;
-          this._currentValue = null;
+          this.previousValue = null;
+          this.currentValue = null;
           this._nextPrevious = null;
           this._next = null;
           this._nextAdded = null;
@@ -316,13 +318,12 @@ System.register(["angular2/src/facade/collection", "angular2/src/facade/lang", "
           this._nextChanged = null;
         };
         return ($traceurRuntime.createClass)(KVChangeRecord, {toString: function() {
-            return looseIdentical(this._previousValue, this._currentValue) ? stringify(this.key) : (stringify(this.key) + '[' + stringify(this._previousValue) + '->' + stringify(this._currentValue) + ']');
+            return looseIdentical(this.previousValue, this.currentValue) ? stringify(this.key) : (stringify(this.key) + '[' + stringify(this.previousValue) + '->' + stringify(this.currentValue) + ']');
           }}, {});
       }()));
     }
   };
 });
-
-//# sourceMappingURL=src/change_detection/pipes/keyvalue_changes.map
+//# sourceMappingURL=keyvalue_changes.js.map
 
 //# sourceMappingURL=../../../src/change_detection/pipes/keyvalue_changes.js.map

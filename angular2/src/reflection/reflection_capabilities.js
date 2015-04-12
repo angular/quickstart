@@ -22,7 +22,9 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }],
     execute: function() {
       ReflectionCapabilities = $__export("ReflectionCapabilities", (function() {
-        var ReflectionCapabilities = function ReflectionCapabilities() {};
+        var ReflectionCapabilities = function ReflectionCapabilities() {
+          ;
+        };
         return ($traceurRuntime.createClass)(ReflectionCapabilities, {
           factory: function(type) {
             switch (type.length) {
@@ -107,7 +109,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection", "
     }
   };
 });
-
-//# sourceMappingURL=src/reflection/reflection_capabilities.map
+//# sourceMappingURL=reflection_capabilities.js.map
 
 //# sourceMappingURL=../../src/reflection/reflection_capabilities.js.map
