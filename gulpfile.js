@@ -18,7 +18,7 @@ var deps = [
 gulp.task('build:ng2', shell.task(['sh ng2build.sh']));
 
 // strip off the sourceMaps.
-gulp.task('build:strip_maps', shell.task(["sh strip_maps.sh"]));
+gulp.task('build:strip_maps', shell.task(['sh strip_maps.sh']));
 
 // Concat all static dependencies for Angular2
 gulp.task('build:shim', function() {
