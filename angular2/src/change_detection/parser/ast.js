@@ -464,7 +464,6 @@ System.register(["angular2/src/facade/lang", "angular2/src/facade/collection"], 
         }});
       TemplateBinding = $__export("TemplateBinding", (function() {
         var TemplateBinding = function TemplateBinding(key, keyIsVar, name, expression) {
-          $traceurRuntime.superConstructor(TemplateBinding).call(this);
           this.key = key;
           this.keyIsVar = keyIsVar;
           this.name = name;

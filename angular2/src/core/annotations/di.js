@@ -3,7 +3,8 @@ System.register(["angular2/src/facade/lang", "angular2/di"], function($__export)
   var CONST,
       DependencyAnnotation,
       EventEmitter,
-      PropertySetter;
+      PropertySetter,
+      Attribute;
   return {
     setters: [function($__m) {
       CONST = $__m.CONST;
@@ -29,6 +30,16 @@ System.register(["angular2/src/facade/lang", "angular2/di"], function($__export)
         return ($traceurRuntime.createClass)(PropertySetter, {}, {}, $__super);
       }(DependencyAnnotation)));
       Object.defineProperty(PropertySetter, "annotations", {get: function() {
+          return [new CONST()];
+        }});
+      Attribute = $__export("Attribute", (function($__super) {
+        var Attribute = function Attribute(attributeName) {
+          $traceurRuntime.superConstructor(Attribute).call(this);
+          this.attributeName = attributeName;
+        };
+        return ($traceurRuntime.createClass)(Attribute, {}, {}, $__super);
+      }(DependencyAnnotation)));
+      Object.defineProperty(Attribute, "annotations", {get: function() {
           return [new CONST()];
         }});
     }
