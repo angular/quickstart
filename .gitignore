@@ -1,1 +1,4 @@
-node_modules
+typings/
+node_modules/
+*.js
+*.js.map
