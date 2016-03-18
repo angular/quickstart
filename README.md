@@ -81,6 +81,15 @@ Here are the test related scripts:
 * `npm webdriver:update` - ONE TIME update for protractor end-to-end (e2e) tests
 * `npm run e2e` - run protractor e2e tests, written in JavaScript (*e2e-spec.js)
 
+## Nitrous Quickstart
+You can quickly create a free development environment for this Angular 2 QuickStart project in the cloud on www.nitrous.io:
+
+<a href="https://www.nitrous.io/quickstart">
+  <img src="https://nitrous-image-icons.s3.amazonaws.com/quickstart.png" alt="Nitrous Quickstart" width=142 height=34>
+</a>
+
+In the IDE, start Angular 2 Quickstart via `Run > Start Angular 2 Quickstart` and access your site via `Preview > 3000`.
+
 ## Testing
 
 The QuickStart documentation doesn't discuss testing. 
