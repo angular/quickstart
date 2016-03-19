@@ -7,6 +7,8 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
+    "docker-build": "docker build -t ng2-quickstart .",
+    "docker-run": "docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart",
     "postinstall": "typings install"
   },
   "license": "ISC",
