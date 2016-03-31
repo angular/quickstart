@@ -1,3 +1,8 @@
+<a name="0.1.13"></a>
+# 0.1.13 (2016-03-31)
+* update packages
+  * Angular 2 beta 13
+
 <a name="0.1.12"></a>
 # 0.1.12 (2016-03-23)
 * update packages
