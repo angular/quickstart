@@ -2,7 +2,7 @@
   "name": "angular2-quickstart",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm-run-all --parallel tsc:w lite",
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
@@ -14,7 +14,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.13",
+    "angular2": "2.0.0-beta.14",
     "systemjs": "0.19.25",
     "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
@@ -22,9 +22,9 @@
     "zone.js": "0.6.6"
   },
   "devDependencies": {
-    "lite-server": "^2.1.0",
-    "npm-run-all": "^1.7.0",
+    "concurrently": "^2.0.0",
+    "lite-server": "^2.2.0",
     "typescript": "^1.8.9",
-    "typings": "^0.7.11"
+    "typings":"^0.7.12"
   }
 }
