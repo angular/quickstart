@@ -2,7 +2,7 @@
   "name": "angular2-quickstart",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "start": "npm-run-all --parallel tsc:w lite",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
@@ -21,9 +21,9 @@
     "zone.js": "0.6.6"
   },
   "devDependencies": {
-    "concurrently": "^2.0.0",
     "lite-server": "^2.1.0",
+    "npm-run-all": "^1.7.0",
     "typescript": "^1.8.9",
-    "typings":"^0.7.11"
+    "typings": "^0.7.11"
   }
 }
