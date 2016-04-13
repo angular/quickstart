@@ -7,14 +7,14 @@ the foundation for most of the documentation samples and potentially a good star
 
 Clone this repo into new project folder (e.g., `my-proj`).
 ```bash
-$ git clone  https://github.com/angular/quickstart  my-proj
-$ cd my-proj
+git clone  https://github.com/angular/quickstart  my-proj
+cd my-proj
 ```
 
 We have no intention of updating the source on `angular/quickstart`.
 Discard everything "git-like" by deleting the `.git` folder.
 ```bash
-$ rm -rf .git
+rm -rf .git
 ```
 
 ### Create a new git repo
@@ -23,25 +23,25 @@ If you'd rather preserve your work under source control, consider taking the fol
 
 Initialize this project as a *local git repo* and make the first commit:
 ```bash
-$ git init
-$ git add .
-$ git commit -m "Initial commit"
+git init
+git add .
+git commit -m "Initial commit"
 ```
 
 Create a *remote repository* for this project on the service of your choice.
 
 Grab its address (e.g. *`https://github.com/<my-org>/my-proj.git`*) and push the *local repo* to the *remote*.
 ```bash
-$ git remote add origin <repo-address>
-$ git push -u origin master
+git remote add origin <repo-address>
+git push -u origin master
 ```
 ### Start development
 
 Install the npm packages described in the `package.json` and verify that it works:
 
 ```bash
-$ npm install
-$ npm start
+npm install
+npm start
 ```
 You're ready to write your application.
 
