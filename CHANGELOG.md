@@ -13,7 +13,8 @@
 * add run packages
   * a2-in-memory-web-api
   
-* add testing dev-dependency packages  
+* add testing dev-dependency packages
+  * canonical-path: 0.0.2,
   * http-server: ^0.9.0,
   * jasmine-core: ~2.4.1,
   * karma: ^0.13.22,
