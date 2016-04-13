@@ -1,5 +1,31 @@
+<a name="0.1.15"></a>
+# 0.1.15 (2016-04-13)
+* Add testing support
+  * npm scripts
+  * karma/jasmine
+  * protractor
+
+* update packages
+  * Angular 2 beta 15
+  * lite-server 2.2.0
+  * typings 0.7.12
+  
+* add run packages
+  * a2-in-memory-web-api
+  
+* add testing dev-dependency packages  
+  * http-server: ^0.9.0,
+  * jasmine-core: ~2.4.1,
+  * karma: ^0.13.22,
+  * karma-chrome-launcher: ^0.2.3,
+  * karma-cli: ^0.1.2,
+  * karma-htmlfile-reporter: ^0.2.2,
+  * karma-jasmine: ^0.3.8,
+  * protractor: ^3.2.2,
+  * rimraf: ^2.5.2  
+
 <a name="0.1.14"></a>
-# 0.1.13 (2016-04-07)
+# 0.1.14 (2016-04-07)
 * update packages
   * Angular 2 beta 14
   * lite-server 2.2.0
