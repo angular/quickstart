@@ -76,7 +76,7 @@ function sendKeys(element, str) {
 
 // Custom reporter
 function Reporter(options) {
-  var _defaultOutputFile = path.resolve(process.cwd(), './', 'protractor-results.txt');
+  var _defaultOutputFile = path.resolve(process.cwd(), './_test-output', 'protractor-results.txt');
   options.outputFile = options.outputFile || _defaultOutputFile;
 
   initOutputFile(options.outputFile);
