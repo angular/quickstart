@@ -4,3 +4,4 @@ node_modules/
 *.js.map
 !**/*e2e-spec.js
 _test-output
+protractor-results.txt

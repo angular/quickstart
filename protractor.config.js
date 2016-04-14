@@ -47,25 +47,7 @@ exports.config = {
 
     // debugging
     // console.log('browser.params:' + JSON.stringify(browser.params));
-
-    var appDir = browser.params.appDir;
-    if (appDir) {
-      if (appDir.match('/ts') != null) {
-        browser.appIsTs = true;
-      } else if (appDir.match('/js') != null) {
-        browser.appIsJs = true;
-      } else if (appDir.match('/dart') != null) {
-        browser.appIsDart = true;
-      } else {
-        browser.appIsUnknown = true;
-      }
-    } else {
-      browser.appIsUnknown = true;
-    }
     jasmine.getEnv().addReporter(new Reporter( browser.params )) ;
-    global.describeIf = describeIf;
-    global.itIf = itIf;
-    global.sendKeys = sendKeys;
 
     // Allow changing bootstrap mode to NG1 for upgrade tests
     global.setProtractorToNg1Mode = function() {
@@ -82,22 +64,6 @@ exports.config = {
   }
 };
 
-function describeIf(cond, name, func) {
-  if (cond) {
-    describe(name, func);
-  } else {
-    xdescribe(name, func);
-  }
-}
-
-function itIf(cond, name, func) {
-  if (cond) {
-    it(name, func);
-  } else {
-    xit(name, func);
-  }
-}
-
 // Hack - because of bug with send keys
 function sendKeys(element, str) {
   return str.split('').reduce(function (promise, char) {
@@ -108,11 +74,13 @@ function sendKeys(element, str) {
   // better to create a resolved promise here but ... don't know how with protractor;
 }
 
-
+// Custom reporter
 function Reporter(options) {
-  var _defaultOutputFile = path.resolve(process.cwd(), "../../", 'protractor-results.txt');
+  var _defaultOutputFile = path.resolve(process.cwd(), './', 'protractor-results.txt');
   options.outputFile = options.outputFile || _defaultOutputFile;
 
+  initOutputFile(options.outputFile);
+  options.appDir = options.appDir ||  './';
   var _root = { appDir: options.appDir, suites: [] };
   log('AppDir: ' + options.appDir, +1);
   var _currentSuite;
@@ -158,6 +126,11 @@ function Reporter(options) {
     var output = formatOutput(_root);
     fs.appendFileSync(outputFile, output);
   };
+
+  function initOutputFile(outputFile) {
+    var header = "Protractor results for: " + (new Date()).toLocaleString() + "\n\n";
+    fs.writeFileSync(outputFile, header);
+  }
 
   // for output file output
   function formatOutput(output) {

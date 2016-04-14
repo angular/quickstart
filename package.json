@@ -1,30 +1,32 @@
 {
   "name": "angular2-quickstart",
   "version": "1.0.0",
+  "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "build-and-test": "npm run tsc && npm run test",
     "docker-build": "docker build -t ng2-quickstart .",
     "docker": "npm run docker-build && docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart",
     "e2e": "tsc && concurrently \"http-server\" \"protractor protractor.config.js\"",
+    "lite": "lite-server",
+    "postinstall": "typings install",
+    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "lite": "lite-server",
-    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "typings": "typings",
-    "webdriver:update": "webdriver-manager update",
-    "postinstall": "typings install"
+    "webdriver:update": "webdriver-manager update"
   },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "angular2": "2.0.0-beta.15",
-    "a2-in-memory-web-api": "^0.1.15",
-
     "systemjs": "0.19.26",
     "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "zone.js": "0.6.10"
+    "zone.js": "0.6.10",
+
+    "a2-in-memory-web-api": "^0.1.15"
   },
   "devDependencies": {
     "canonical-path": "0.0.2",
@@ -41,5 +43,6 @@
     "rimraf": "^2.5.2",
     "typescript": "^1.8.10",
     "typings":"^0.7.12"
-  }
+  },
+  "repository": {  }
 }
