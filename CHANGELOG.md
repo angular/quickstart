@@ -8,6 +8,8 @@
 * update packages
   * Angular 2 beta 15
   * lite-server 2.2.0
+  * systemjs 0.19.26
+  * typescript 1.8.10
   * typings 0.7.12
   
 * add run packages
