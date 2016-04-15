@@ -41,30 +41,29 @@ System.config({ packages: packages });
 
 // Configure Angular for the browser and
 // with test versions of the platform providers
-System.import('angular2/testing')
-  .then(function (testing) {
-    return System.import('angular2/platform/testing/browser')
-      .then(function (providers) {
-        testing.setBaseTestProviders(
-          providers.TEST_BROWSER_PLATFORM_PROVIDERS,
-          providers.TEST_BROWSER_APPLICATION_PROVIDERS
-        );
-      });
+  Promise.all([
+    System.import('angular2/testing'),
+    System.import('angular2/platform/testing/browser')
+  ])
+  .then(function (results) {
+    var testing = results[0];
+    var browser = results[1];
+    testing.setBaseTestProviders(
+      browser.TEST_BROWSER_PLATFORM_PROVIDERS,
+      browser.TEST_BROWSER_APPLICATION_PROVIDERS);
+
+    // Load all spec files
+    // (e.g. 'base/app/hero.service.spec.js')
+    return Promise.all(
+      Object.keys(window.__karma__.files)
+        .filter(onlySpecFiles)
+        .map(function (moduleName) {
+          moduleNames.push(moduleName);
+          return System.import(moduleName);
+        }));
   })
 
-// Load all spec files
-// (e.g. 'base/app/hero.service.spec.js')
-.then(function () {
-  return Promise.all(
-    Object.keys(window.__karma__.files)
-      .filter(onlySpecFiles)
-      .map(function (moduleName) {
-        moduleNames.push(moduleName);
-        return System.import(moduleName);
-      }));
-})
-
-.then(success, fail);
+  .then(success, fail);
 
 ////// Helpers //////
 

@@ -51,7 +51,8 @@ module.exports = function () {
         }
       });
 
-
+      // Configure Angular for the browser and
+      // with test versions of the platform providers
       Promise.all([
         System.import('angular2/testing'),
         System.import('angular2/platform/testing/browser')
@@ -63,8 +64,9 @@ module.exports = function () {
           browser.TEST_BROWSER_PLATFORM_PROVIDERS,
           browser.TEST_BROWSER_APPLICATION_PROVIDERS);
 
+        // Load all spec files
         return Promise.all(wallaby.tests.map(function (specFile) {
-          return System.import(specFile.replace(/\.js$/, ''));
+          return System.import(specFile);
         }));
       })
       .then(function () {
@@ -76,6 +78,7 @@ module.exports = function () {
         }, 0);
       });
     },
+
     debug: true
   };
 };
