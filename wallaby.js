@@ -13,13 +13,12 @@ module.exports = function () {
       {pattern: 'node_modules/zone.js/dist/long-stack-trace-zone.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/jasmine-patch.js', instrument: false},
 
-      {pattern: 'app/**/*.ts', load: false},
-      {pattern: 'app/**/*.html', load: false},
+      {pattern: 'app/**/*.(ts|html|css)', load: false},
       {pattern: 'app/**/*.spec.ts', ignore: true}
     ],
 
     tests: [
-      {pattern: 'app/*.spec.ts', load: false}
+      {pattern: 'app/**/*.spec.ts', load: false}
     ],
 
     middleware: function (app, express) {
