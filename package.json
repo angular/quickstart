@@ -25,7 +25,6 @@
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "0.6.10",
-
     "a2-in-memory-web-api": "^0.1.15"
   },
   "devDependencies": {
@@ -39,10 +38,11 @@
     "karma-htmlfile-reporter": "^0.2.2",
     "karma-jasmine": "^0.3.8",
     "lite-server": "^2.2.0",
+    "lodash": "^4.11.1",
     "protractor": "^3.2.2",
     "rimraf": "^2.5.2",
     "typescript": "^1.8.10",
-    "typings":"^0.7.12"
+    "typings": "^0.7.12"
   },
-  "repository": {  }
+  "repository": {}
 }
