@@ -6,7 +6,6 @@ module.exports = function () {
   return {
     files: [
       {pattern: 'node_modules/es6-shim/es6-shim.js', instrument: false},
-      {pattern: 'node_modules/systemjs/dist/system-polyfills.js', instrument: false},
       {pattern: 'node_modules/systemjs/dist/system.js', instrument: false},
       {pattern: 'node_modules/reflect-metadata/Reflect.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/zone.js', instrument: false},
