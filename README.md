@@ -97,7 +97,7 @@ TypeScript unit-tests are usually in the `app` folder. Their filenames must end 
 Look for the example `app/app.component.spec.ts`.
 Add more `.spec.ts` files as you wish; we configured karma to find them.
 
-Run it with `npm tests`.
+Run it with `npm test`
 
 That command first compiles the application, then simultaneously re-compiles and runs the karma test-runner.
 Both the compiler and the karma watch for (different) file changes.
