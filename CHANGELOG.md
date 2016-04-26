@@ -1,3 +1,14 @@
+<a name="0.1.16"></a>
+# 0.1.16 (2016-04-26)
+* update packages
+  * Angular 2 beta 16
+  * a2-in-memory-web-api 0.1.6 
+  * protractor 3.3.0
+  * typings 0.8.1
+  * zone.js 0.6.12
+ 
+ * added favicon.ico
+ 
 <a name="0.1.15"></a>
 # 0.1.15 (2016-04-13)
 * Add testing support
