@@ -5,12 +5,22 @@ module.exports = function () {
 
   return {
     files: [
-      {pattern: 'node_modules/es6-shim/es6-shim.js', instrument: false},
+      // System.js for module loading
+      {pattern: 'node_modules/systemjs/dist/system-polyfills.js', instrument: false},
       {pattern: 'node_modules/systemjs/dist/system.js', instrument: false},
-      {pattern: 'node_modules/reflect-metadata/Reflect.js', instrument: false},
-      {pattern: 'node_modules/zone.js/dist/zone.js', instrument: false},
-      {pattern: 'node_modules/zone.js/dist/long-stack-trace-zone.js', instrument: false},
+
+      // Polyfills
+      {pattern: 'node_modules/es6-shim/es6-shim.js', instrument: false},
+      {pattern: 'node_modules/angular2/bundles/angular2-polyfills.js', instrument: false},
+
+      // Zone.js dependencies
+      // Note - do not include zone.js itself or long-stack-trace-zone.js` here as
+      // they are included already in angular2-polyfills
       {pattern: 'node_modules/zone.js/dist/jasmine-patch.js', instrument: false},
+      {pattern: 'node_modules/zone.js/dist/async-test.js', instrument: false},
+      {pattern: 'node_modules/zone.js/dist/fake-async-test.js', instrument: false},
+
+     // Rx.js, Angular 2 itself, and the testing library not here because loaded by systemjs
 
       {pattern: 'app/**/*+(ts|html|css)', load: false},
       {pattern: 'app/**/*.spec.ts', ignore: true}

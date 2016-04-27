@@ -9,7 +9,12 @@
  
  * added favicon.ico
  
-<a name="0.1.15"></a>
+ * testing
+   - updated wallaby.js and karma.conf.js
+   - updated app.component.spec.ts
+
+
+ <a name="0.1.15"></a>
 # 0.1.15 (2016-04-13)
 * Add testing support
   * npm scripts

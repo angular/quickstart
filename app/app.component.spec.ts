@@ -5,18 +5,13 @@ import {
   expect, it, iit, xit,
   describe, ddescribe, xdescribe,
   beforeEach, beforeEachProviders, withProviders,
-  inject, injectAsync, TestComponentBuilder
+  async, inject, TestComponentBuilder
 } from 'angular2/testing';
 
 import { By }             from 'angular2/platform/browser';
 import { provide }        from 'angular2/core';
 import { ViewMetadata }   from 'angular2/core';
 import { PromiseWrapper } from 'angular2/src/facade/promise';
-
-interface Done {
-  (): void;
-  fail: (err: any) => void;
-}
 
 ////////  SPECS  /////////////
 
@@ -28,33 +23,33 @@ describe('Smoke test', () => {
 });
 
 describe('AppComponent with new', function () {
-    it('should instantiate component', () => {
-      expect(new AppComponent()).not.toBeNull('Whoopie!');
-    });
+  it('should instantiate component', () => {
+    expect(new AppComponent()).toBeDefined('Whoopie!');
+  });
 });
 
 describe('AppComponent with TCB', function () {
 
   it('should instantiate component',
-    injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
 
-      return tcb.createAsync(AppComponent).then(fixture => {
-        expect(fixture.componentInstance instanceof AppComponent).toBe(true, 'should create AppComponent');
-      });
-    }));
+    tcb.createAsync(AppComponent).then(fixture => {
+      expect(fixture.componentInstance instanceof AppComponent).toBe(true, 'should create AppComponent');
+    });
+  })));
 
   it('should have expected <h1> text',
-    injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
 
-      return tcb.createAsync(AppComponent).then(fixture => {
-        // fixture.detectChanges();  // needed for a binding; we don't have a binding
+      tcb.createAsync(AppComponent).then(fixture => {
+      // fixture.detectChanges();  // would need to resolve a binding but we don't have a binding
 
-        let h1 = fixture.debugElement.query(el => el.name === 'h1').nativeElement;  // it works
+      let h1 = fixture.debugElement.query(el => el.name === 'h1').nativeElement;  // it works
 
-            h1 = fixture.debugElement.query(By.css('h1')).nativeElement;            // preferred
+          h1 = fixture.debugElement.query(By.css('h1')).nativeElement;            // preferred
 
-        expect(h1.innerText).toMatch(/angular 2 app/i, '<h1> should say something about "Angular 2 App"');
-      });
+      expect(h1.innerText).toMatch(/angular 2 app/i, '<h1> should say something about "Angular 2 App"');
+    });
 
-    }));
+  })));
 });
