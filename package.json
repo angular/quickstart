@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.15",
+    "angular2": "2.0.0-beta.16",
     "systemjs": "0.19.26",
     "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
