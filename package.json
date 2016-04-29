@@ -19,14 +19,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.16",
+    "angular2": "2.0.0-beta.17",
     "systemjs": "0.19.26",
     "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
+    "rxjs": "5.0.0-beta.6",
     "zone.js": "^0.6.12",
 
-    "a2-in-memory-web-api": "^0.1.16",
+    "a2-in-memory-web-api": "^0.1.17",
     "bootstrap": "^3.3.6"
   },
   "devDependencies": {

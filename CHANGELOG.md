@@ -1,14 +1,21 @@
+<a name="0.1.17"></a>
+# 0.1.17 (2016-04-29)
+* update packages
+  * Angular 2 beta 17
+  * RxJS 5.0.0-beta.6
+  * a2-in-memory-web-api 0.1.17
+
 <a name="0.1.16"></a>
 # 0.1.16 (2016-04-26)
 * update packages
   * Angular 2 beta 16
-  * a2-in-memory-web-api 0.1.6 
+  * a2-in-memory-web-api 0.1.6
   * protractor 3.3.0
   * typings 0.8.1
   * zone.js 0.6.12
- 
+
  * added favicon.ico
- 
+
  * testing
    - updated wallaby.js and karma.conf.js
    - updated app.component.spec.ts
@@ -27,10 +34,10 @@
   * systemjs 0.19.26
   * typescript 1.8.10
   * typings 0.7.12
-  
+
 * add run packages
   * a2-in-memory-web-api
-  
+
 * add testing dev-dependency packages
   * canonical-path: 0.0.2,
   * http-server: ^0.9.0,
