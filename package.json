@@ -7,6 +7,7 @@
     "docker-build": "docker build -t ng2-quickstart .",
     "docker": "npm run docker-build && docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart",
     "e2e": "tsc && concurrently \"http-server\" \"protractor protractor.config.js\"",
+    "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
     "postinstall": "typings install",
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
@@ -37,6 +38,7 @@
 
     "canonical-path": "0.0.2",
     "http-server": "^0.9.0",
+    "tslint": "^3.7.4",
     "lodash": "^4.11.1",
     "jasmine-core": "~2.4.1",
     "karma": "^0.13.22",
