@@ -78,7 +78,7 @@ with excellent support for Angular apps that use routing.
 
 Here are the test related scripts:
 * `npm test` - compiles, runs and watches the karma unit tests
-* `npm webdriver:update` - ONE TIME update for protractor end-to-end (e2e) tests
+* `npm run webdriver:update` - ONE TIME update for protractor end-to-end (e2e) tests
 * `npm run e2e` - run protractor e2e tests, written in JavaScript (*e2e-spec.js)
 
 ## Testing
