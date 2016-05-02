@@ -113,7 +113,7 @@ The `HTML-Reporter` is also wired in. That produces a prettier output; look for 
 
 ### End-to-end (E2E) Tests
 
-**BEFORE RUNNING THE FIRST TEST** you must update the Selenium webdriver. Run `npm webdriver:update`.
+**BEFORE RUNNING THE FIRST TEST** you must update the Selenium webdriver. Run `npm run webdriver:update`.
 
 E2E tests are usually at the project root, above the `app` folder. 
 Their filenames must end in `e2e-spec.js`.
