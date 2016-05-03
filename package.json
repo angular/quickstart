@@ -26,6 +26,7 @@
     "@angular/http":  "2.0.0-rc.0",
     "@angular/platform-browser":  "2.0.0-rc.0",
     "@angular/platform-browser-dynamic":  "2.0.0-rc.0",
+    "@angular/router":  "2.0.0-rc.0",
     "@angular/router-deprecated":  "2.0.0-rc.0",
     "@angular/upgrade":  "2.0.0-rc.0",
 
