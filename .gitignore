@@ -13,3 +13,4 @@ _temp
 !karma*.js
 !protractor*.js
 !wallaby.js
+!systemjs.config.js
