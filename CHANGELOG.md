@@ -1,6 +1,10 @@
+<a name="0.2.1"></a>
+# 0.2.1 (2016-05-03)
+* Angular 2 RC01 version
+  
 <a name="0.2.0"></a>
 # 0.2.0 (2016-05-02)
-* RC0 version
+* Angular 2 RC0 version
   
 <a name="0.1.17"></a>
 # 0.1.17 (2016-04-29)

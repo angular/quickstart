@@ -1,5 +1,5 @@
 .idea
-typings
+typings/**
 node_modules
 jspm_packages
 link-checker-results.txt
@@ -12,5 +12,6 @@ _temp
 !**/*e2e-spec.js
 !karma*.js
 !protractor*.js
-!wallaby.js
 !systemjs.config.js
+!typings/typings.d.ts
+!wallaby.js
