@@ -40,7 +40,7 @@
   var config = {
     map: map,
     packages: packages
-  }
+  };
 
   System.config(config);
 
