@@ -22,35 +22,55 @@ var allSpecFiles = Object.keys(window.__karma__.files)
   .filter(isSpecFile)
   .filter(isBuiltFile);
 
+//////////////////////////
 // Load our SystemJS configuration.
 
-var packages ={
-  'app':  { main: 'main.js', defaultExtension: 'js' },
-  'rxjs': { defaultExtension: 'js' },
+// map tells the System loader where to look for things
+var map = {
+  'app':                        'app',
+
+  '@angular':                   'node_modules/@angular',
+  'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
+  'rxjs':                       'node_modules/rxjs'
 };
 
-// Add angular packages to SystemJS config
-[
-  '@angular/common',
-  '@angular/compiler',
-  '@angular/core',
-  '@angular/http',
-  '@angular/platform-browser',
-  '@angular/platform-browser-dynamic',
-  '@angular/router',
-  '@angular/router-deprecated',
-  '@angular/upgrade'
-].forEach(function (name) { packages[name] = {main: 'index.js', defaultExtension: 'js'};});
+// packages tells the System loader how to load when no filename and/or no extension
+var packages = {
+  'app':                        { main: 'main.js',  defaultExtension: 'js' },
+  'rxjs':                       { defaultExtension: 'js' },
+  'angular2-in-memory-web-api': { defaultExtension: 'js' },
+};
 
-System.config({
-  baseURL: '/base',
-  map: {
-    'rxjs': 'node_modules/rxjs',
-    '@angular': 'node_modules/@angular',
-    'app': 'app'
-  },
-  packages: packages
+var ngPackageNames = [
+  'common',
+  'compiler',
+  'core',
+  'http',
+  'platform-browser',
+  'platform-browser-dynamic',
+  'router',
+  'router-deprecated',
+  'upgrade',
+];
+
+// Add package entries for angular packages
+ngPackageNames.forEach(function(pkgName) {
+
+  // Bundled (~40 requests):  DOESN'T WORK IN KARMA OR WALLABY (YET?)
+  //packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+
+  // Individual files (~300 requests):
+  packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
 });
+
+var config = {
+  baseURL: '/base',
+  map: map,
+  packages: packages
+}
+
+System.config(config);
+//////////////
 
 Promise.all([
   System.import('@angular/core/testing'),

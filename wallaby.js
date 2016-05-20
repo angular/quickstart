@@ -1,16 +1,16 @@
 // Configuration for the Wallaby Visual Studio Code testing extension
 // https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode
 // Note: Wallaby is not open source and costs money
+
 module.exports = function () {
 
   return {
     files: [
       // System.js for module loading
-      {pattern: 'node_modules/systemjs/dist/system-polyfills.js', instrument: false},
       {pattern: 'node_modules/systemjs/dist/system.js', instrument: false},
 
       // Polyfills
-      {pattern: 'node_modules/es6-shim/es6-shim.js', instrument: false},
+      {pattern: 'node_modules/core-js/client/shim.min.js', instrument: false},
 
       // Reflect, Zone.js, and test shims
       // Rx.js, Angular 2 itself, and the testing library not here because loaded by systemjs
@@ -34,35 +34,11 @@ module.exports = function () {
 
     testFramework: 'jasmine',
 
+    debug: true,
+
     bootstrap: function (wallaby) {
       wallaby.delayStart();
-
-      var packages ={
-        'app':  { main: 'main.js', defaultExtension: 'js' },
-        'rxjs': { defaultExtension: 'js' },
-      };
-
-      // Add angular packages to SystemJS config
-      [
-        '@angular/common',
-        '@angular/compiler',
-        '@angular/core',
-        '@angular/http',
-        '@angular/platform-browser',
-        '@angular/platform-browser-dynamic',
-        '@angular/router',
-        '@angular/router-deprecated',
-        '@angular/upgrade'
-      ].forEach(function (name) { packages[name] = {main: 'index.js', defaultExtension: 'js'};});
-
-      System.config({
-        map: {
-          'rxjs': 'node_modules/rxjs',
-          '@angular': 'node_modules/@angular',
-          'app': 'app'
-        },
-        packages:packages
-      });
+      systemConfig();
 
       Promise.all([
         System.import('@angular/core/testing'),
@@ -90,8 +66,61 @@ module.exports = function () {
           throw e;
         }, 0);
       });
-    },
 
-    debug: true
+      //////////////////////////
+      // SystemJS configuration.
+      function systemConfig() {
+
+        // map tells the System loader where to look for things
+        var map = {
+          'app':                        'app',
+
+          '@angular':                   'node_modules/@angular',
+          'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
+          'rxjs':                       'node_modules/rxjs'
+        };
+
+        // packages tells the System loader how to load when no filename and/or no extension
+        var packages = {
+          'app':                        { main: 'main.js',  defaultExtension: 'js' },
+          'rxjs':                       { defaultExtension: 'js' },
+          'angular2-in-memory-web-api': { defaultExtension: 'js' },
+        };
+
+        var ngPackageNames = [
+          'common',
+          'compiler',
+          'core',
+          'http',
+          'platform-browser',
+          'platform-browser-dynamic',
+          'router',
+          'router-deprecated',
+          'upgrade',
+        ];
+
+        // Add package entries for angular packages
+        ngPackageNames.forEach(function(pkgName) {
+
+          // Bundled (~40 requests):  DOESN'T WORK IN WALLABY OR KARMA (YET?)
+          // packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+
+          // Individual files (~300 requests):
+          packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+        });
+
+        var config = {
+          map: map,
+          packages: packages
+        }
+
+        System.config(config);
+      }
+      //////////////////
+    }
   };
+
+
+
 };
+
