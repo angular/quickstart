@@ -11,6 +11,15 @@ It exists primarily to get you started quickly with learning and prototyping in 
 We are unlikely to accept suggestions about how to grow this QuickStart into something it is not.
 Please keep that in mind before posting issues and PRs.
 
+## Prerequisites
+
+Node.js and npm are essential to Angular 2 development. 
+
+* We certify specific version &mdash; node `v5.x.x` and npm `3.x.x` &mdash; for this QuickStart. 
+Both older and newer versions produce errors.
+
+* We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
+
 ## Create a new project based on the QuickStart
 
 Clone this repo into new project folder (e.g., `my-proj`).
@@ -45,9 +54,11 @@ git push -u origin master
 ```
 ## Install npm packages
 
+> See npm and nvm version notes above
+
 Install the npm packages described in the `package.json` and verify that it works:
 
-**Attention Windows Developers:  You must run all of these commands in administrator mode**
+**Attention Windows Developers:  You must run all of these commands in administrator mode**.
 
 ```bash
 npm install
