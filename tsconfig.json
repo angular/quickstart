@@ -9,10 +9,5 @@
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
-  },
-  "exclude": [
-    "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
-  ]
+  }
 }
