@@ -32,15 +32,20 @@
     'upgrade',
   ];
 
-  // Add package entries for angular packages
-  ngPackageNames.forEach(function(pkgName) {
+  // Individual files (~300 requests):
+  function packIndex(pkgName) {
+    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+  }
 
-    // Bundled (~40 requests):
+  // Bundled (~40 requests):
+  function packUmd(pkgName) {
     packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+  };
 
-    // Individual files (~300 requests):
-    //packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
-  });
+  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+
+  // Add package entries for angular packages
+  ngPackageNames.forEach(setPackageConfig);
 
   var config = {
     map: map,

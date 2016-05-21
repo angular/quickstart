@@ -8,6 +8,7 @@ module.exports = function () {
     files: [
       // System.js for module loading
       {pattern: 'node_modules/systemjs/dist/system.js', instrument: false},
+      {pattern: 'systemjs.config.js', instrument: false},
 
       // Polyfills
       {pattern: 'node_modules/core-js/client/shim.min.js', instrument: false},
@@ -38,89 +39,39 @@ module.exports = function () {
 
     bootstrap: function (wallaby) {
       wallaby.delayStart();
-      systemConfig();
 
-      Promise.all([
-        System.import('@angular/core/testing'),
-        System.import('@angular/platform-browser-dynamic/testing')
-      ])
-      .then(function (providers) {
-        var testing = providers[0];
-        var testingBrowser = providers[1];
-
-        testing.setBaseTestProviders(
-          testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-          testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
-
-
-        // Load all spec files
-        return Promise.all(wallaby.tests.map(function (specFile) {
-          return System.import(specFile);
-        }));
-      })
-      .then(function () {
-        wallaby.start();
-      })
-      .catch(function (e) {
-        setTimeout(function () {
-          throw e;
-        }, 0);
+      System.config({
+        packageWithIndex: true // sadly, we can't use umd packages (yet?)
       });
 
-      //////////////////////////
-      // SystemJS configuration.
-      function systemConfig() {
+      System.import('systemjs.config.js')
+        .then(function () {
+          return Promise.all([
+            System.import('@angular/core/testing'),
+            System.import('@angular/platform-browser-dynamic/testing')
+          ])
+        })
+        .then(function (providers) {
+          var testing = providers[0];
+          var testingBrowser = providers[1];
 
-        // map tells the System loader where to look for things
-        var map = {
-          'app':                        'app',
+          testing.setBaseTestProviders(
+            testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
+            testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
 
-          '@angular':                   'node_modules/@angular',
-          'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
-          'rxjs':                       'node_modules/rxjs'
-        };
-
-        // packages tells the System loader how to load when no filename and/or no extension
-        var packages = {
-          'app':                        { main: 'main.js',  defaultExtension: 'js' },
-          'rxjs':                       { defaultExtension: 'js' },
-          'angular2-in-memory-web-api': { defaultExtension: 'js' },
-        };
-
-        var ngPackageNames = [
-          'common',
-          'compiler',
-          'core',
-          'http',
-          'platform-browser',
-          'platform-browser-dynamic',
-          'router',
-          'router-deprecated',
-          'upgrade',
-        ];
-
-        // Add package entries for angular packages
-        ngPackageNames.forEach(function(pkgName) {
-
-          // Bundled (~40 requests):  DOESN'T WORK IN WALLABY OR KARMA (YET?)
-          // packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
-
-          // Individual files (~300 requests):
-          packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+          // Load all spec files
+          return Promise.all(wallaby.tests.map(function (specFile) {
+            return System.import(specFile);
+          }));
+        })
+        .then(function () {
+          wallaby.start();
+        })
+        .catch(function (e) {
+          setTimeout(function () {
+            throw e;
+          }, 0);
         });
-
-        var config = {
-          map: map,
-          packages: packages
-        }
-
-        System.config(config);
-      }
-      //////////////////
     }
   };
-
-
-
 };
-
