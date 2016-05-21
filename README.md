@@ -13,6 +13,14 @@ Please keep that in mind before posting issues and PRs.
 
 ## Create a new project based on the QuickStart
 
+### Dependencies
+
+What you need to run this app:
+* `node` and `npm` (We recommend [NVM](https://github.com/creationix/nvm))
+* Ensure you're running Node `v5.x.x` and NPM `3.x.x`
+
+### Clone the repo
+
 Clone this repo into new project folder (e.g., `my-proj`).
 ```bash
 git clone  https://github.com/angular/quickstart  my-proj
