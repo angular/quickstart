@@ -24,12 +24,6 @@ describe('Smoke test', () => {
   });
 });
 
-describe('AppComponent with new', function () {
-  it('should instantiate component', () => {
-    expect(new AppComponent()).toBeDefined('Whoopie!');
-  });
-});
-
 describe('AppComponent with TCB', function () {
 
   it('should instantiate component',
