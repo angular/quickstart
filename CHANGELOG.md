@@ -1,3 +1,7 @@
+<a name="0.2.3"></a>
+# 0.2.2 (2016-06-15)
+* Angular 2 RC2 version
+
 <a name="0.2.2"></a>
 # 0.2.2 (2016-05-21)
 * Update to Typings 1.x
