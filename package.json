@@ -23,10 +23,11 @@
     "@angular/common":  "2.0.0-rc.2",
     "@angular/compiler":  "2.0.0-rc.2",
     "@angular/core":  "2.0.0-rc.2",
+    "@angular/forms": "0.1.0",
     "@angular/http":  "2.0.0-rc.2",
     "@angular/platform-browser":  "2.0.0-rc.2",
     "@angular/platform-browser-dynamic":  "2.0.0-rc.2",
-    "@angular/router":  "2.0.0-rc.2",
+    "@angular/router":  "3.0.0-alpha.7",
     "@angular/router-deprecated":  "2.0.0-rc.2",
     "@angular/upgrade":  "2.0.0-rc.2",
 
@@ -36,7 +37,7 @@
     "rxjs": "5.0.0-beta.6",
     "zone.js": "^0.6.12",
 
-    "angular2-in-memory-web-api": "0.0.11",
+    "angular2-in-memory-web-api": "0.0.12",
     "bootstrap": "^3.3.6"
   },
   "devDependencies": {
