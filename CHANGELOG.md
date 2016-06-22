@@ -1,3 +1,9 @@
+<a name="0.2.4"></a>
+# 0.2.2 (2016-06-21)
+* Angular 2 RC3 version
+* Add new forms and router
+* Add support for TS e2e tests
+
 <a name="0.2.3"></a>
 # 0.2.2 (2016-06-15)
 * Angular 2 RC2 version
