@@ -1,14 +1,9 @@
 /* tslint:disable:no-unused-variable */
 import { AppComponent } from './app.component';
 
-import {
-  expect, it, iit, xit,
-  describe, ddescribe, xdescribe,
-  beforeEach, beforeEachProviders, withProviders,
-  async, inject
-} from '@angular/core/testing';
+import { async, inject } from '@angular/core/testing';
 
-import { TestComponentBuilder } from '@angular/compiler/testing';
+import { TestComponentBuilder } from '@angular/core/testing';
 
 import { By }             from '@angular/platform-browser';
 import { provide }        from '@angular/core';
