@@ -1,4 +1,9 @@
 <a name="0.2.5"></a>
+# 0.2.6 (2016-08-09)
+* Angular 2 RC5 version
+* Updated new forms, router and angular2-in-memory-web-api
+
+<a name="0.2.5"></a>
 # 0.2.5 (2016-06-30)
 * Angular 2 RC4 version
 * Updated new forms and router
