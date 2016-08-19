@@ -28,27 +28,24 @@ System.config({
 });
 
 System.import('systemjs.config.js')
-  .then(function () {
-    return Promise.all([
+  .then(() => Promise.all([
       System.import('@angular/core/testing'),
       System.import('@angular/platform-browser-dynamic/testing')
-    ])
-  })
-  .then(function (providers) {
-    var testing = providers[0];
-    var testingBrowser = providers[1];
-
-    testing.setBaseTestProviders(
-      testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-      testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+    ]))
+  .then((providers) => {
+    var coreTesting = providers[0];
+    var browserTesting = providers[1];
+    coreTesting.TestBed.initTestEnvironment(
+            browserTesting.BrowserDynamicTestingModule,
+            browserTesting.platformBrowserDynamicTesting());
 
   })
-  .then(function() {
-    // Finally, load all spec files.
-    // This will run the tests directly.
-    return Promise.all(
-      allSpecFiles.map(function (moduleName) {
-        return System.import(moduleName);
-      }));
+  .then(function () {
+  // Finally, load all spec files.
+  // This will run the tests directly.
+  return Promise.all(
+    allSpecFiles.map(function (moduleName) {
+      return System.import(moduleName);
+    }));
   })
   .then(__karma__.start, __karma__.error);
