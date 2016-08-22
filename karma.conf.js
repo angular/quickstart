@@ -33,7 +33,7 @@ module.exports = function(config) {
       'node_modules/zone.js/dist/async-test.js',
       'node_modules/zone.js/dist/fake-async-test.js',
       'node_modules/zone.js/dist/sync-test.js',
-      'node_modules/zone.js/dist/proxy-zone.js',
+      'node_modules/zone.js/dist/proxy.js',
 
       // RxJs.
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
