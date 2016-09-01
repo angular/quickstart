@@ -17,6 +17,9 @@ module.exports = function () {
       // Rx.js, Angular 2 itself, and the testing library not here because loaded by systemjs
       {pattern: 'node_modules/reflect-metadata/Reflect.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/zone.js', instrument: false},
+      {pattern: 'node_modules/zone.js/dist/long-stack-trace-zone.js', instrument: false},
+      {pattern: 'node_modules/zone.js/dist/proxy.js', instrument: false},
+      {pattern: 'node_modules/zone.js/dist/sync-test.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/jasmine-patch.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/async-test.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/fake-async-test.js', instrument: false},
@@ -49,15 +52,15 @@ module.exports = function () {
           return Promise.all([
             System.import('@angular/core/testing'),
             System.import('@angular/platform-browser-dynamic/testing')
-          ])
+          ]);
         })
         .then(function (providers) {
-          var testing = providers[0];
-          var testingBrowser = providers[1];
+          var coreTesting = providers[0];
+          var browserTesting = providers[1];
 
-          testing.setBaseTestProviders(
-            testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-            testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+          coreTesting.TestBed.initTestEnvironment(
+            browserTesting.BrowserDynamicTestingModule,
+            browserTesting.platformBrowserDynamicTesting());
 
           // Load all spec files
           return Promise.all(wallaby.tests.map(function (specFile) {
