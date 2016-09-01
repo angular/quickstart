@@ -1,4 +1,11 @@
-<a name="0.2.5"></a>
+<a name="0.2.7"></a>
+# 0.2.7 (2016-08-31)
+* Angular 2 RC6 version
+* Updated new forms, router, angular2-in-memory-web-api, karma, core-js, rxjs and zone.js packages
+* Removed router-deprecated package
+* Updated karma.conf.js and systemjs.config.js
+
+<a name="0.2.6"></a>
 # 0.2.6 (2016-08-09)
 * Angular 2 RC5 version
 * Updated new forms, router and angular2-in-memory-web-api
