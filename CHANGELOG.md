@@ -1,3 +1,8 @@
+<a name="0.2.8"></a>
+# 0.2.8 (2016-09-01)
+* remove @angular test libraries from system.js (now in shim)
+* update test related files
+* wallaby doesn't completely work. Researching.
 <a name="0.2.7"></a>
 # 0.2.7 (2016-08-31)
 * Angular 2 RC6 version
