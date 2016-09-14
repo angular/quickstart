@@ -44,7 +44,7 @@
   "devDependencies": {
     "concurrently": "^2.2.0",
     "lite-server": "^2.2.0",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.2",
     "typings": "^1.0.4",
 
     "canonical-path": "0.0.2",
