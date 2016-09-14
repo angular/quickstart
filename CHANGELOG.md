@@ -1,8 +1,15 @@
+<a name="0.2.9"></a>
+# 0.2.9 (2016-09-14)
+* Angular 2.0.0 version
+* Update to Typescript 2.0.2
+* Fix e2e test missing dir
+
 <a name="0.2.8"></a>
 # 0.2.8 (2016-09-01)
 * remove @angular test libraries from system.js (now in shim)
 * update test related files
 * wallaby doesn't completely work. Researching.
+
 <a name="0.2.7"></a>
 # 0.2.7 (2016-08-31)
 * Angular 2 RC6 version
