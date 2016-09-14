@@ -24,6 +24,9 @@
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
       // other libraries
+      'core':                       'npm:core-js/client/shim.min.js',
+      'zone':                       'npm:zone.js/dist/zone.js',
+      'reflect':                    'npm:reflect-metadata/Reflect.js',
       'rxjs':                       'npm:rxjs',
       'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
     },
@@ -39,6 +42,11 @@
       'angular2-in-memory-web-api': {
         main: './index.js',
         defaultExtension: 'js'
+      }
+    },
+    meta: {
+      'npm:@angular/*': {
+        deps: ['core', 'zone', 'reflect']
       }
     }
   });
