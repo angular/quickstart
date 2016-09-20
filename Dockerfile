@@ -1,7 +1,7 @@
 # To build and run with Docker:
 #
-#  $ docker build -t ng2-quickstart .
-#  $ docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart
+#  $ docker build -t ng-quickstart .
+#  $ docker run -it --rm -p 3000:3000 -p 3001:3001 ng-quickstart
 #
 FROM node:latest
 
