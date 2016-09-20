@@ -30,7 +30,7 @@ exports.config = {
   specs: ['**/*e2e-spec.js' ],
 
 
-  // For angular2 tests
+  // For angular tests
   useAllAngular2AppRoots: true,
 
   // Base URL for application server

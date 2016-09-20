@@ -1,5 +1,5 @@
 {
-  "name": "angular2-quickstart",
+  "name": "angular-quickstart",
   "version": "1.0.0",
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {

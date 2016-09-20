@@ -1,3 +1,8 @@
+<a name="0.2.10"></a>
+# 0.2.10 (2016-09-19)
+* All "Angular 2" references become just "Angular"
+* No code changes
+
 <a name="0.2.9"></a>
 # 0.2.9 (2016-09-14)
 * Angular 2.0.0 version
