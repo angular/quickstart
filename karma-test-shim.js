@@ -56,7 +56,7 @@ function importSystemJsExtras(){
   return System.import('systemjs.config.extras.js')
   .catch(function(reason) {
     console.log(
-      'WARNING: System.import could not load "systemjs.config.extras.js"; continuing without it.'
+      'Warning: System.import could not load the optional "systemjs.config.extras.js". Did you omit it by accident? Continuing without it.'
     );
     console.log(reason);
   });
