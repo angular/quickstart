@@ -1,0 +1,9 @@
+<!-- only if there's a hero, display.
+  use ngModel for data-binding. bind it to hero.name.
+  put hero's name in the input.
+  ERROR: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+  SOLUTION: FormsModule in app.module.ts.
+ -->
+<div *ngIf="hero">
+  We selected <input [(ngModel)]="hero.name">
+</div>
