@@ -1,0 +1,7 @@
+<!-- only if there's a hero, display.
+  use ngModel for data-binding. bind it to hero.name.
+  put hero's name in the input.
+ -->
+<div *ngIf="hero">
+  We selected <input [(ngModel)]="hero.name">
+</div>

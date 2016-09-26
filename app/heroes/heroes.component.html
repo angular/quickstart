@@ -1,0 +1,12 @@
+<!-- create a hero component. bind to the property of hero. set hero property -->
+
+<toh-hero [hero]="selectedHero"></toh-hero>
+
+<ul class="heroes">
+  <li *ngFor="let hero of heroes"
+    (click) = "onSelect(hero)"
+    [class.selected]="hero === selectedHero"
+    >
+    <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+  </li>
+</ul>
