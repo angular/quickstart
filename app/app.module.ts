@@ -13,17 +13,27 @@
 */
 
 
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA }      from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+// FormsModule is used for two-way data-binding.
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent }  from './app.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroComponent } from './heroes/hero.component'
 
 @NgModule({
-  imports: [ BrowserModule ],
-  declarations: [ AppComponent, HeroesComponent, HeroComponent ],
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+  declarations: [
+    AppComponent,
+    HeroesComponent,
+    HeroComponent
+  ],
   bootstrap: [ AppComponent ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
+
 export class AppModule { }
