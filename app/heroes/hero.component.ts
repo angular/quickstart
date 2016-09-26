@@ -6,7 +6,7 @@ import { Hero } from './hero.model';
   moduleId: module.id,
   selector: 'toh-hero',
   templateUrl: 'hero.component.html',
-  styleUrls: ['heroes.component.css']
+  // styleUrls: ['heroes.component.css']
 })
 export class HeroComponent  {
   @Input() hero: Hero;

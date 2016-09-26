@@ -15,5 +15,5 @@ import { Component } from '@angular/core';
     // See app.module.ts
 })
 export class AppComponent {
-    title = "An Angular 2 Force Awakens";
+    title = "My website";
 }
