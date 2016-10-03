@@ -128,8 +128,6 @@ We can update our app and our tests in real-time, keeping a weather eye on the c
 Karma is occasionally confused and it is often necessary to shut down its browser or even shut the command down (Ctrl-C) and
 restart it. No worries; it's pretty quick.
 
-The `HTML-Reporter` is also wired in. That produces a prettier output; look for it in `~_test-output/tests.html`.
-
 ### End-to-end (E2E) Tests
 
 E2E tests are in the `e2e` directory, side by side with the `app` folder.
