@@ -1,6 +1,10 @@
-<a name="0.2.10"></a>
+<a name="0.2.12"></a>
+# 0.2.12 (2016-10-06)
+* Angular v2.1.0
+
+<a name="0.2.11"></a>
 # 0.2.11 (2016-10-06)
-* Angular v.2.0.2
+* Angular v2.0.2
 * License is MIT
 * Current testing configuration
 * No code changes
