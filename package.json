@@ -10,12 +10,10 @@
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
-    "postinstall": "typings install",
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "typings": "typings",
     "webdriver:update": "webdriver-manager update"
   },
   "keywords": [],
@@ -49,7 +47,6 @@
     "concurrently": "^3.0.0",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
-    "typings": "^1.4.0",
 
     "canonical-path": "0.0.2",
     "http-server": "^0.9.0",
@@ -62,8 +59,13 @@
     "karma-htmlfile-reporter": "^0.3.4",
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "^3.3.0",
-    "rimraf": "^2.5.4"
+    "protractor": "^4.0.9",
+    "rimraf": "^2.5.4",
+
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.45",
+    "@types/jasmine": "^2.5.35",
+    "@types/selenium-webdriver": "^2.53.32"
   },
   "repository": {}
 }

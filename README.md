@@ -69,10 +69,6 @@ npm install
 npm start
 ```
 
-> If the `typings` folder doesn't show up after `npm install` please install them manually with:
-
-> `npm run typings -- install`
-
 The `npm start` command first compiles the application, 
 then simultaneously re-compiles and runs the `lite-server`.
 Both the compiler and the server watch for file changes.
@@ -92,8 +88,7 @@ We've captured many of the most useful commands in npm scripts defined in the `p
 [John Papa](https://github.com/johnpapa) and
 [Christopher Martin](https://github.com/cgmartin)
 with excellent support for Angular apps that use routing.
-* `npm run typings` - runs the typings tool.
-* `npm run postinstall` - called by *npm* automatically *after* it successfully completes package installation. This script installs the TypeScript definition files this app requires.
+
 Here are the test related scripts:
 * `npm test` - compiles, runs and watches the karma unit tests
 * `npm run e2e` - run protractor e2e tests, written in JavaScript (*e2e-spec.js)
