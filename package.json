@@ -25,15 +25,15 @@
     }
   ],
   "dependencies": {
-    "@angular/common": "~2.1.0",
-    "@angular/compiler": "~2.1.0",
-    "@angular/core": "~2.1.0",
-    "@angular/forms": "~2.1.0",
-    "@angular/http": "~2.1.0",
-    "@angular/platform-browser": "~2.1.0",
-    "@angular/platform-browser-dynamic": "~2.1.0",
-    "@angular/router": "~3.1.0",
-    "@angular/upgrade": "~2.1.0",
+    "@angular/common": "~2.1.1",
+    "@angular/compiler": "~2.1.1",
+    "@angular/core": "~2.1.1",
+    "@angular/forms": "~2.1.1",
+    "@angular/http": "~2.1.1",
+    "@angular/platform-browser": "~2.1.1",
+    "@angular/platform-browser-dynamic": "~2.1.1",
+    "@angular/router": "~3.1.1",
+    "@angular/upgrade": "~2.1.1",
 
     "angular-in-memory-web-api": "~0.1.13",
     "bootstrap": "^3.3.7",
@@ -41,10 +41,10 @@
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.25"
+    "zone.js": "^0.6.26"
   },
   "devDependencies": {
-    "concurrently": "^3.0.0",
+    "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
 
