@@ -14,7 +14,7 @@
     "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "webdriver:update": "webdriver-manager update"
+    "webdriver:update": "webdriver-manager update --versions.chrome=2.24"
   },
   "keywords": [],
   "author": "",
