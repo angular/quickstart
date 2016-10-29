@@ -1,3 +1,14 @@
+## Angular Documentation QuickStart Changelog
+Upgraders: to be sure of a fresh start, consider running these commands 
+* `git clean -xdf` 
+* `npm install`
+* `npm run webdriver:update`
+
+<a name="0.2.14"></a>
+# 0.2.14 (2016-10-29)
+* Remove bootstrap.css install
+* Angular v2.1.2
+
 <a name="0.2.13"></a>
 # 0.2.13 (2016-10-20)
 * Protractor 4
