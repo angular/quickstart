@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class HeroService {
-  private heroesUrl = 'http://www.yahoo.co.jp/'
+  private heroesUrl = '/app/heroes'
 
   constructor(private http: Http){}
 
