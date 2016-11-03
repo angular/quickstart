@@ -16,3 +16,4 @@ _temp
 !wallaby.js
 
 target/*
+*.log
