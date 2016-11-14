@@ -4,6 +4,10 @@ Upgraders: to be sure of a fresh start, consider running these commands
 * `npm install`
 * `npm run webdriver:update`
 
+<a name="0.2.16"></a>
+# 0.2.16 (2016-11-14)
+* Update to Angular 2.2.0
+
 <a name="0.2.15"></a>
 # 0.2.15 (2016-10-29)
 * Revert to Jasmine 2.4.1 because bug in 2.5.x (see [jasmine issue #1231](https://github.com/jasmine/jasmine/issues/1231))
