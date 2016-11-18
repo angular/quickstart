@@ -11,12 +11,17 @@
 //   To do all steps, try:  `npm run e2e`
 
 var fs = require('fs');
+var os = require('os');
 var path = require('canonical-path');
 var _ = require('lodash');
 
+// TODO: remove this when chromium suport on travis is fixed
+var chromeDriver = './node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.24';
+chromeDriver += os.type() == 'Windows_NT' ? '.exe' : '';
 
 exports.config = {
   directConnect: true,
+  chromeDriver: chromeDriver,
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
@@ -28,7 +33,6 @@ exports.config = {
 
   // Spec patterns are relative to this config file
   specs: ['**/*e2e-spec.js' ],
-
 
   // For angular tests
   useAllAngular2AppRoots: true,
