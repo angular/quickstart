@@ -4,26 +4,18 @@
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "docker-build": "docker build -t ng2-quickstart .",
-    "docker": "npm run docker-build && docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart",
-    "pree2e": "npm run webdriver:update",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
+    "pree2e": "webdriver-manager update",
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "webdriver:update": "webdriver-manager update"
+    "tsc:w": "tsc -w"
   },
   "keywords": [],
   "author": "",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
@@ -33,7 +25,6 @@
     "@angular/platform-browser": "~2.2.0",
     "@angular/platform-browser-dynamic": "~2.2.0",
     "@angular/router": "~3.2.0",
-    "@angular/upgrade": "~2.2.0",
 
     "angular-in-memory-web-api": "~0.1.15",
     "systemjs": "0.19.40",
@@ -45,7 +36,7 @@
   "devDependencies": {
     "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
-    "typescript": "^2.0.3",
+    "typescript": "^2.0.10",
 
     "canonical-path": "0.0.2",
     "http-server": "^0.9.0",
@@ -62,7 +53,6 @@
     "webdriver-manager": "10.2.5",
     "rimraf": "^2.5.4",
 
-    "@types/core-js": "^0.9.34",
     "@types/node": "^6.0.46",
     "@types/jasmine": "^2.5.36",
     "@types/selenium-webdriver": "^2.53.33"

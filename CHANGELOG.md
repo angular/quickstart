@@ -1,8 +1,17 @@
 ## Angular Documentation QuickStart Changelog
-Upgraders: to be sure of a fresh start, consider running these commands 
+Upgraders: for a fresh start, consider running these commands 
 * `git clean -xdf` 
 * `npm install`
 * `npm run webdriver:update`
+
+<a name="0.2.17"></a>
+# 0.2.17 (2016-11-16)
+* Conform to updated QuickStart advice
+  * removed docker everywhere (was nice but not necessary)
+  * removed wallaby
+  * shrink styles.css
+  * refine tsconfig.json
+  * `AppComponent` uses interpolation
 
 <a name="0.2.16"></a>
 # 0.2.16 (2016-11-14)
