@@ -12,6 +12,7 @@
     "lite": "lite-server",
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "test-once": "tsc && karma start karma.conf.js --single-run",
+    "test-once-cover": "rimraf coverage-report/ && npm run test-once && remap-istanbul -i ./coverage-report/.temp/report-json/coverage-final.json -o ./coverage-report/remapped/html-report -t html --exclude node_modules,tests,app/main.ts",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "webdriver:update": "webdriver-manager update"
@@ -34,7 +35,6 @@
     "@angular/platform-browser-dynamic": "~2.2.0",
     "@angular/router": "~3.2.0",
     "@angular/upgrade": "~2.2.0",
-
     "angular-in-memory-web-api": "~0.1.15",
     "systemjs": "0.19.40",
     "core-js": "^2.4.1",
@@ -43,29 +43,30 @@
     "zone.js": "^0.6.26"
   },
   "devDependencies": {
-    "concurrently": "^3.1.0",
-    "lite-server": "^2.2.2",
-    "typescript": "^2.0.3",
-
+    "@types/core-js": "^0.9.34",
+    "@types/jasmine": "^2.5.36",
+    "@types/node": "^6.0.46",
+    "@types/selenium-webdriver": "^2.53.33",
     "canonical-path": "0.0.2",
+    "concurrently": "^3.1.0",
     "http-server": "^0.9.0",
-    "tslint": "^3.15.1",
-    "lodash": "^4.16.4",
     "jasmine-core": "~2.4.1",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
+    "karma-coverage": "^1.1.1",
     "karma-htmlfile-reporter": "^0.3.4",
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "lite-server": "^2.2.2",
+    "lodash": "^4.16.4",
     "protractor": "4.0.9",
-    "webdriver-manager": "10.2.5",
+    "remap-istanbul": "^0.7.0",
     "rimraf": "^2.5.4",
-
-    "@types/core-js": "^0.9.34",
-    "@types/node": "^6.0.46",
-    "@types/jasmine": "^2.5.36",
-    "@types/selenium-webdriver": "^2.53.33"
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.3",
+    "webdriver-manager": "10.2.5"
   },
   "repository": {}
 }

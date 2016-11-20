@@ -15,7 +15,9 @@ module.exports = function(config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'), // click "Debug" in browser to see it
-      require('karma-htmlfile-reporter') // crashing w/ strange socket error
+      require('karma-htmlfile-reporter'), // crashing w/ strange socket error
+      require('karma-sourcemap-loader'),
+      require('karma-coverage')
     ],
 
     customLaunchers: {
@@ -80,9 +82,15 @@ module.exports = function(config) {
     },
 
     exclude: [],
-    preprocessors: {},
+    preprocessors: {
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'app/**/!(*.spec).js': ['coverage'],
+      'app/**/*.js': ['sourcemap']      
+    },
     // disabled HtmlReporter; suddenly crashing w/ strange socket error
-    reporters: ['progress', 'kjhtml'],//'html'],
+    reporters: ['progress', 'kjhtml', 'coverage'],//'html'],
 
     // HtmlReporter configuration
     htmlReporter: {
@@ -93,7 +101,17 @@ module.exports = function(config) {
       pageTitle: 'Unit Tests',
       subPageTitle: __dirname
     },
+    // generate coverage report in json format.
+    // it is generated in .temp folder because it needs
+    // to be re-mapped to its typescript sources 
+    coverageReporter: {
+        dir: 'coverage-report/.temp/',
+        reporters: [
+            {type: 'json', subdir: 'report-json'}
+        ],
+        includeAllSources: true
 
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
