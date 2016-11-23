@@ -2,7 +2,6 @@
 Upgraders: for a fresh start, consider running these commands 
 * `git clean -xdf` 
 * `npm install`
-* `npm run webdriver:update`
 
 <a name="0.2.17"></a>
 # 0.2.17 (2016-11-16)
