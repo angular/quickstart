@@ -4,6 +4,7 @@ module.exports = function(config) {
   var appSrcBase = 'app/';      // app source TS files
   var appAssets  = 'base/app/'; // component assets fetched by Angular's compiler
 
+  // Testing helpers (optional) are conventionally in a folder called `testing`
   var testingBase    = 'testing/'; // transpiled test JS and map files
   var testingSrcBase = 'testing/'; // test source TS files
 
@@ -14,7 +15,7 @@ module.exports = function(config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter') // click "Debug" in browser to see it
+      require('karma-jasmine-html-reporter')
     ],
 
     client: {
