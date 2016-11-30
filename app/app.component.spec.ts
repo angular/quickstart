@@ -1,18 +1,16 @@
-/* tslint:disable:no-unused-variable */
 import { AppComponent } from './app.component';
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-////////  SPECS  /////////////
 describe('AppComponent', function () {
   let de: DebugElement;
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
-   TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       declarations: [ AppComponent ]
     })
     .compileComponents();
