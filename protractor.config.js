@@ -102,6 +102,15 @@ function Reporter(options) {
     };
     if (spec.failedExpectations.length > 0) {
       currentSpec.failedExpectations = spec.failedExpectations;
+
+        // Take screenshot in case of failure
+        browser.takeScreenshot().then(function (png) {
+            const fileName = path.resolve(process.cwd(), '_test-output', `${spec.fullName.replace(/\s/g, "-")}.png`);
+            log(`Saving ${fileName}`);
+            var stream = fs.createWriteStream(fileName);
+            stream.write(new Buffer(png, 'base64'));
+            stream.end();
+        });
     }
 
     _currentSuite.specs.push(currentSpec);
