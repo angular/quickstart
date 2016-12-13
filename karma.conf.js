@@ -19,7 +19,7 @@ module.exports = function(config) {
     ],
 
     client: {
-      builtPaths: [appSrcBase, testingBase], // add more spec base paths as needed
+      builtPaths: [appBase, testingBase], // add more spec base paths as needed
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
 
