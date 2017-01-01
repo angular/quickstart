@@ -38,7 +38,6 @@ module.exports = function(config) {
 
       // Polyfills
       'node_modules/core-js/client/shim.js',
-      'node_modules/reflect-metadata/Reflect.js',
 
       // zone.js
       'node_modules/zone.js/dist/zone.js',
