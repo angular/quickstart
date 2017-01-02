@@ -69,6 +69,8 @@ npm install
 npm start
 ```
 
+>Doesn't work in _Bash for Windows_ which does not support servers as of January, 2017.
+
 The `npm start` command first compiles the application, 
 then simultaneously re-compiles and runs the `lite-server`.
 Both the compiler and the server watch for file changes.
