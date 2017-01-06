@@ -28,16 +28,35 @@ We recommend [nvm](https://github.com/creationix/nvm) for managing multiple vers
 ## Create a new project based on the QuickStart
 
 Clone this repo into new project folder (e.g., `my-proj`).
-```bash
-git clone  https://github.com/angular/quickstart  my-proj
+```shell
+git clone https://github.com/angular/quickstart  my-proj
 cd my-proj
 ```
 
 We have no intention of updating the source on `angular/quickstart`.
-Discard everything "git-like" by deleting the `.git` folder.
-```bash
-rm -rf .git  # non-Windows
+Discard the `.git` folder..
+```shell
+rm -rf .git  # OS/X (bash)
 rd .git /S/Q # windows
+```
+### Delete _non-essential_ files (optional)
+
+You can quickly delete the _non-essential_ files that concern testing and QuickStart repository maintenance
+(***including all git-related artifacts*** such as the `.git` folder and `.gitignore`!)
+by entering the following commands while in the project folder:
+
+##### OS/X (bash)
+```shell
+xargs -a non-essential-files.txt rm -rf
+rm app/*.spec*.ts
+rm non-essential-files.txt
+```
+
+##### Windows
+```shell
+for /f %i in (non-essential-files.txt) do del %i /F /S /Q
+rd .git /s /q
+rd e2e /s /q
 ```
 
 ### Create a new git repo
@@ -45,16 +64,19 @@ You could [start writing code](#start-development) now and throw it all away whe
 If you'd rather preserve your work under source control, consider taking the following steps.
 
 Initialize this project as a *local git repo* and make the first commit:
-```bash
+```shell
 git init
 git add .
 git commit -m "Initial commit"
 ```
 
+>Recover the deleted `.gitignore` from the QuickStart repository 
+if you lost it in the _Delete non-essential files_ step.
+
 Create a *remote repository* for this project on the service of your choice.
 
 Grab its address (e.g. *`https://github.com/<my-org>/my-proj.git`*) and push the *local repo* to the *remote*.
-```bash
+```shell
 git remote add origin <repo-address>
 git push -u origin master
 ```
@@ -64,7 +86,7 @@ git push -u origin master
 
 Install the npm packages described in the `package.json` and verify that it works:
 
-```bash
+```shell
 npm install
 npm start
 ```

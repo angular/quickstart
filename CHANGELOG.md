@@ -3,8 +3,12 @@ Upgraders: for a fresh start, consider running these commands
 * `git clean -xdf` 
 * `npm install`
 
+<a name="0.2.22"></a>
+# 0.2.22 (2017-01-05)
+* Add `non-essential-files.txt` and instructions to use it to README
+
 <a name="0.2.21"></a>
-# 0.2.20 (2016-12-14)
+# 0.2.21 (2016-12-14)
 * Update to in-memory-web-api v.0.2.1
 
 <a name="0.2.20"></a>
