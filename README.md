@@ -65,9 +65,9 @@ by entering the following commands while in the project folder:
 
 ##### OS/X (bash)
 ```shell
-xargs -a non-essential-files.txt rm -rf
-rm app/*.spec*.ts
-rm non-essential-files.txt
+xargs rm -rf < non-essential-files.osx.txt
+rm src/app/*.spec*.ts
+rm non-essential-files.osx.txt
 ```
 
 ##### Windows
