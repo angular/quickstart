@@ -47,9 +47,8 @@ by entering the following commands while in the project folder:
 
 ##### OS/X (bash)
 ```shell
-xargs -a non-essential-files.txt rm -rf
+cat non-essential-files.txt | tr -d '\r' | xargs rm -rf
 rm app/*.spec*.ts
-rm non-essential-files.txt
 ```
 
 ##### Windows
