@@ -2,8 +2,9 @@
 node_modules
 jspm_packages
 npm-debug.*
-link-checker-results.txt
-app/**/*.js
+src/app/**/*.js
+!src/systemjs.config.extras.js
+!src/systemjs.config.js
 *.js.map
 e2e/**/*.js
 e2e/**/*.js.map

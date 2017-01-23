@@ -4,10 +4,12 @@
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
-    "lint": "tslint ./app/**/*.ts -t verbose",
+    "lint": "tslint ./src/**/*.ts -t verbose",
     "lite": "lite-server",
+    "lite:e2e": "lite-server -c=bs-config.e2e.json",
     "pree2e": "webdriver-manager update",
+    "e2e": "tsc && concurrently \"npm run lite:e2e\" \"npm run protractor\" --kill-others --success first",
+    "protractor": "protractor protractor.config.js",
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
@@ -38,7 +40,6 @@
     "typescript": "~2.0.10",
 
     "canonical-path": "0.0.2",
-    "http-server": "^0.9.0",
     "tslint": "^3.15.1",
     "lodash": "^4.16.4",
     "jasmine-core": "~2.4.1",
