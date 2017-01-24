@@ -115,7 +115,7 @@ with excellent support for Angular apps that use routing.
 
 Here are the test related scripts:
 * `npm test` - compiles, runs and watches the karma unit tests
-* `npm run e2e` - compiles and run protractor e2e tests, written in JavaScript (*e2e-spec.js)
+* `npm run e2e` - compiles and run protractor e2e tests, written in Typescript (*e2e-spec.ts)
 
 ## Testing
 
@@ -128,7 +128,7 @@ These tools are configured for specific conventions described below.
 We recommend that you shut down one before starting another.*
 
 ### Unit Tests
-TypeScript unit-tests are usually in the `src/app` folder. Their filenames must end in `.spec`.
+TypeScript unit-tests are usually in the `src/app` folder. Their filenames must end in `.spec.ts`.
 
 Look for the example `src/app/app.component.spec.ts`.
 Add more `.spec.ts` files as you wish; we configured karma to find them.
@@ -152,12 +152,12 @@ Their filenames must end in `.e2e-spec.ts`.
 
 Look for the example `e2e/app.e2e-spec.ts`.
 Add more `.e2e-spec.js` files as you wish (although one usually suffices for small projects);
-we configured protractor to find them.
+we configured Protractor to find them.
 
 Thereafter, run them with `npm run e2e`.
 
-That command first compiles, then simultaneously starts the Http-Server at `localhost:3000`
-and launches protractor.  
+That command first compiles, then simultaneously starts the `lite-server` at `localhost:8080`
+and launches Protractor.  
 
 The pass/fail test results appear at the bottom of the terminal window.
 A custom reporter (see `protractor.config.js`) generates a  `./_test-output/protractor-results.txt` file
