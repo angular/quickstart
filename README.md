@@ -1,4 +1,5 @@
 # Angular QuickStart Source
+"Add test.rb to test git function"
 [![Build Status][travis-badge]][travis-badge-url]
 
 This repository holds the TypeScript source code of the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html),
