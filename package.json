@@ -16,7 +16,6 @@
     "pretest": "npm run build",
     "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
     "pretest:once": "npm run build",
-    "sleep": "sleep 1",
     "test:once": "karma start karma.conf.js --single-run",
     "lint": "tslint ./src/**/*.ts -t verbose"
   },
