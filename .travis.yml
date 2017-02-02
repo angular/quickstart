@@ -1,10 +1,7 @@
-dist: trusty
-sudo: required
+sudo: false
 language: node_js
 node_js:
-  - "5"
-os:
-  - linux
+  - '6.6.0'
 env:
   global:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
@@ -15,6 +12,6 @@ before_script:
 install:
   - npm install
 script:
-  - npm run lint
-  - npm run test-once
+  # - npm run lint
+  # - npm run test-once
   - npm run e2e
