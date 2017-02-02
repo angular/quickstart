@@ -2,19 +2,18 @@ sudo: false
 language: node_js
 node_js:
   - '6.6.0'
-addons:
-  apt:
-    sources:
-      - ppa:canonical-chromium-builds/stage
-    packages:
-      - chromium-browser
 env:
   global:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
     - DISPLAY=:99.0
     - CHROME_BIN=chromium-browser
 before_script:
+  # start the virtual display for protractor to use
   - sh -e /etc/init.d/xvfb start
+  # install a recent version of chrome
+  - https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/403380/chrome-linux.zip -s -w '%{http_code}' --create-dirs -o chrome-linux.zip
+  - unzip chrome-linux.zip -d /home/travis/.chrome/chromium
+  - rm chrome-linux.zip
 install:
   - npm install
 script:
