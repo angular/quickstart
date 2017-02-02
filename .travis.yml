@@ -11,7 +11,7 @@ before_script:
   # start the virtual display for protractor to use
   - sh -e /etc/init.d/xvfb start
   # install a recent version of chrome
-  - https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/403380/chrome-linux.zip -s -w '%{http_code}' --create-dirs -o chrome-linux.zip
+  - curl https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/403380/chrome-linux.zip -s -w '%{http_code}' --create-dirs -o chrome-linux.zip
   - unzip chrome-linux.zip -d /home/travis/.chrome/chromium
   - rm chrome-linux.zip
 install:
