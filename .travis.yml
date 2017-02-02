@@ -7,7 +7,7 @@ addons:
     sources:
       - ppa:canonical-chromium-builds/stage
     packages:
-      - chromium
+      - chromium-browser
 env:
   global:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
