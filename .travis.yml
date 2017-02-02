@@ -1,20 +1,23 @@
-dist: trusty
-sudo: required
+sudo: false
 language: node_js
 node_js:
-  - "5"
-os:
-  - linux
+  - '6.6.0'
 env:
   global:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
     - DISPLAY=:99.0
     - CHROME_BIN=chromium-browser
 before_script:
+  - which chromium-browser
+  # start the virtual display for protractor to use
   - sh -e /etc/init.d/xvfb start
+  # install a recent version of chrome
+  - curl https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/403380/chrome-linux.zip -s -w '%{http_code}' --create-dirs -o chrome-linux.zip
+  - unzip chrome-linux.zip -d /home/travis/.chrome/chromium
+  - rm chrome-linux.zip
 install:
   - npm install
 script:
-  - npm run lint
-  - npm run test-once
+  # - npm run lint
+  # - npm run test-once
   - npm run e2e
