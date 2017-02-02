@@ -4,8 +4,10 @@ node_js:
   - '6.6.0'
 addons:
   apt:
+    sources:
+      - ppa:canonical-chromium-builds/stage
     packages:
-      - chromium-browser
+      - chromium
 env:
   global:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
