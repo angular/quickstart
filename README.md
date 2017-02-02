@@ -23,6 +23,7 @@ You can update your existing project to an up-to-date QuickStart by following th
 - Copy your old `app` folder into `src/app`
 - Delete `src/app/main.ts` if you have one (we now use `src/main.ts` instead)
 - Copy your old `index.html`, `styles.css` and `tsconfig.json` into `src/`
+- Install all your third party dependencies
 - Copy your old `e2e/` folder into `e2e/`
 - Copy over any other files you added to your project
 - Copy your old `.git` folder into your new project's root
