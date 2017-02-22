@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
-import {Hero} from './hero';
+import {Component, OnInit} from '@angular/core';
 
+import {Hero} from './hero';
+import {HeroService} from './hero.service';
 
 @Component({
   selector: 'my-app',
+  providers: [HeroService],
   template: `
     <h1>{{title}}</h1>
     <h2>My Family</h2>    
@@ -65,10 +67,20 @@ import {Hero} from './hero';
   `]
 
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = "Family";
-  heroes = HEROES;
+  heroes: Hero[];
   selectedHero: Hero;
+
+  constructor(private heroService: HeroService) { }
+
+  getHeroes(): void {
+    this.heroService.getHeroesSlowly().then(heroes => this.heroes = heroes); //promise from hero.service
+  }
+
+  ngOnInit(): void {
+    this.getHeroes();
+  }
 
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
@@ -76,17 +88,5 @@ export class AppComponent {
 
 }
 
-const HEROES: Hero[] = [
-  { id: 11, name: 'Monica' },
-  { id: 12, name: 'Paloma' },
-  { id: 13, name: 'Camilo' },
-  { id: 14, name: 'Bill' },
-  { id: 15, name: 'Nury' },
-  { id: 16, name: 'Ciro' },
-  { id: 17, name: 'Simon' },
-  { id: 18, name: 'Papik' },
-  { id: 19, name: 'Mamig' },
-  { id: 20, name: 'Faztr' }
-];
 
 
