@@ -16,12 +16,12 @@ export class ItemStatsComponent implements OnInit, OnChanges{
   stats: Stat;
   keys: string[];
 
-  constructor(private logger: Logger){}
+  constructor(){}
 
   getKeys(): void{
     this.keys = Object.keys(this.stats);
-    this.logger.debug("Keys of Stats:");
-    this.logger.debug(this.keys);
+    console.log("Keys of Stats:");
+    console.log(this.keys);
   }
 
   ngOnChanges(): void{

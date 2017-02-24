@@ -2,17 +2,15 @@
  * Created by kyle on 2/16/2017.
  */
 import {PipeTransform, Pipe} from "@angular/core";
-import {Logger} from "angular2-logger/core";
-
 
 @Pipe({name: 'values'})
 export class ObjectValuesPipe implements PipeTransform {
 
-  constructor(private logger: Logger){}
+  constructor(){}
 
   transform(value: any, args?: any[]): any[]{
     //debug
-    this.logger.debug("Sent object: " + value);
+    console.log("Sent object: " + value);
 
     // create instance vars to store keys and final output
     let keyArr: any[] = Object.keys(value),

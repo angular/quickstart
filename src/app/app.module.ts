@@ -13,7 +13,6 @@ import {Champions} from "./modules/champions/champions.module";
 import {Pipes} from './modules/pipes/pipes.module'
 
 // providers
-import {Logger} from 'angular2-logger/core';
 import {Properties} from "./properties";
 
 // components
@@ -45,7 +44,7 @@ import {ItemsModule} from "./modules/items/items.module";
     Pipes
   ],
   providers: [
-    Logger, Properties
+    Properties
   ],
   bootstrap: [ AppComponent ]
 })

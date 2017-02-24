@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {Logger} from "angular2-logger/core";
 import {ItemService} from "../modules/item-services/services/item.service";
 import {ItemGroup} from "../types/item/item.group";
 import {Item} from "../types/item/item";
@@ -17,7 +16,7 @@ export class ItemsSectionComponent implements OnInit{
   items: ItemGroup;
   selectedItem: Item;
 
-  constructor(private logger: Logger, private itemService: ItemService){}
+  constructor(private itemService: ItemService){}
 
   getAllItems(): void{
     this.itemService.getAllItems()
@@ -29,10 +28,10 @@ export class ItemsSectionComponent implements OnInit{
   selectItem(item: Item): void{
     this.itemService.getItem(item)
       .then(item => {
-        this.logger.debug("Item Data: ");
-        this.logger.debug(item);
+        console.log("Item Data: ");
+        console.log(item);
         this.selectedItem = item;
-      })
+      });
   }
 
   ngOnInit(): void{

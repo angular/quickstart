@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Logger} from "angular2-logger/core";
 import {Stat} from "../../../../types/champion/stat";
 /**
  * Created by kyle on 2/18/2017.
@@ -15,16 +14,16 @@ export class ChampionStatsComponent implements OnInit {
   stats: Stat;
   keys: string[];
 
-  constructor(private logger: Logger){}
+  constructor(){}
 
   getKeys(): void{
     this.keys = Object.keys(this.stats);
-    this.logger.debug("Keys of Stats:");
-    this.logger.debug(this.keys);
+    console.log("Keys of Stats:");
+    console.log(this.keys);
   }
 
   ngOnInit(): void{
-    this.logger.debug("test");
+    console.log("test");
     this.getKeys();
   }
 

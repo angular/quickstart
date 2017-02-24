@@ -5,17 +5,8 @@
 // modules
 import { NgModule } from '@angular/core'
 
-// providers
-import { DEBUG_LOGGER_PROVIDERS } from 'angular2-logger/core';
-
-//services
-
-
 @NgModule({
   declarations: [
-  ],
-  providers: [
-    DEBUG_LOGGER_PROVIDERS
   ],
   // make component public
   exports: [],

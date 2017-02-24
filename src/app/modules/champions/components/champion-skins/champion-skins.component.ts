@@ -22,7 +22,7 @@ export class ChampionSkinsComponent implements OnInit, OnChanges{
   private selectedSkin: number;
   private splashUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/"
 
-  constructor(private logger: Logger){}
+  constructor(){}
 
   getChampionSkinImage(): string{
     return this.splashUrl + this.champion.key+ "_" + this.selectedSkin + ".jpg";
