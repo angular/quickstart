@@ -11,5 +11,5 @@ import { Component } from '@angular/core';
 
 export class HomeJumbo {
   appName = 'Lol Wiki';
-  summary = 'An app that provides information about League of Legends from';
+  summary = 'An app that provides information about League of Legends from the Riot API';
 }
