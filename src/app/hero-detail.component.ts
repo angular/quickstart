@@ -8,8 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 import { Location }                 from '@angular/common';
 
-import { Hero } from "./hero";
-import { HeroService } from './hero.service';
+import { Artwork } from "./artwork";
+import { ArtworkService } from './artwork.service';
 
 
 @Component({
@@ -20,10 +20,10 @@ import { HeroService } from './hero.service';
 })
 
 export class HeroDetailComponent implements OnInit{
-  hero: Hero;
+  hero: Artwork;
 
   constructor(
-    private heroService: HeroService,
+    private heroService: ArtworkService,
     private route: ActivatedRoute,
     private location: Location
   ) {}

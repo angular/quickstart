@@ -1,4 +1,4 @@
-<h2>Family Members</h2>
+<h2>List of Artworks</h2>
 <div>
   <label>Name:</label> <input #heroName />
   <button (click)="add(heroName.value); heroName.value=''">
@@ -6,7 +6,7 @@
   </button>
 </div>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes"
+  <li *ngFor="let hero of artworks"
       [class.selected]="hero === selectedHero"
       (click)="onSelect(hero)">
     <span class="badge">{{hero.id}}</span>

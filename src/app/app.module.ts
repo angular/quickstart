@@ -8,12 +8,13 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }  from './app.component';
-import { HeroesComponent }  from './heroes.component';
+import { ArtworksComponent }  from './artworks.component';
 import { HeroDetailComponent } from './hero-detail.component';
-import { HeroService } from './hero.service';
+import { ArtworkService } from './artwork.service';
 import { DashboardComponent } from "./dashboard.component";
 
 import { AppRoutingModule }     from './app-routing.module';
+import { ArtworkSearchComponent } from "./artwork-search.component";
 
 @NgModule({
   imports:      [
@@ -23,8 +24,8 @@ import { AppRoutingModule }     from './app-routing.module';
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
   ],
-  declarations: [ AppComponent, HeroesComponent, HeroDetailComponent, DashboardComponent ],
-  providers:    [ HeroService],
+  declarations: [ AppComponent, ArtworksComponent, HeroDetailComponent, DashboardComponent, ArtworkSearchComponent],
+  providers:    [ ArtworkService],
   bootstrap:    [ AppComponent ]
 })
 

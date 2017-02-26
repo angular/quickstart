@@ -3,24 +3,24 @@
  */
 import {Component, OnInit} from '@angular/core';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import { Artwork } from './artwork';
+import { ArtworkService } from './artwork.service';
 
 @Component({
   moduleId: module.id,
   selector: 'my-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: [ './dashboard.component.css' ]
+  templateUrl: 'dashboard.component.html',
+  styleUrls: [ 'dashboard.component.css' ]
 })
 
 export class DashboardComponent implements OnInit {
 
-  heroes: Hero[] = [];
+  artworks: Artwork[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(private artworkService: ArtworkService) { }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1, 5));
+    this.artworkService.getArtworks()
+      .then(artworks => this.artworks = artworks.slice(1, 5));
   }
 }

@@ -4,35 +4,35 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Hero } from './hero';
+import { Artwork } from './artwork';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class HeroService {
+export class ArtworkService {
 
-  private heroesUrl = 'api/heroes';  // URL to web api
+  private artworksUrl = 'api/artworks';  // URL to web api
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) { }
 
-  getHeroes(): Promise<Hero[]> {
-    return this.http.get(this.heroesUrl)
+  getArtworks(): Promise<Artwork[]> {
+    return this.http.get(this.artworksUrl)
       .toPromise()
-      .then(response => response.json().data as Hero[])
+      .then(response => response.json().data as Artwork[])
       .catch(this.handleError);
   }
 
-  getHero(id: number): Promise<Hero> {
-    const url = `${this.heroesUrl}/${id}`;
+  getHero(id: number): Promise<Artwork> {
+    const url = `${this.artworksUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Hero)
+      .then(response => response.json().data as Artwork)
       .catch(this.handleError);
   }
 
-  update(hero: Hero): Promise<Hero> {
-    const url = `${this.heroesUrl}/${hero.id}`;
+  update(hero: Artwork): Promise<Artwork> {
+    const url = `${this.artworksUrl}/${hero.id}`;
     return this.http
       .put(url, JSON.stringify(hero), {headers: this.headers})
       .toPromise()
@@ -40,16 +40,16 @@ export class HeroService {
       .catch(this.handleError);
   }
 
-  create(name: string): Promise<Hero> {
+  create(name: string): Promise<Artwork> {
     return this.http
-      .post(this.heroesUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .post(this.artworksUrl, JSON.stringify({name: name}), {headers: this.headers})
       .toPromise()
       .then(res => res.json().data)
       .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.heroesUrl}/${id}`;
+    const url = `${this.artworksUrl}/${id}`;
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
       .then(() => null)
