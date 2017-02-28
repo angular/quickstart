@@ -1,0 +1,43 @@
+<div class="margin-top-10">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="champions">
+        <h3 class="panel-title">Champions</h3>
+        <ul class="nav nav-pills">
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              Champs <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu list-length">
+              <li *ngFor="let champion of champions | values">
+                <a role="button" (click)="getChampion(champion)">{{champion.name}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="margin-top-10" *ngIf="selectedChampion">
+  <div class="row">
+    <div class="col-md-4">
+      <champion-stats [stats]="selectedChampion.stats"></champion-stats>
+    </div>
+    <div class="col-md-4">
+        <champion-spells [spells]="selectedChampion.spells"></champion-spells>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12">
+          <champion-skins [champion]="selectedChampion"></champion-skins>
+        </div>
+        <div class="col-md-12">
+          <champion-lore [champion]="selectedChampion"></champion-lore>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

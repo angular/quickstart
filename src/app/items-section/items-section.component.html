@@ -1,0 +1,31 @@
+<div class="margin-top-10">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="items">
+        <h3 class="panel-title">Items</h3>
+        <ul class="nav nav-pills">
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              Items <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu list-length">
+              <li *ngFor="let item of items | values">
+                <a role="button" (click)="selectItem(item)">{{item.name}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="margin-top-10" *ngIf="selectedItem">
+  <div class="row">
+    <div class="col-md-4">
+      <item-stats [stats]="selectedItem.stats"></item-stats>
+    </div>
+    <div class="col-md-4">
+      <item-image [image]="selectedItem.image"></item-image>
+    </div>
+  </div>
+</div>

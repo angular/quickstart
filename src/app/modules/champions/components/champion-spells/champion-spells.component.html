@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4><strong>Spells</strong></h4>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let spell of spells">
+        <img src={{getSpellImage(spell.key)}}>
+        <h5><strong>{{spell.name}}</strong></h5>
+        <p>Description: {{spell.description}}</p>
+        <p>Cost: {{spell.cost}}</p>
+        <p>CoolDown: {{spell.cooldown}}</p>
+        <p>Range: {{spell.range}}</p>
+        <p>MaxRank: {{spell.maxrank}}</p>
+        <p>EffectBurn: {{spell.effectBurn}}</p>
+      </li>
+    </ul>
+  </div>
+</div>

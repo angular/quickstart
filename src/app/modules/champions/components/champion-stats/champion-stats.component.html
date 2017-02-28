@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4><strong>Stats</strong></h4>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let key of keys">
+        {{key}}
+        <span class="badge bg-primary">{{stats[key]}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
