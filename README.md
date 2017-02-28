@@ -135,14 +135,14 @@ Here are the test related scripts:
 * `npm test` - compiles, runs and watches the karma unit tests
 * `npm run e2e` - compiles and run protractor e2e tests, written in Typescript (*e2e-spec.ts)
 
-## Ahead-of-Time Compilation (AoT)
+## Ahead-of-Time Compilation (AOT)
 
-There are also a few scripts related to (AoT):
-* `npm build:aot` - builds your app with AoT, outputting it in the `aot/` folder
-* `npm serve:aot` - builds and serves your app with AoT
-* `npm e2e:aot` - tests your served AoT app with protractor
+There are also a few scripts related to (AOT):
+* `npm build:aot` - builds your app with AOT, outputting it in the `aot/` folder
+* `npm serve:aot` - builds and serves your app with AOT
+* `npm e2e:aot` - tests your served AOT app with protractor
 
-AoT building depends on `rollup-config.js` and `copy-dist-files.js`.
+AOT building depends on `rollup-config.js` and `copy-dist-files.js`.
 Be sure to read the [Ahead-of-Time Compilation Cookbook](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html)
 for details on how the setup works.
 
