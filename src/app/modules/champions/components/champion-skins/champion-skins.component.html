@@ -1,0 +1,13 @@
+<div *ngIf="champion">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4><strong>Skins</strong></h4>
+      <ul class="nav nav-tabs">
+        <li role="button" *ngFor="let skin of skins">
+          <a (click)="selectSkin(skin)">{{skin.name}}</a>
+        </li>
+      </ul>
+      <img src={{getChampionSkinImage()}} class="img-responsive">
+    </div>
+  </div>
+</div>
