@@ -29,9 +29,9 @@ const rollupConfig = {
   ]
 };
 
-_recursiveMkDir(distDir);
-
 return Promise.resolve()
+  // Create dist dir.
+  .then(() => _recursiveMkDir(distDir))
   // Copy files.
   .then(() => {
     // Copy and rename index-aot.html.
