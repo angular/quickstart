@@ -1,5 +1,5 @@
 {
   "server": {
-    "baseDir": "aot"
+    "baseDir": "dist"
   }
 }
