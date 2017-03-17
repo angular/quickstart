@@ -138,11 +138,12 @@ Here are the test related scripts:
 ## Ahead-of-Time Compilation (AOT)
 
 There are also a few scripts related to (AOT):
-* `npm build:aot` - builds your app with AOT, outputting it in the `aot/` folder
-* `npm serve:aot` - builds and serves your app with AOT
-* `npm e2e:aot` - tests your served AOT app with protractor
+* `npm run build:aot` - builds your app with AOT, outputting it in the `aot/` folder
+* `npm run serve:aot` - builds and serves your app with AOT
+* `npm run e2e:aot` - tests your served AOT app with protractor
+* `npm run clean` - clean temporary files left by AOT compilation.
 
-AOT building depends on `rollup-config.js` and `copy-dist-files.js`.
+AOT building depends on `build.js`.
 Be sure to read the [Ahead-of-Time Compilation Cookbook](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html)
 for details on how the setup works.
 
