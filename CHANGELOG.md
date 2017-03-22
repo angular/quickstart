@@ -3,6 +3,10 @@ Upgraders: for a fresh start, consider running these commands
 * `git clean -xdf` 
 * `npm install`
 
+<a name="0.3.0"></a>
+# 0.3.0 (2017-03-22)
+* Remove moduleId with a systemjs loader.
+
 <a name="0.2.22"></a>
 # 0.2.22 (2017-01-05)
 * Add `non-essential-files.txt` and instructions to use it to README
