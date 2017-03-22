@@ -6,6 +6,7 @@ debug.log
 src/**/*.js
 !src/systemjs.config.extras.js
 !src/systemjs.config.js
+!src/systemjs-angular-loader.js
 *.js.map
 e2e/**/*.js
 e2e/**/*.js.map
