@@ -3,6 +3,10 @@ Upgraders: for a fresh start, consider running these commands
 * `git clean -xdf` 
 * `npm install`
 
+<a name="0.4.1"></a>
+# 0.4.1 (2017-03-24)
+* Replace systemjs-angular-loader with version that works for IE
+
 <a name="0.4.0"></a>
 # 0.4.0 (2017-03-24)
 * Update to Angular 4.0.0
