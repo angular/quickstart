@@ -3,6 +3,10 @@ Upgraders: for a fresh start, consider running these commands
 * `git clean -xdf` 
 * `npm install`
 
+<a name="0.4.0"></a>
+# 0.4.0 (2017-03-24)
+* Update to Angular 4.0.0
+
 <a name="0.3.0"></a>
 # 0.3.0 (2017-03-22)
 * Remove moduleId with a systemjs loader.
