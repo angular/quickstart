@@ -8,7 +8,20 @@ It has been extended with testing support so you can start writing tests immedia
 > * This is not the perfect arrangement for your application. It is not designed for production. It exists primarily to get you started quickly with learning and prototyping in Angular.
 > * We are unlikely to accept suggestions about how to grow this QuickStart into something it is not. Please keep that in mind before posting issues and Pull Requests (PR).
 
-## Version Upgrade of the Quickstart Repo
+## Table of Contents
+
+* [Version Upgrade of the Repo](#version-upgrade-of-the-repo)
+* [Prerequisites](#prerequisites)
+* [Creating New Projects with the QuickStart](#creating-new-projects-with-the-quickstart)
+    * [Deleting Non-Essential Files](#deleting-non-essential-files)
+    * [Creating New Git Repos](#creating-new-git-repos)
+* [Installing NPM Packages](#installing-npm-packages)
+* [NPM Scripts](#npm-scripts)
+* [Testing](#testing)
+    * [Unit Tests](#unit-tests)
+    * [E2E Tests](#e2e-tests)
+
+## Version Upgrade of the Repo
 
 From time to time the QuickStart is enhanced to reflect the support for new features or the changes in the [official Angular Style Guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
 
@@ -32,9 +45,9 @@ Node.js and NPM are essential to Angular development. If not already installed o
 
 > * Verify that you are running at least node `v4.x.x` and npm `3.x.x` by running `node -v` and `npm -v` in a terminal or console window. Previous versions cause errors.
 
-For managing multiple versions of Node.js and NPM, use [nvm](https://github.com/creationix/nvm).
+For managing multiple versions of Node.js and NPM, use the [Node Version Manager (NVM)](https://github.com/creationix/nvm).
 
-## Create New Projects Based on the QuickStart
+## Creating New Projects with the QuickStart
 
 1. Clone this repo into a new project folder&mdash;for example, `my-proj`.
 
@@ -50,7 +63,7 @@ For managing multiple versions of Node.js and NPM, use [nvm](https://github.com/
     rd .git /S/Q # windows
     ```
 
-### (Optional) Delete Non-Essential Files
+### (Optional) Deleting Non-Essential Files
 
 To quickly delete the non-essential files that concern testing and QuickStart repository maintenance, including all Git-related artifacts such as the `.git` and `.gitignore` flders, enter the following commands while in the project folder:
 
@@ -70,7 +83,7 @@ To quickly delete the non-essential files that concern testing and QuickStart re
     rd e2e /s /q
     ```
 
-### Create New Git Repos
+### Creating New Git Repos
 
 You can now [start writing code](#start-development) and discard it all away when you are done.
 
@@ -84,7 +97,7 @@ However, if you want to preserve your work under source control, consider taking
     git commit -m "Initial commit"
     ```
 
-> If you lost the `.gitignore` folder from the QuickStart repository while you deleted the non-essential files, recover it.
+    > If you lost the `.gitignore` folder from the QuickStart repository while you deleted the non-essential files, recover it.
 
 1. Create a remote repository for this project on the service of your choice.
 
@@ -95,7 +108,7 @@ However, if you want to preserve your work under source control, consider taking
     git push -u origin master
     ```
 
-## Install NPM Packages
+## Installing NPM Packages
 
 > For more information, refer to the [NPM and NVM version notes](#prerequisites) section.
 
@@ -106,7 +119,7 @@ However, if you want to preserve your work under source control, consider taking
     npm start
     ```
 
-> As of January 2017, Bash for Windows does not support servers and this approach does not work in it.
+    > As of January 2017, Bash for Windows does not support servers and this approach does not work in it.
 
 1. The `npm start` command first compiles the application, then simultaneously re-compiles and runs the `lite-server`. Both the compiler and the server watch for file changes. Shut it down manually with `Ctrl`+`C`. Now you are ready to write your application.
 
@@ -154,7 +167,7 @@ E2E tests are located in the `e2e` directory side by side with the `src` folder.
 
 1. Run them by using `npm run e2e`. The command first compiles, then simultaneously starts the lite-server at `localhost:8080` and launches Protractor.  
 
-The passed or failed test results appear at the bottom of the terminal window. A custom reporter (see `protractor.config.js`) generates a `./_test-output/protractor-results.txt` file, which is easier to read. This file is excluded from source control.
+    The passed or failed test results appear at the bottom of the terminal window. A custom reporter (see `protractor.config.js`) generates a `./_test-output/protractor-results.txt` file, which is easier to read. This file is excluded from source control.
 
 1. Shut it down manually with `Ctrl`+`C`.
 
