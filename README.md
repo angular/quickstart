@@ -106,6 +106,7 @@ Install the npm packages described in the `package.json` and verify that it work
 
 ```shell
 npm install
+typings install
 npm start
 ```
 
