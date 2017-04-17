@@ -1,187 +1,162 @@
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 
-This repository holds the TypeScript source code of the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html),
-the foundation for most of the documentation samples and potentially a good starting point for your application.
+This repository holds the TypeScript source code of the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html)&mdash;the foundation for most of the Kendo UI for Angular documentation samples and potentially a good starting point for your application.
 
-It's been extended with testing support so you can start writing tests immediately.
+It has been extended with testing support so you can start writing tests immediately.
 
-**This is not the perfect arrangement for your application. It is not designed for production.
-It exists primarily to get you started quickly with learning and prototyping in Angular**
+> * This is not the perfect arrangement for your application. It is not designed for production. It exists primarily to get you started quickly with learning and prototyping in Angular.
+> * We are unlikely to accept suggestions about how to grow this QuickStart into something it is not. Please keep that in mind before posting issues and Pull Requests (PR).
 
-We are unlikely to accept suggestions about how to grow this QuickStart into something it is not.
-Please keep that in mind before posting issues and PRs.
+## Version Upgrade of the Quickstart Repo
 
-## Updating to a newer version of the Quickstart Repo
+From time to time the QuickStart is enhanced to reflect the support for new features or the changes in the [official Angular Style Guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
 
-From time to time the QuickStart will add be enhanced with support for new features or to reflect
-changes to the [official Style Guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
+To update your existing project to an up-to-date QuickStart:
 
-You can update your existing project to an up-to-date QuickStart by following these instructions:
-- Create a new project using the [instructions below](#create-a-new-project-based-on-the-quickstart)
-- Copy the code you have in your project's `main.ts` file onto `src/app/main.ts` in the new project
-- Copy your old `app` folder into `src/app`
-- Delete `src/app/main.ts` if you have one (we now use `src/main.ts` instead)
-- Copy your old `index.html`, `styles.css` and `tsconfig.json` into `src/`
-- Install all your third party dependencies
-- Copy your old `e2e/` folder into `e2e/`
-- Copy over any other files you added to your project
-- Copy your old `.git` folder into your new project's root
+1. Create a new project by using the [instructions below](#create-a-new-project-based-on-the-quickstart).
+1. Copy the code you have in the `main.ts` file of your project onto `src/app/main.ts` in the new project.
+1. Copy your old `app` folder into `src/app`.
+1. Delete `src/app/main.ts` if you have such a file&mdash;Kendo UI for Angular now uses `src/main.ts` instead.
+1. Copy your old `index.html`, `styles.css`, and `tsconfig.json` into `src/`.
+1. Install all your third-party dependencies.
+1. Copy your old `e2e/` folder into `e2e/`.
+1. Copy over any other files you added to your project.
+1. Copy your old `.git` folder into the root of your new project.
 
 Now you can continue working on the new project.
 
 ## Prerequisites
 
-Node.js and npm are essential to Angular development. 
-    
-<a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
-Get it now</a> if it's not already installed on your machine.
- 
-**Verify that you are running at least node `v4.x.x` and npm `3.x.x`**
-by running `node -v` and `npm -v` in a terminal/console window.
-Older versions produce errors.
+Node.js and NPM are essential to Angular development. If not already installed on your machine, <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">get it now</a>.
 
-We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
+> * Verify that you are running at least node `v4.x.x` and npm `3.x.x` by running `node -v` and `npm -v` in a terminal or console window. Previous versions cause errors.
 
-## Create a new project based on the QuickStart
+For managing multiple versions of Node.js and NPM, use [nvm](https://github.com/creationix/nvm).
 
-Clone this repo into new project folder (e.g., `my-proj`).
-```shell
-git clone https://github.com/angular/quickstart  my-proj
-cd my-proj
-```
+## Create New Projects Based on the QuickStart
 
-We have no intention of updating the source on `angular/quickstart`.
-Discard the `.git` folder..
-```shell
-rm -rf .git  # OS/X (bash)
-rd .git /S/Q # windows
-```
-### Delete _non-essential_ files (optional)
+1. Clone this repo into a new project folder&mdash;for example, `my-proj`.
 
-You can quickly delete the _non-essential_ files that concern testing and QuickStart repository maintenance
-(***including all git-related artifacts*** such as the `.git` folder and `.gitignore`!)
-by entering the following commands while in the project folder:
+    ```shell
+    git clone https://github.com/angular/quickstart  my-proj
+    cd my-proj
+    ```
 
-##### OS/X (bash)
-```shell
-xargs rm -rf < non-essential-files.osx.txt
-rm src/app/*.spec*.ts
-rm non-essential-files.osx.txt
-```
+1. Discard the `.git` folder because the team will not be updating the source on `angular/quickstart`.
 
-##### Windows
-```shell
-for /f %i in (non-essential-files.txt) do del %i /F /S /Q
-rd .git /s /q
-rd e2e /s /q
-```
+    ```shell
+    rm -rf .git  # OS/X (bash)
+    rd .git /S/Q # windows
+    ```
 
-### Create a new git repo
-You could [start writing code](#start-development) now and throw it all away when you're done.
-If you'd rather preserve your work under source control, consider taking the following steps.
+### (Optional) Delete Non-Essential Files
 
-Initialize this project as a *local git repo* and make the first commit:
-```shell
-git init
-git add .
-git commit -m "Initial commit"
-```
+To quickly delete the non-essential files that concern testing and QuickStart repository maintenance, including all Git-related artifacts such as the `.git` and `.gitignore` flders, enter the following commands while in the project folder:
 
->Recover the deleted `.gitignore` from the QuickStart repository 
-if you lost it in the _Delete non-essential files_ step.
+* OS/X (bash)
 
-Create a *remote repository* for this project on the service of your choice.
+    ```shell
+    xargs rm -rf < non-essential-files.osx.txt
+    rm src/app/*.spec*.ts
+    rm non-essential-files.osx.txt
+    ```
 
-Grab its address (e.g. *`https://github.com/<my-org>/my-proj.git`*) and push the *local repo* to the *remote*.
-```shell
-git remote add origin <repo-address>
-git push -u origin master
-```
-## Install npm packages
+* Windows
 
-> See npm and nvm version notes above
+    ```shell
+    for /f %i in (non-essential-files.txt) do del %i /F /S /Q
+    rd .git /s /q
+    rd e2e /s /q
+    ```
 
-Install the npm packages described in the `package.json` and verify that it works:
+### Create New Git Repos
 
-```shell
-npm install
-npm start
-```
+You can now [start writing code](#start-development) and discard it all away when you are done.
 
->Doesn't work in _Bash for Windows_ which does not support servers as of January, 2017.
+However, if you want to preserve your work under source control, consider taking the following steps:
 
-The `npm start` command first compiles the application, 
-then simultaneously re-compiles and runs the `lite-server`.
-Both the compiler and the server watch for file changes.
+1. Initialize this project as a *local git repo* and make the first commit:
 
-Shut it down manually with `Ctrl-C`.
+    ```shell
+    git init
+    git add .
+    git commit -m "Initial commit"
+    ```
 
-You're ready to write your application.
+> If you lost the `.gitignore` folder from the QuickStart repository while you deleted the non-essential files, recover it.
 
-### npm scripts
+1. Create a remote repository for this project on the service of your choice.
 
-We've captured many of the most useful commands in npm scripts defined in the `package.json`:
+1. Grab its address&mdash;for example, `https://github.com/<my-org>/my-proj.git`&mdash;and push the local repo to the remote one.
 
-* `npm start` - runs the compiler and a server at the same time, both in "watch mode".
-* `npm run build` - runs the TypeScript compiler once.
-* `npm run build:w` - runs the TypeScript compiler in watch mode; the process keeps running, awaiting changes to TypeScript files and re-compiling when it sees them.
-* `npm run serve` - runs the [lite-server](https://www.npmjs.com/package/lite-server), a light-weight, static file server, written and maintained by
-[John Papa](https://github.com/johnpapa) and
-[Christopher Martin](https://github.com/cgmartin)
-with excellent support for Angular apps that use routing.
+    ```shell
+    git remote add origin <repo-address>
+    git push -u origin master
+    ```
 
-Here are the test related scripts:
-* `npm test` - compiles, runs and watches the karma unit tests
-* `npm run e2e` - compiles and run protractor e2e tests, written in Typescript (*e2e-spec.ts)
+## Install NPM Packages
+
+> For more information, refer to the [NPM and NVM version notes](#prerequisites) section.
+
+1. To install the NPM packages, use the description in `package.json`. Verify that it works:
+
+    ```shell
+    npm install
+    npm start
+    ```
+
+> As of January 2017, Bash for Windows does not support servers and this approach does not work in it.
+
+1. The `npm start` command first compiles the application, then simultaneously re-compiles and runs the `lite-server`. Both the compiler and the server watch for file changes. Shut it down manually with `Ctrl`+`C`. Now you are ready to write your application.
+
+### NPM Scripts
+
+The following list captures the most useful commands in NPM scripts that are defined in `package.json`:
+
+* `npm start`&mdash;Runs the compiler and the server at the same time, both in the watch mode.
+* `npm run build`&mdash;Runs the TypeScript compiler once.
+* `npm run build:w`&mdash;Runs the TypeScript compiler in the watch mode. The process keeps running, awaiting changes to the TypeScript files and re-compiling when it sees them.
+* `npm run serve`&mdash;Runs the [lite-server](https://www.npmjs.com/package/lite-server). The lite-server is a light-weight, static file server, which is written and maintained by [John Papa](https://github.com/johnpapa) and [Christopher Martin](https://github.com/cgmartin) and provides excellent support for Angular applications that use routing.
+
+The following list captures the test related scripts:
+
+* `npm test`&mdash;Compiles, runs, and watches the Karma unit tests.
+* `npm run e2e`&mdash;Compiles and runs Protractor end-to-end (E2E) tests that are written in Typescript (`*e2e-spec.ts`).
 
 ## Testing
 
-The QuickStart documentation doesn't discuss testing.
-This repo adds both karma/jasmine unit test and protractor end-to-end testing support.
+The QuickStart documentation does not discuss testing. This repo adds both the Karma or Jasmine unit test and the Protractor end-to-end testing support. These tools are configured for specific conventions that are described below.
 
-These tools are configured for specific conventions described below.
-
-*It is unwise and rarely possible to run the application, the unit tests, and the e2e tests at the same time.
-We recommend that you shut down one before starting another.*
+> It is unwise and rarely possible to run the application, the unit tests, and the E2E tests at the same time. It is recommended that you shut down one before starting another.
 
 ### Unit Tests
-TypeScript unit-tests are usually in the `src/app` folder. Their filenames must end in `.spec.ts`.
 
-Look for the example `src/app/app.component.spec.ts`.
-Add more `.spec.ts` files as you wish; we configured karma to find them.
+TypeScript unit-tests are usually located in the `src/app` folder. Make sure their filenames end in `.spec.ts`.
 
-Run it with `npm test`
+1. Look for the `src/app/app.component.spec.ts` example.
 
-That command first compiles the application, then simultaneously re-compiles and runs the karma test-runner.
-Both the compiler and the karma watch for (different) file changes.
+1. Add as many `.spec.ts` files as you wish. The team configured Karma to find them.
 
-Shut it down manually with `Ctrl-C`.
+1. Run it by using `npm test`. The command first compiles the application, then simultaneously re-compiles and runs the Karma test-runner. Both Karma and the compiler watch for (different) file changes.
 
-Test-runner output appears in the terminal window.
-We can update our app and our tests in real-time, keeping a weather eye on the console for broken tests.
-Karma is occasionally confused and it is often necessary to shut down its browser or even shut the command down (`Ctrl-C`) and
-restart it. No worries; it's pretty quick.
+1. Shut it down manually with `Ctrl`+`C`. The test-runner output appears in the terminal window.
 
-### End-to-end (E2E) Tests
+You can update your application and your tests in real-time by keeping a weather eye on the console for broken tests. Karma is occasionally confused and it is often necessary to shut down its browser or even use the shut-down command (`Ctrl`+`C`) and restart it. No worries&mdash;it is pretty quick.
 
-E2E tests are in the `e2e` directory, side by side with the `src` folder.
-Their filenames must end in `.e2e-spec.ts`.
+### E2E Tests
 
-Look for the example `e2e/app.e2e-spec.ts`.
-Add more `.e2e-spec.js` files as you wish (although one usually suffices for small projects);
-we configured Protractor to find them.
+E2E tests are located in the `e2e` directory side by side with the `src` folder. Make sure their filenames end in `.e2e-spec.ts`.
 
-Thereafter, run them with `npm run e2e`.
+1. Look for the `e2e/app.e2e-spec.ts` example.
 
-That command first compiles, then simultaneously starts the `lite-server` at `localhost:8080`
-and launches Protractor.  
+1. Add as many `.e2e-spec.js` files as you wish, although for smaller projects one test is usually sufficient. The team configured Protractor to find them.
 
-The pass/fail test results appear at the bottom of the terminal window.
-A custom reporter (see `protractor.config.js`) generates a  `./_test-output/protractor-results.txt` file
-which is easier to read; this file is excluded from source control.
+1. Run them by using `npm run e2e`. The command first compiles, then simultaneously starts the lite-server at `localhost:8080` and launches Protractor.  
 
-Shut it down manually with `Ctrl-C`.
+The passed or failed test results appear at the bottom of the terminal window. A custom reporter (see `protractor.config.js`) generates a `./_test-output/protractor-results.txt` file, which is easier to read. This file is excluded from source control.
+
+1. Shut it down manually with `Ctrl`+`C`.
 
 [travis-badge]: https://travis-ci.org/angular/quickstart.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/angular/quickstart
