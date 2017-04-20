@@ -1,0 +1,10 @@
+{
+  "template": "nodejs",
+  "ports": [3000],
+  "name": "Angular 2 Quickstart",
+  "description": "Angular 2 QuickStart Source",
+  "scripts": {
+    "post-create": "cd ~/code/quickstart && echo 'start npm install' && npm install --no-progress && echo 'npm install done'",
+    "Start Angular 2 Quickstart": "cd ~/code/quickstart && npm start"
+  }
+}
