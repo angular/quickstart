@@ -14,18 +14,22 @@
       'app': 'app',
 
       // angular bundles
+      '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
+      '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
       '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
       '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
       '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
       '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+      '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
       // other libraries
-      'rxjs':                      'npm:rxjs',
+      'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      'jszip': 'npm:jszip',
 
       // Kendo UI for Angular scopes
       '@progress': 'npm:@progress',
@@ -41,9 +45,14 @@
           }
         }
       },
-	    
+
       rxjs: {
         defaultExtension: 'js'
+      },
+
+      jszip: {
+        defaultExtension: 'js',
+        main: './dist/jszip.js'
       },
 
       // Kendo UI for Angular packages
@@ -88,6 +97,16 @@
       },
 
       'npm:@progress/kendo-angular-l10n': {
+        main: './dist/npm/main.js',
+        defaultExtension: 'js'
+      },
+
+      'npm:@progress/kendo-angular-excel-export': {
+        main: './dist/npm/main.js',
+        defaultExtension: 'js'
+      },
+
+      'npm:@progress/kendo-ooxml': {
         main: './dist/npm/main.js',
         defaultExtension: 'js'
       },
