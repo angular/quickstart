@@ -14,7 +14,7 @@ Please keep that in mind before posting issues and PRs.
 
 ## Updating to a newer version of the Quickstart Repo
 
-From time to time the QuickStart will add be enhanced with support for new features or to reflect
+From time to time the QuickStart will be enhanced with support for new features or to reflect
 changes to the [official Style Guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
 
 You can update your existing project to an up-to-date QuickStart by following these instructions:
