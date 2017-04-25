@@ -27,13 +27,20 @@
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
       // other libraries
+      'cldr-data': 'npm:cldr-data',
       'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'jszip': 'npm:jszip',
+      'systemjs-plugin-json': 'npm:systemjs-plugin-json',
 
       // Kendo UI for Angular scopes
       '@progress': 'npm:@progress',
       '@telerik': 'npm:@telerik'
+    },
+    meta: {
+      '*.json': {
+        loader: 'systemjs-plugin-json'
+      }
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -53,6 +60,11 @@
       jszip: {
         defaultExtension: 'js',
         main: './dist/jszip.js'
+      },
+
+      'systemjs-plugin-json': {
+          defaultExtension: 'js',
+          main: 'json.js'
       },
 
       // Kendo UI for Angular packages
