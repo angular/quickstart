@@ -37,7 +37,7 @@ Node.js and npm are essential to Angular development.
 <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
 Get it now</a> if it's not already installed on your machine.
  
-**Verify that you are running at least node `v4.x.x` and npm `3.x.x`**
+**Verify that you are running at least node `v6.9.x` and npm `3.x.x`**
 by running `node -v` and `npm -v` in a terminal/console window.
 Older versions produce errors.
 
@@ -134,6 +134,18 @@ with excellent support for Angular apps that use routing.
 Here are the test related scripts:
 * `npm test` - compiles, runs and watches the karma unit tests
 * `npm run e2e` - compiles and run protractor e2e tests, written in Typescript (*e2e-spec.ts)
+
+## Ahead-of-Time Compilation (AOT)
+
+There are also a few scripts related to (AOT):
+* `npm run build:aot` - builds your app with AOT, outputting it in the `aot/` folder
+* `npm run serve:aot` - builds and serves your app with AOT
+* `npm run e2e:aot` - tests your served AOT app with protractor
+* `npm run clean` - clean temporary files left by AOT compilation.
+
+AOT building depends on `build.js`.
+Be sure to read the [Ahead-of-Time Compilation Cookbook](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html)
+for details on how the setup works.
 
 ## Testing
 
