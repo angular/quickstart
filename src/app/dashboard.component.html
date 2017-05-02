@@ -1,0 +1,9 @@
+<h2>Recent Artworks</h2>
+<a class="grid grid-pad">
+  <a *ngFor="let hero of artworks" [routerLink]="['/detail', hero.id]" class="col-1-4">
+    <div class="module hero">
+      <h4>{{hero.name}}</h4>
+    </div>
+  </a>
+</a>
+<artwork-search></artwork-search>
