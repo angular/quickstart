@@ -1,0 +1,10 @@
+<div id="search-component">
+  <h4>Artwork Search</h4>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let artwork of artworks | async"
+         (click)="gotoDetail(artwork)" class="search-result" >
+      {{artwork.name}}
+    </div>
+  </div>
+</div>
