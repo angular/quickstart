@@ -78,7 +78,7 @@
         defaultExtension: 'js'
       },
 
-      'npm:@progress/kendo-angular-date-inputs': {
+      'npm:@progress/kendo-angular-dateinputs': {
         main: './dist/npm/main.js',
         defaultExtension: 'js'
       },
@@ -114,11 +114,6 @@
       },
 
       'npm:@progress/kendo-angular-excel-export': {
-        main: './dist/npm/main.js',
-        defaultExtension: 'js'
-      },
-
-      'npm:@progress/kendo-ooxml': {
         main: './dist/npm/main.js',
         defaultExtension: 'js'
       },
@@ -163,6 +158,11 @@
         defaultExtension: 'js'
       },
 
+      'npm:@progress/kendo-date-math': {
+        main: './dist/npm/main.js',
+        defaultExtension: 'js'
+      },
+
       'npm:@progress/kendo-drawing': {
         main: './dist/npm/main.js',
         defaultExtension: 'js'
@@ -174,6 +174,11 @@
       },
 
       'npm:@progress/kendo-intl': {
+        main: './dist/npm/main.js',
+        defaultExtension: 'js'
+      },
+
+      'npm:@progress/kendo-ooxml': {
         main: './dist/npm/main.js',
         defaultExtension: 'js'
       },
