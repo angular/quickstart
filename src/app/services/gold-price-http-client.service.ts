@@ -1,24 +1,24 @@
-import { Injectable }    from '@angular/core';
-import {  Http, Response } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {GoldPrice} from "../model/gold-price";
-
+import {GoldPrice} from '../model/gold-price';
 
 
 @Injectable()
 export class GoldPriceHttpClient {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+  }
 
   getGoldPrice(): Observable<GoldPrice[]> {
     return this.http.get('http://api.nbp.pl/api/cenyzlota?format=json').map(res => (res.json() as GoldPrice[]))
-        .catch(this.handleError);
+      .catch(this.handleError);
   }
 
-  private handleError (error: Response | any) {
+  private handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
