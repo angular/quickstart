@@ -3,10 +3,10 @@ import {BaseRequestOptions, Connection, Http, HttpModule} from '@angular/http';
 import {Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import 'rxjs/add/operator/toPromise';
-import {GoldPriceHttpClient} from "./services/gold-price-http-client.service";
-import {GoldPrice} from "./model/gold-price";
+import {GoldPriceHttpClient} from "./gold-price-http-client.service";
+import {GoldPrice} from "../model/gold-price";
 
-describe('MockBackend HeroService Example', () => {
+describe('MockBackend Example', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
