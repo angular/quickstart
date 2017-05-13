@@ -1,70 +1,50 @@
-import {Injectable, ReflectiveInjector} from '@angular/core';
-import {async, fakeAsync, tick} from '@angular/core/testing';
-import {BaseRequestOptions, ConnectionBackend, Http, RequestOptions} from '@angular/http';
+import {async, inject, TestBed} from '@angular/core/testing';
+import {BaseRequestOptions, Connection, Http, HttpModule} from '@angular/http';
 import {Response, ResponseOptions} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import 'rxjs/add/operator/toPromise';
+import {GoldPriceHttpClient} from "./services/gold-price-http-client.service";
+import {GoldPrice} from "./model/gold-price";
 
-const HERO_ONE = 'HeroNrOne';
-const HERO_TWO = 'WillBeAlwaysTheSecond';
-@Injectable()
-class HeroService {
-  constructor(private http: Http) {}
-  getHeroes(): Promise<String[]> {
-    return this.http.get('myservices.de/api/heroes')
-      .toPromise()
-      .then(response => response.json().data)
-      .catch(e => this.handleError(e));
-  }
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
-}
 describe('MockBackend HeroService Example', () => {
   beforeEach(() => {
-    this.injector = ReflectiveInjector.resolveAndCreate([
-      {provide: ConnectionBackend, useClass: MockBackend},
-      {provide: RequestOptions, useClass: BaseRequestOptions},
-      Http,
-      HeroService,
-    ]);
-    this.heroService = this.injector.get(HeroService);
-    this.backend = this.injector.get(ConnectionBackend) as MockBackend;
-    this.backend.connections.subscribe((connection: any) => this.lastConnection = connection);
+    TestBed.configureTestingModule({
+      providers: [
+        GoldPriceHttpClient,
+
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          useFactory: (backend: MockBackend, options: BaseRequestOptions) => new Http(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        }
+      ],
+      imports: [
+        HttpModule
+      ]
+    });
   });
-  it('getHeroes() should query current service url', () => {
-    this.heroService.getHeroes();
 
-    expect(this.lastConnection).toBeDefined('no http service connection at all?');
-    expect(this.lastConnection.request.url).toEqual('myservices.de/api/heroes', 'url invalid');
-  });
-  it('getHeroes() should return some heroes', fakeAsync(() => {
-    let result: String[];
+  it('should return price of gold with date', async(inject(
+    [GoldPriceHttpClient, MockBackend], (service: GoldPriceHttpClient, mockBackend: MockBackend) => {
 
-    this.heroService.getHeroes().then((heroes: String[]) => result = heroes);
-    this.lastConnection.mockRespond(new Response(new ResponseOptions({
-      body: JSON.stringify({data: [HERO_ONE, HERO_TWO]}),
+      mockBackend.connections.subscribe((conn: MockConnection)  => {
+        const goldPrice: GoldPrice[] = [{
+          data: '2017-05-11',
+          cena: 1.30
+        }];
+        conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(goldPrice) })));
+      });
+
+      const result = service.getGoldPrice();
+
+
+
+      result.subscribe((res: GoldPrice[])  => {
+        expect(res.length).toEqual(1);
+        expect(res[0].cena).toEqual(1.30);
+        expect(res[0].data).toEqual('2017-05-11');
+      });
     })));
-
-
-    tick();
-    expect(result.length).toEqual(2, 'should contain given amount of heroes');
-    expect(result[0]).toEqual(HERO_ONE, ' HERO_ONE should be the first hero');
-    expect(result[1]).toEqual(HERO_TWO, ' HERO_TWO should be the second hero');
-  }));
-  it('getHeroes() while server is down', fakeAsync(() => {
-    let result: String[];
-    let catchedError: any;
-    this.heroService.getHeroes()
-      .then((heroes: String[]) => result = heroes)
-      .catch((error: any) => catchedError = error);
-    this.lastConnection.mockRespond(new Response(new ResponseOptions({
-      status: 404,
-      statusText: 'URL not Found',
-    })));
-    tick();
-    expect(result).toBeUndefined();
-    expect(catchedError).toBeDefined();
-  }));
 });

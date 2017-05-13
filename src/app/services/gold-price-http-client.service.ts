@@ -14,7 +14,7 @@ export class GoldPriceHttpClient {
   constructor(private http: Http) { }
 
   getGoldPrice(): Observable<GoldPrice[]> {
-    return this.http.get('http://api.nbp.pl/api/cenyzlota?format=json').map(res => (res.json() as GoldPrice))
+    return this.http.get('http://api.nbp.pl/api/cenyzlota?format=json').map(res => (res.json() as GoldPrice[]))
         .catch(this.handleError);
   }
 
