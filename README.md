@@ -68,19 +68,19 @@ For managing multiple versions of Node.js and NPM, we recommend that you use [NV
 
     * For OS/X (bash):
 
-    ```shell
-    xargs rm -rf < non-essential-files.osx.txt
-    rm src/app/*.spec*.ts
-    rm non-essential-files.osx.txt
-    ```
+        ```shell
+        xargs rm -rf < non-essential-files.osx.txt
+        rm src/app/*.spec*.ts
+        rm non-essential-files.osx.txt
+        ```
 
     * For Windows:
 
-    ```shell
-    for /f %i in (non-essential-files.txt) do del %i /F /S /Q
-    rd .git /s /q
-    rd e2e /s /q
-    ```
+        ```shell
+        for /f %i in (non-essential-files.txt) do del %i /F /S /Q
+        rd .git /s /q
+        rd e2e /s /q
+        ```
 
 1. Create a new Git repo. You can [start writing code](#start-development) now and throw it all away when you are done. If you would rather preserve your work under source control:
 
@@ -144,14 +144,14 @@ These tools are configured for specific conventions that are described below.
 
 ### Unit Tests
 
-1. TypeScript unit-tests are usually in the `src/app` folder. Their filenames must end in `.spec.ts`. Look for the example in `src/app/app.component.spec.ts`. Add as many `.spec.ts` files as you wish. We configured Karma to find them.
+1. TypeScript unit-tests are usually in the `src/app` folder. Their filenames must end in `.spec.ts`. Look for the example in `src/app/app.component.spec.ts`. Add as many `.spec.ts` files as you wish&mdash;we configured Karma to find them.
 1. Run Unit tests with `npm test`. The command first compiles the application, then simultaneously re-compiles and runs the karma test-runner. Both the compiler and Karma watch for (different) file changes.
 1. Shut it down manually with `Ctrl-C`.
 1. Test-runner output appears in the terminal window. We can update our app and our tests in real-time, keeping a weather eye on the console for broken tests. Karma is occasionally confused and it is often necessary to shut down its browser or even shut the command down (`Ctrl-C`) and restart it. No worries&mdash;it is pretty quick.
 
 ### End-to-End Tests
 
-1. End-to-end (E2E) tests are in the `e2e` directory, side by side with the `src` folder. Their filenames must end in `.e2e-spec.ts`.  Look for the example `e2e/app.e2e-spec.ts`. Add as many `.e2e-spec.js` files as you wish (although one usually suffices for small projects). We configured Protractor to find them.
+1. End-to-end (E2E) tests are in the `e2e` directory, side by side with the `src` folder. Their filenames must end in `.e2e-spec.ts`.  Look for the example `e2e/app.e2e-spec.ts`. Add as many `.e2e-spec.js` files as you wish (although one usually suffices for small projects)&mdash;we configured Protractor to find them.
 1. Thereafter, run the E2E tests with `npm run e2e`. This command first compiles, then simultaneously starts the `lite-server` at `localhost:8080` and launches Protractor.  
 1. The pass or fail test results appear at the bottom of the terminal window. A custom reporter (see `protractor.config.js`) generates a  `./_test-output/protractor-results.txt` file
 which is easier to read; this file is excluded from source control.
