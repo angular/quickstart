@@ -13,4 +13,9 @@ export class GoldPriceService {
       .map((goldPrices) => this.goldPriceCalculator.extractPrice(goldPrices));
   }
 
+  getGoldPriceByDate(date: String): Observable<Number> {
+    return this.goldPriceHttpClinet.getGoldPriceByDate(date)
+      .map((goldPrices) => this.goldPriceCalculator.extractPrice(goldPrices));
+  }
+
 }

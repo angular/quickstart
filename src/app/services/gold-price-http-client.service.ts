@@ -5,16 +5,24 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {GoldPrice} from '../model/gold-price';
+import {DatePipe} from "@angular/common";
+import {DateTransformatorService} from "./date-transformator.service";
 
 
 @Injectable()
 export class GoldPriceHttpClient {
 
-  constructor(private http: Http) {
+  GOLD_PRICE_URL: String = 'http://api.nbp.pl/api/cenyzlota';
+
+  constructor(private http: Http, private dateTransformatorService: DateTransformatorService) {
+  }
+  getGoldPrice(): Observable<GoldPrice[]> {
+    return this.http.get(this.GOLD_PRICE_URL + '?format=json').map(res => (res.json() as GoldPrice[]))
+      .catch(this.handleError);
   }
 
-  getGoldPrice(): Observable<GoldPrice[]> {
-    return this.http.get('http://api.nbp.pl/api/cenyzlota?format=json').map(res => (res.json() as GoldPrice[]))
+  getGoldPriceByDate(date: String): Observable<GoldPrice[]> {
+    return this.http.get(this.GOLD_PRICE_URL + '/' + date + '?format=json').map(res => (res.json() as GoldPrice[]))
       .catch(this.handleError);
   }
 

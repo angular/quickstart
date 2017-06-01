@@ -8,14 +8,16 @@ import {AppRoutingModule} from "./app-routing.module";
 import {GoldPriceHttpClient} from "./services/gold-price-http-client.service";
 import {GoldPriceCalculator} from "./services/gold-price-calculator.service";
 import {GoldPriceService} from "./services/gold-price-service.service";
+import {GoldPriceComponent} from "./goldprice.component";
+import {DateTransformatorService} from "./services/date-transformator.service";
 
 @NgModule({
   imports:      [ BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule],
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, GoldPriceComponent ],
   bootstrap:    [ AppComponent ],
-  providers: [ GoldPriceHttpClient, GoldPriceCalculator, GoldPriceService ]
+  providers: [ GoldPriceHttpClient, GoldPriceCalculator, GoldPriceService, DateTransformatorService ]
 })
 export class AppModule { }
