@@ -3,12 +3,15 @@ import {Observable} from 'rxjs/Observable';
 import {GoldPriceHttpClient} from './gold-price-http-client.service';
 import {GoldPriceCalculator} from './gold-price-calculator.service';
 import {Rate} from '../model/rate';
+import {TableAHttpClientService} from "./table-a-http-client.service";
 @Injectable()
 export class AverageExchangeRatesService {
 
+  constructor(private tableAHttpClientService: TableAHttpClientService) {
+  }
+
  getCurrencyWithTheHighestCurrentRate(): Observable<Rate> {
-   /*zapytanie powinno opierać się o ednpoint http://api.nbp.pl/api/exchangerates/tables/a?format=json*/
-    return null;
+   return this.tableAHttpClientService.getRateList().map(a => a[0] );
   }
 
 }

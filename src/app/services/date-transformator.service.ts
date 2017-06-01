@@ -5,7 +5,7 @@ import {DatePipe} from "@angular/common";
 export class DateTransformatorService {
 
   toString(date: Date): String   {
-    return new DatePipe().transform(date, 'yyyy-MM-dd');
+    return new DatePipe('en-US').transform(date, 'yyyy-MM-dd');
   }
 
 }

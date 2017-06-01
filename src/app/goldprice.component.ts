@@ -3,7 +3,7 @@ import {GoldPriceService} from "./services/gold-price-service.service";
 import {DateTransformatorService} from "./services/date-transformator.service";
 
 @Component({
-  selector: 'my-dashboard',
+  selector: 'goldprice',
   templateUrl: './goldprice.component.html',
   styleUrls: [ './goldprice.component.css' ]
 })

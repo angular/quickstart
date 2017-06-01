@@ -4,10 +4,11 @@ import {GoldPriceService} from "./services/gold-price-service.service";
 
 @Component({
   selector: 'my-app',
-  template: `<h1>Cena złota na dziś {{goldPrice}}</h1>    
+  template: `<h1>Cennik NBP</h1>    
   <nav>
-    <a routerLink="/goldprice" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/goldprice" routerLinkActive="active">Ceny złota</a>
+    <a routerLink="/tablea" routerLinkActive="active">Tabela A kursów walut</a>
   </nav>
   <router-outlet></router-outlet>
   `, styleUrls: ['./app.component.css']

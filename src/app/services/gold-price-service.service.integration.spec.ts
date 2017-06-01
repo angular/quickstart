@@ -6,6 +6,7 @@ import {GoldPriceHttpClient} from './gold-price-http-client.service';
 import {GoldPrice} from '../model/gold-price';
 import {GoldPriceService} from './gold-price-service.service';
 import {GoldPriceCalculator} from './gold-price-calculator.service';
+import {DateTransformatorService} from "./date-transformator.service";
 
 describe('Gold price service integration test', () => {
   beforeEach(() => {
@@ -14,6 +15,7 @@ describe('Gold price service integration test', () => {
         GoldPriceService,
         GoldPriceHttpClient,
         GoldPriceCalculator,
+        DateTransformatorService,
         MockBackend,
         BaseRequestOptions,
         {
@@ -28,7 +30,7 @@ describe('Gold price service integration test', () => {
     });
   });
 
-  it('should return price as number', async(inject(
+  it('should return price gold for today as number', async(inject(
     [GoldPriceService, MockBackend], (service: GoldPriceService, mockBackend: MockBackend) => {
       /*given*/
       mockBackend.connections.subscribe((connection: MockConnection) => {
@@ -41,6 +43,22 @@ describe('Gold price service integration test', () => {
 
       /*then*/
       result.subscribe((res: Number) => expect(res).toEqual(2.30)
+        , (error: any) => fail());
+    })));
+
+  it('should return price for given date as number', async(inject(
+    [GoldPriceService, MockBackend], (service: GoldPriceService, mockBackend: MockBackend) => {
+      /*given*/
+      mockBackend.connections.subscribe((connection: MockConnection) => {
+        const goldPrice: GoldPrice[] = [new GoldPrice('2017-04-11', 2.40)];
+        connection.mockRespond(new Response(new ResponseOptions({body: JSON.stringify(goldPrice)})));
+      });
+
+      /*when*/
+      const result = service.getGoldPriceByDate('2017-04-11');
+
+      /*then*/
+      result.subscribe((res: Number) => expect(res).toEqual(2.40)
         , (error: any) => fail());
     })));
 
