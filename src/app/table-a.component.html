@@ -16,5 +16,13 @@
       </td>
     </tr>
   </table>
+
+  <ul class="rates">
+    <li *ngFor="let rate of rates">
+      <span class="badge">{{rate.code}}</span>
+      <span>{{rate.currency}}</span>
+      <span class="price">{{rate.mid}} PLN</span>
+    </li>
+  </ul>
 </div>
 

@@ -4,7 +4,6 @@ import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {DateTransformatorService} from "./date-transformator.service";
 import {Rate} from "../model/rate";
 
 

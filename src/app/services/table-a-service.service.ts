@@ -14,4 +14,8 @@ export class TableAService {
    return this.tableAHttpClientService.getRateList().map((rates) => this.tableACalculatorService.getMaxRate(rates));
   }
 
+  getCurrencyList(): Observable<Rate[]> {
+    return this.tableAHttpClientService.getRateList();
+  }
+
 }

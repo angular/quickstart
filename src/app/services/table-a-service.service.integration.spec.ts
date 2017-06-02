@@ -50,5 +50,26 @@ describe('Table A service integration test', () => {
         , (error: any) => fail());
     })));
 
+  it('should return currency list', async(inject(
+    [TableAService, MockBackend], (service: TableAService, mockBackend: MockBackend) => {
+      /*given*/
+      mockBackend.connections.subscribe((connection: MockConnection) => {
+        const goldPrice: Object[] = [
+          { table: 'B',
+            no: '022/B/NBP/2017',
+            effectiveDate: '2017-05-31',
+            rates: [new Rate('A', 'AA', 2.30), new Rate('B', 'BB', 1.30), new Rate('CC', 'CC', 0.10)]
+          }];
+        connection.mockRespond(new Response(new ResponseOptions({body: JSON.stringify(goldPrice)})));
+      });
+
+      /*when*/
+      const result: Observable<Rate[]> = service.getCurrencyList();
+
+      /*then*/
+      result.subscribe((res) => expect(res.length).toEqual(3)
+        , (error: any) => fail());
+    })));
+
 });
 

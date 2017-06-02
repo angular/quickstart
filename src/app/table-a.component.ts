@@ -10,19 +10,30 @@ import {Rate} from "./model/rate";
 export class TableAComponent implements OnInit {
 
   theBiggestCurrency: Rate = new Rate('a', 'a', 0);
+  rates: Rate[] = [];
 
-  constructor(private averageExchangeRatesService: TableAService) { }
+  constructor(private tableAService: TableAService) { }
 
   ngOnInit(): void {
     this.getBiggestCurrency();
+    this.getRateList();
   }
 
   getBiggestCurrency() {
-    this.averageExchangeRatesService.getCurrencyWithTheHighestCurrentRate().subscribe(goldPrice =>
+    this.tableAService.getCurrencyWithTheHighestCurrentRate().subscribe(goldPrice =>
           this.updateBiggestCurrency(goldPrice));
+  }
+
+  getRateList() {
+    this.tableAService.getCurrencyList().subscribe(rates =>
+      this.updateRateList(rates));
   }
 
   updateBiggestCurrency(goldPrice: Rate): void {
     this.theBiggestCurrency = goldPrice;
+  }
+
+  updateRateList(rates: Rate[]): void {
+    this.rates = rates;
   }
 }
