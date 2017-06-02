@@ -13,7 +13,7 @@ export class TableAHttpClientService {
 
   TABLE_A_URL: String = 'http://api.nbp.pl/api/exchangerates/tables/a';
 
-  constructor(private http: Http, private dateTransformatorService: DateTransformatorService) {
+  constructor(private http: Http) {
   }
   getRateList(): Observable<Rate[]> {
     return this.http.get(this.TABLE_A_URL + '?format=json').map(res => (res.json()[0].rates as Rate[]))

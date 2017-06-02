@@ -2,7 +2,7 @@ import { browser, element, by } from 'protractor';
 
 describe('QuickStart E2E Tests', function () {
 
-  let expectedMsg = 'Cennik NBP';
+  let expectedMsg = 'Price list NBP';
 
   beforeEach(function () {
     browser.get('');
@@ -12,11 +12,12 @@ describe('QuickStart E2E Tests', function () {
     expect(element(by.css('h1')).getText()).toEqual(expectedMsg);
   });
 
-  it('should display: ' + expectedMsg, function () {
+  it('should navigate to gold price tab ', function () {
     element(by.xpath('/html/body/my-app/nav/a[2]')).click();
 
     expect(element(by.css('h1')).getText()).toEqual(expectedMsg);
-    expect(browser.getCurrentUrl()).toContain('/goldprice');
+    expect(element(by.css('h2')).getText()).toEqual('Gold Prices');
+    expect(browser.getCurrentUrl()).toMatch( new RegExp('\\bgoldprice'));
   });
 
 });

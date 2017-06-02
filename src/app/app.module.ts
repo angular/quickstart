@@ -12,8 +12,9 @@ import {GoldPriceComponent} from "./goldprice.component";
 import {DateTransformatorService} from "./services/date-transformator.service";
 import {HomeComponent} from "./home.component";
 import {TableAExchangeRatesComponent} from "./table-a-exchange-rates.component";
-import {AverageExchangeRatesService} from "./services/table-a-exchange-rates-service.service";
+import {TableAService} from "./services/table-a-service.service";
 import {TableAHttpClientService} from "./services/table-a-http-client.service";
+import {TableACalculatorService} from "./services/table-a-calculator.service";
 
 @NgModule({
   imports:      [ BrowserModule,
@@ -22,6 +23,6 @@ import {TableAHttpClientService} from "./services/table-a-http-client.service";
     AppRoutingModule],
   declarations: [ AppComponent, GoldPriceComponent, HomeComponent, TableAExchangeRatesComponent ],
   bootstrap:    [ AppComponent ],
-  providers: [ GoldPriceHttpClient, GoldPriceCalculator, GoldPriceService, DateTransformatorService, AverageExchangeRatesService, TableAHttpClientService ]
+  providers: [ GoldPriceHttpClient, GoldPriceCalculator, GoldPriceService, DateTransformatorService, TableAService, TableAHttpClientService, TableACalculatorService ]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GoldPriceService} from "./services/gold-price-service.service";
 import {DateTransformatorService} from "./services/date-transformator.service";
-import {AverageExchangeRatesService} from "./services/table-a-exchange-rates-service.service";
+import {TableAService} from "./services/table-a-service.service";
 import {Rate} from "./model/rate";
 
 @Component({
@@ -15,7 +15,7 @@ export class TableAExchangeRatesComponent implements OnInit {
   goldPriceByDay: Number;
   date: String ;
 
-  constructor(private averageExchangeRatesService: AverageExchangeRatesService) { }
+  constructor(private averageExchangeRatesService: TableAService) { }
 
   ngOnInit(): void {
     this.getTodayGoldPrice();
