@@ -1,8 +1,7 @@
 
 import { browser, element, by } from 'protractor';
 
-describe('Gold price tab E2E Tests', function () {
-
+describe('Table a tab E2E Tests', function () {
   beforeEach(function () {
     browser.get('/tablea');
   });
@@ -14,6 +13,10 @@ describe('Gold price tab E2E Tests', function () {
       .then(t => expect(t.length).not.toEqual(0));
     element(by.id('divTheBiggestCurrencyMid')).getText()
       .then(t => expect(t.length).not.toEqual(0));
+  });
+
+  it('should display list of currency ', function () {
+    expect(element.all(by.repeater('rate of rates')).getSize()).not.toEqual(0);
   });
 });
 
