@@ -11,7 +11,7 @@ import {GoldPriceService} from "./services/gold-price-service.service";
 import {GoldPriceComponent} from "./goldprice.component";
 import {DateTransformatorService} from "./services/date-transformator.service";
 import {HomeComponent} from "./home.component";
-import {TableAExchangeRatesComponent} from "./table-a-exchange-rates.component";
+import {TableAComponent} from "./table-a.component";
 import {TableAService} from "./services/table-a-service.service";
 import {TableAHttpClientService} from "./services/table-a-http-client.service";
 import {TableACalculatorService} from "./services/table-a-calculator.service";
@@ -21,7 +21,7 @@ import {TableACalculatorService} from "./services/table-a-calculator.service";
     FormsModule,
     HttpModule,
     AppRoutingModule],
-  declarations: [ AppComponent, GoldPriceComponent, HomeComponent, TableAExchangeRatesComponent ],
+  declarations: [ AppComponent, GoldPriceComponent, HomeComponent, TableAComponent ],
   bootstrap:    [ AppComponent ],
   providers: [ GoldPriceHttpClient, GoldPriceCalculator, GoldPriceService, DateTransformatorService, TableAService, TableAHttpClientService, TableACalculatorService ]
 })

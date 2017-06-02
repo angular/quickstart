@@ -13,11 +13,10 @@ describe('Gold price tab E2E Tests', function () {
   });
 
   it('should display gold price by date', function () {
-    element(by.id('inputDate')).sendKeys('2015-03-03');
-
+    element(by.id('inputDate')).sendKeys('03-03-2015');
     element(by.id('buttonCheckPriceByDate')).click();
 
-    expect(element(by.id('divGoldPriceByDay')).getText()).toEqual(' 144.43');
+    expect(element(by.id('divGoldPriceByDay')).getText()).toEqual('144.43');
   });
 });
 
