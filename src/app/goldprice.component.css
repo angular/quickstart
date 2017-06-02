@@ -23,6 +23,11 @@ h4 {
 .grid {
   margin: 0;
 }
+
+#divGoldPriceToday, #divGoldPriceByDay{
+  font-weight:bold;
+}
+
 .col-1-4 {
   width: 25%;
 }

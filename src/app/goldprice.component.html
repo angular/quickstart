@@ -1,3 +1,16 @@
 <h2>Gold Prices</h2>
-<h3>Current gold price {{goldPriceToday}} PLN</h3>
-<h3>Gold price for day <input type="date" [(ngModel)]="date"/> <button (click)="valueChangeDate()"> Check </button> {{goldPriceByDay}}</h3>
+<div>
+  <table width="400px">
+    <tr>
+      <td>Current gold price</td>
+      <td><div id="divGoldPriceToday">{{goldPriceToday}}</div></td>
+    </tr>
+    <tr>
+      <td>
+        <input id="inputDate" type="date" [(ngModel)]="date"/>
+        <button id="buttonCheckPriceByDate" (click)="valueChangeDate()"> Check gold price </button>
+      </td>
+      <td><div id="divGoldPriceByDay">{{goldPriceByDay}}</div></td>
+    </tr>
+  </table>
+</div>

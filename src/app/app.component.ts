@@ -8,7 +8,7 @@ import {GoldPriceService} from "./services/gold-price-service.service";
   <nav>
     <a routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/goldprice" routerLinkActive="active">Gold prices</a>
-    <a routerLink="/tablea" routerLinkActive="active">Tabela A kursów walut</a>
+    <a routerLink="/tablea" routerLinkActive="active">Tabela A prices</a>
   </nav>
   <router-outlet></router-outlet>
   `, styleUrls: ['./app.component.css']
