@@ -6,8 +6,12 @@ the foundation for most of the documentation samples and potentially a good star
 
 It's been extended with testing support so you can start writing tests immediately.
 
-**This is not the perfect arrangement for your application. It is not designed for production.
-It exists primarily to get you started quickly with learning and prototyping in Angular**
+## Before you start
+
+This is not the perfect arrangement for your application. It is not designed for production.
+It exists primarily to get you started quickly with learning and prototyping in Angular.
+
+**If you are looking for the best way to start creating new Angular applications, we recommend using the [Angular CLI](https://github.com/angular/angular-cli)**
 
 We are unlikely to accept suggestions about how to grow this QuickStart into something it is not.
 Please keep that in mind before posting issues and PRs.
