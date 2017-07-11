@@ -32,6 +32,7 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'jszip': 'npm:jszip',
       'systemjs-plugin-json': 'npm:systemjs-plugin-json',
+      'tslib': 'npm:tslib/tslib.js',
 
       // Kendo UI for Angular scopes
       '@progress': 'npm:@progress',
