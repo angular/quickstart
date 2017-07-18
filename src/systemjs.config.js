@@ -31,6 +31,7 @@
       'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'jszip': 'npm:jszip',
+      'pako': 'npm:pako',
       'systemjs-plugin-json': 'npm:systemjs-plugin-json',
       'tslib': 'npm:tslib/tslib.js',
 
@@ -61,6 +62,11 @@
       jszip: {
         defaultExtension: 'js',
         main: './dist/jszip.js'
+      },
+
+      pako: {
+        defaultExtension: 'js',
+        main: './index.js'
       },
 
       'systemjs-plugin-json': {
