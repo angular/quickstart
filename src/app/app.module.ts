@@ -1,6 +1,10 @@
 import { LOCALE_ID, NgModule }  from '@angular/core';
 import { BrowserModule }        from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonsModule }        from '@progress/kendo-angular-buttons';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
+import { GridModule, PDFModule } from '@progress/kendo-angular-grid';
 
 import { AppComponent }         from './app.component';
 
@@ -24,7 +28,7 @@ load(
 */
 
 @NgModule({
-  imports: [ BrowserModule, ButtonsModule ],
+  imports: [ BrowserModule, ButtonsModule, BrowserAnimationsModule, DropDownsModule, ExcelExportModule, GridModule, PDFModule ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ]
 })
