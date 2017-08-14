@@ -1,1 +1,1 @@
-.git .gitignore .travis.yml bs-config.e2e.json CHANGELOG.md e2e favicon.ico karma.conf.js karma-test-shim.js LICENSE non-essential-files.txt protractor.config.js README.md
+.git .gitignore .travis.yml bs-config.e2e.json CHANGELOG.md e2e karma.conf.js karma-test-shim.js LICENSE non-essential-files.txt protractor.config.js README.md
