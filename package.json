@@ -2,6 +2,7 @@
   "name": "angular-quickstart",
   "version": "1.0.0",
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "engines" : { "node" : "^6.11.2" }, 
   "scripts": {
     "build": "tsc -p src/",
     "build:watch": "tsc -p src/ -w",
