@@ -2,7 +2,7 @@
     <div class="heroes-list">
         <h2>My Heroes</h2>
         <ul class="heroes">
-            <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+            <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
                 <span class="badge">{{hero.id}} </span>
                 <span class="hero-name">{{hero.superhero}}</span>
             </li>
@@ -38,7 +38,7 @@
                 </ul>
             </div>
             <div *ngIf="selectedHero" class="input-comment">
-                <textarea type="text" placeholder="Let Others know what you think about this character" rows="3" [(ngModel)]="comment"></textarea>
+                <textarea type="text" placeholder="Let Others know what you think about {{selectedHero.superhero}}" rows="3" [(ngModel)]="comment"></textarea>
                 <button type="button" (click)="postComment()">POST</button>
             </div>
         </div>

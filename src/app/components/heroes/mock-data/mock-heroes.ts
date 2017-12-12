@@ -1,5 +1,5 @@
 import { Hero } from './../heroes.interface';
-export const HEROES: Hero[] = [
+export let HEROES: Hero[] = [
     {
         "id": 1,
         "superhero": "Batman",
@@ -180,4 +180,7 @@ export const HEROES: Hero[] = [
         "characters": "Norrin Radd",
         "comments":[]
     }
-]
+];
+export function changeComment(id:number,comment:string){
+    HEROES[id].comments.push(comment);
+}

@@ -30,10 +30,16 @@
   list-style-type: none; }
 
 .heroes li {
-  background: salmon;
+  background: rgba(250, 128, 114,0.7);
   width: 70%;
   margin-bottom: 10px;
   height: 30px; }
+  .heroes li:hover{
+    background-color:rgb(250,128,114);
+  }
+  .heroes li.selected{
+    background-color:rgb(250,128,114);    
+  }
 
 .heroes .badge {
   background: #666;
@@ -96,10 +102,26 @@
 .container .hero-details .comments ul li {
   font-family: "Gloria Hallelujah",cursive;
   font-size: 32px;
-  color: mediumseagreen; }
+  color: mediumseagreen;
+  text-align:center; 
+}
 
-.container .hero-details .comments ul li:nth-child(odd) {
-  color: darkslategrey; }
+.container .hero-details .comments ul li:nth-child(2n) {
+  color: darkslategrey; 
+}
+  .container .hero-details .comments ul li:nth-child(3n){
+    color:mediumvioletred;
+  
+  }
+  .container .hero-details .comments ul li:nth-child(5n){
+    color:maroon; 
+  
+  }
+  .container .hero-details .comments ul li:nth-child(7n){
+    color:mediumpurple;
+     
+  }
+  
 
 .container .hero-details .input-comment {
   margin-top: 80px; }
