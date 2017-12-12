@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {HeroesComponent} from'./components/heroes.component';
+import {HeroesComponent} from'./components/heroes/heroes.component';
 @Component({
   selector: 'my-app',
   template: `<h1>{{title}}</h1>

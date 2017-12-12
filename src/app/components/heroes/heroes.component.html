@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="heroes-list">
+        <h2>My Heroes</h2>
+        <ul class="heroes">
+            <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+                <span class="badge">{{hero.id}} </span>
+                <span class="hero-name">{{hero.superhero}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="hero-details">
+        <div *ngIf="selectedHero" class="hero">
+            <h2>{{selectedHero.superhero }} Details</h2>
+            <div>
+                <span>Characters</span>
+                <span>{{selectedHero.characters}}</span>
+            </div>
+            <div>
+                <span>Publisher</span>
+                <span>{{selectedHero.publisher}}</span>
+            </div>
+            <div>
+                <span>Alter Ego</span>
+                <span>{{selectedHero.alter_ego}}</span>
+            </div>
+            <div>
+                <span>First Appearance</span>
+                <span>{{selectedHero.first_appearance}}</span>
+            </div>
+        </div>
+        <div class="comments">
+            <div *ngIf="selectedHero && selectedHero.comments.length > 0">
+                <h3>Received Comments</h3>
+                <ul>
+                    <li *ngFor="let comment of selectedHero.comments">
+                        {{comment}}
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="selectedHero" class="input-comment">
+                <textarea type="text" placeholder="Let Others know what you think about this character" rows="3" [(ngModel)]="comment"></textarea>
+                <button type="button" (click)="postComment()">POST</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:500');
+body{
+  background: lightcyan
+}
 h1 {
   color: #369;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:"Roboto", sans-serif;
   font-size: 250%;
+  text-align: center;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
