@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Tangerine|Shadows+Into+Light|Cookie|Calligraffitti");
+.heroes-list h2 {
+  color: #333;
+  font-size: 28px;
+  font-family: "Roboto",sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: 60px; }
+
+.hero-name {
+  margin-top: 40px; }
+
+.hero-name label {
+  font-size: 24px;
+  font-weight: bold; }
+
+.hero-name input {
+  width: 200px;
+  padding: 10px;
+  background: #666;
+  color: white;
+  border: 2px solid #222;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+
+.heroes {
+  list-style-type: none; }
+
+.heroes li {
+  background: salmon;
+  width: 70%;
+  margin-bottom: 10px;
+  height: 30px; }
+
+.heroes .badge {
+  background: #666;
+  display: inline-block;
+  height: 100%;
+  width: 40px;
+  margin-right: 10px;
+  text-align: center;
+  line-height: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  color: lightskyblue; }
+
+.container {
+  margin-top: 100px;
+  display: flex; }
+
+.container .heroes-list {
+  flex: 1;
+  border-right: 2px solid #aaa; }
+
+.container .hero-details {
+  flex: 1; }
+  .container .hero-details h2 {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: "Roboto",sans-serif;
+    color: darkred; }
+  .container .hero-details .hero div {
+    display: flex; }
+    .container .hero-details .hero div span {
+      flex: 1;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background: burlywood;
+      color: green;
+      font-weight: bold; }
+    .container .hero-details .hero div span:nth-child(2) {
+      color: darkslategray; }
+  .container .hero-details .comments {
+    margin-top: 60px; }
+    .container .hero-details .comments h3 {
+      text-align: center;
+      font-size: 40px;
+      font-family: "Gloria Hallelujah",cursive;
+      letter-spacing: 2px;
+      color: #555;
+      font-weight: bold; }
+    .container .hero-details .comments ul {
+      list-style-type: none; }
+      .container .hero-details .comments ul li {
+        font-family: "Gloria Hallelujah",cursive;
+        font-size: 32px;
+        color: mediumseagreen; }
+      .container .hero-details .comments ul li:nth-child(odd) {
+        color: darkslategrey; }
+  .container .hero-details .input-comment {
+    margin-top: 80px; }
+    .container .hero-details .input-comment textarea {
+      width: 98%;
+      height: 60px;
+      font-family: "Roboto",sans-serif;
+      font-size: 16px;
+      padding: 10px;
+      letter-spacing: 1px;
+      color: #888;
+      border: none;
+      resize: none;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); }
+    .container .hero-details .input-comment button {
+      width: 60px;
+      margin: auto; }
