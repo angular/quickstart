@@ -1,0 +1,61 @@
+.heroes-list h2{
+    color:#333;
+    font-size:28px;
+    font-family: "Roboto",sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left:60px;
+}
+.hero-name{
+    margin-top:40px;
+}
+.hero-name label{
+    font-size:24px;
+    font-weight:bold;
+}
+.hero-name input{
+    width:200px;
+    padding:10px;
+    background: #666;
+    color:white;
+    border:2px solid #222;
+    font-size:18px;
+    letter-spacing: 1px;
+    font-weight:bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.heroes{
+    list-style-type:none;
+}
+.heroes li{
+    background:salmon;
+    width:70%;
+    margin-bottom:10px;
+    height:30px;
+}
+.heroes .badge{
+    background: #666;
+    display:inline-block;
+    height:100%;
+    width:40px;
+    margin-right:10px;
+    text-align:center;
+    line-height:25px;
+    font-size:20px;
+    font-weight:bold;
+    color:lightskyblue;
+}
+.container{
+    margin-top:100px;
+    display:flex;
+}
+.container .heroes-list{
+    flex:1;
+    border-right:2px solid #aaa;
+}
+.container .hero-details{
+    flex:1;
+    text-align:center;
+
+}
