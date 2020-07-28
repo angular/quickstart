@@ -3,3 +3,39 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
+#loader {
+  color: #008cff;
+  height: 40px;
+  left: 45%;
+  position: absolute;
+  top: 45%;
+  width: 30%;
+}
+#draggable{ 
+  height: 100px;
+  width:150px;
+  border: 1px solid #cecece;
+  cursor: move;
+  background: #cdffe3;
+  user-select: none;
+  touch-action: none;
+}
+.drag{
+  padding-top: 40px;
+  text-align: center;
+ 
+}
+.drop{
+   padding-top: 23px;
+  text-align: center;
+   
+}
+#droppable{
+   margin: 5px;
+   line-height: 170px;
+   font-size: 14px;
+   width: 250px;
+   border: 1px solid #cecece;
+   background: #f6f6f6;
+   touch-action: none;
+}
